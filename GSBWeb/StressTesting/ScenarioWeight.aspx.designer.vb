@@ -41,13 +41,13 @@ Partial Public Class Scenario_Weight
     Protected WithEvents ddlTime As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''btn_Searchr control.
+    '''btn_Search control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents btn_Searchr As Global.System.Web.UI.WebControls.LinkButton
+    Protected WithEvents btn_Search As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
     '''tbScenarioWeightHeader control.
