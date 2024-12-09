@@ -141,7 +141,7 @@ Public Class LGD
     Private Function CheckValidData(row As DataRow, lstScenario As List(Of ScenarioEntity), lstTime As List(Of TimeEntity)) As List(Of String)
         Dim Time As String = row("วันที่ของข้อมูล").ToString()
         Dim Year As String = row("ปีที่ทดสอบภาวะวิกฤต").ToString()
-        Dim Scenario As String = row("สถาณการณ์ภาวะวิกฤต").ToString()
+        Dim Scenario As String = row("สถานการณ์ภาวะวิกฤต").ToString()
         Dim StressLgdScalar As String = row("ค่า LGD Scalar").ToString()
         Dim retData As New List(Of String)
         Dim errMsgList As New List(Of String)
@@ -194,7 +194,7 @@ Public Class LGD
         If e.Row.RowType = DataControlRowType.DataRow Then
             Dim Time As String = DataBinder.Eval(e.Row.DataItem, "วันที่ของข้อมูล").ToString()
             Dim Year As String = DataBinder.Eval(e.Row.DataItem, "ปีที่ทดสอบภาวะวิกฤต").ToString()
-            Dim Scenario As String = DataBinder.Eval(e.Row.DataItem, "สถาณการณ์ภาวะวิกฤต").ToString()
+            Dim Scenario As String = DataBinder.Eval(e.Row.DataItem, "สถานการณ์ภาวะวิกฤต").ToString()
             Dim StressLgdScalar As String = DataBinder.Eval(e.Row.DataItem, "ค่า LGD Scalar").ToString()
             Dim ErrorDetail As String = DataBinder.Eval(e.Row.DataItem, "ErrorDetail").ToString()
             Dim lbTime As Label = CType(e.Row.FindControl("lbTime"), Label)
@@ -220,7 +220,7 @@ Public Class LGD
                 Dim entity As New LGDEntity
                 Dim Time As String = row("วันที่ของข้อมูล").ToString()
                 Dim Year As String = row("ปีที่ทดสอบภาวะวิกฤต").ToString()
-                Dim Scenario As String = row("สถาณการณ์ภาวะวิกฤต").ToString()
+                Dim Scenario As String = row("สถานการณ์ภาวะวิกฤต").ToString()
                 Dim StressLgdScalar As String = row("ค่า LGD Scalar").ToString()
                 entity.TimeId = Time
                 entity.Year = Year
@@ -267,7 +267,7 @@ Public Class LGD
                 ' Add headers to the worksheet
                 worksheet.Cell(1, 1).Value = "วันที่ของข้อมูล"
                 worksheet.Cell(1, 2).Value = "ปีที่ทดสอบภาวะวิกฤต"
-                worksheet.Cell(1, 3).Value = "สถาณการณ์ภาวะวิกฤต"
+                worksheet.Cell(1, 3).Value = "สถานการณ์ภาวะวิกฤต"
                 worksheet.Cell(1, 4).Value = "ค่า LGD Scalar"
 
                 Dim rowNum As Integer = 2

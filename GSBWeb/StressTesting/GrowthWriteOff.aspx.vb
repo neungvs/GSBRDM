@@ -84,7 +84,7 @@ Public Class GrowthWriteOff
         Dim Time As String = row("วันที่ของข้อมูล").ToString()
         Dim PdSegment As String = row("PD_SEGMENT").ToString()
         Dim Year As String = row("ปีที่ทดสอบภาวะวิกฤต").ToString()
-        Dim Scenario As String = row("สถาณการณ์ภาวะวิกฤต").ToString()
+        Dim Scenario As String = row("สถานการณ์ภาวะวิกฤต").ToString()
         Dim LoanGrowth As String = row("Loan Growth").ToString()
         Dim WriteOff As String = row("Write Off").ToString()
         Dim retData As New List(Of String)
@@ -121,7 +121,7 @@ Public Class GrowthWriteOff
                 Dim Time As String = row("วันที่ของข้อมูล").ToString()
                 Dim PdSegment As String = row("PD_SEGMENT").ToString()
                 Dim Year As String = row("ปีที่ทดสอบภาวะวิกฤต").ToString()
-                Dim Scenario As String = row("สถาณการณ์ภาวะวิกฤต").ToString()
+                Dim Scenario As String = row("สถานการณ์ภาวะวิกฤต").ToString()
                 Dim LoanGrowth As String = row("Loan Growth").ToString()
                 Dim WriteOff As String = row("Write Off").ToString()
 
@@ -227,7 +227,7 @@ Public Class GrowthWriteOff
             Dim Time As String = DataBinder.Eval(e.Row.DataItem, "วันที่ของข้อมูล").ToString()
             Dim PdSegment As String = DataBinder.Eval(e.Row.DataItem, "PD_SEGMENT").ToString()
             Dim Year As String = DataBinder.Eval(e.Row.DataItem, "ปีที่ทดสอบภาวะวิกฤต").ToString()
-            Dim Scenario As String = DataBinder.Eval(e.Row.DataItem, "สถาณการณ์ภาวะวิกฤต").ToString()
+            Dim Scenario As String = DataBinder.Eval(e.Row.DataItem, "สถานการณ์ภาวะวิกฤต").ToString()
             Dim LoanGrowth As String = DataBinder.Eval(e.Row.DataItem, "Loan Growth").ToString()
             Dim WriteOff As String = DataBinder.Eval(e.Row.DataItem, "Write Off").ToString()
             Dim ErrorDetail As String = DataBinder.Eval(e.Row.DataItem, "ErrorDetail").ToString()
@@ -288,7 +288,7 @@ Public Class GrowthWriteOff
                 worksheet.Cell(1, 1).Value = "วันที่ของข้อมูล"
                 worksheet.Cell(1, 2).Value = "PD_SEGMENT"
                 worksheet.Cell(1, 3).Value = "ปีที่ทดสอบภาวะวิกฤต"
-                worksheet.Cell(1, 4).Value = "สถาณการณ์ภาวะวิกฤต"
+                worksheet.Cell(1, 4).Value = "สถานการณ์ภาวะวิกฤต"
                 worksheet.Cell(1, 5).Value = "Loan Growth"
                 worksheet.Cell(1, 6).Value = "Write Off"
 

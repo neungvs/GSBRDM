@@ -136,7 +136,7 @@ Public Class ScenarioWeightName
         Dim lstScenario As List(Of ScenarioEntity) = LoadScenario()
         'สถานการณ์ภาวะวิกฤต = กรอกได้ทั้ง text,ตัวเลข และต้องห้ามซ้ำตาม list Scenario
         If (scenarioName = "") Then
-            errMsgList.Add("กรุณากรอกชื่อสถาณการณ์")
+            errMsgList.Add("กรุณากรอกชื่อสถานการณ์")
         ElseIf (IsExistingScenario(scenarioName, lstScenario) = True) Then
             errMsgList.Add("ชื่อสถานการณ์นี้มีอยู่แล้วในระบบ")
         End If

@@ -105,13 +105,13 @@ Public Class Stress_Scenario
         'สถานการณ์ภาวะวิกฤต (กรอกได้ทั้ง text,ตัวเลข และต้องห้ามซ้ำตาม list Scenario)
         If ViewState("mode") = "add" Then
             If (scenarioName = "") Then
-                errMsgList.Add("กรุณากรอกชื่อสถาณการณ์")
+                errMsgList.Add("กรุณากรอกชื่อสถานการณ์")
             ElseIf (IsExistingScenario(scenarioName, lstScenario) = True) Then
                 errMsgList.Add("ชื่อสถานการณ์นี้มีอยู่แล้วในระบบ")
             End If
         ElseIf ViewState("mode") = "edit" Then
             If (scenarioName = "") Then
-                errMsgList.Add("กรุณากรอกชื่อสถาณการณ์")
+                errMsgList.Add("กรุณากรอกชื่อสถานการณ์")
             End If
         End If
 

@@ -100,7 +100,7 @@ Public Class Customer_Rating
                 Dim Time As String = row("วันที่ของข้อมูล").ToString()
                 Dim CIFNumber As String = row("CIF Number").ToString()
                 Dim Year As String = row("ปีที่ทดสอบภาวะวิกฤต").ToString()
-                Dim Scenario As String = row("สถาณการณ์ภาวะวิกฤต").ToString()
+                Dim Scenario As String = row("สถานการณ์ภาวะวิกฤต").ToString()
                 Dim OldPdSegment As String = row("pd_segment เก่า").ToString()
                 Dim NewPdSegment As String = row("pd_segment ใหม่").ToString()
 
@@ -118,7 +118,7 @@ Public Class Customer_Rating
     Private Function CheckValidData(row As DataRow, lstScenario As List(Of ScenarioEntity)) As List(Of String)
         Dim Time As String = row("วันที่ของข้อมูล").ToString()
         Dim CIFNumber As String = row("CIF Number").ToString()
-        Dim Scenario As String = row("สถาณการณ์ภาวะวิกฤต").ToString()
+        Dim Scenario As String = row("สถานการณ์ภาวะวิกฤต").ToString()
         Dim Year As String = row("ปีที่ทดสอบภาวะวิกฤต").ToString()
         Dim OldPdSegment As String = row("pd_segment เก่า").ToString()
         Dim NewPdSegment As String = row("pd_segment ใหม่").ToString()
@@ -245,10 +245,10 @@ Public Class Customer_Rating
 
     Private Sub grvImportExcel_DataBound(ByVal sender As Object, ByVal e As System.Web.UI.WebControls.GridViewRowEventArgs) Handles grvImportExcel.RowDataBound
         If e.Row.RowType = DataControlRowType.DataRow Then
-            'วันที่ของข้อมูล CIF Number	สถาณการณ์ภาวะวิกฤต	ปีที่ทดสอบภาวะวิกฤต	pd_segment เก่า	pd_segment ใหม่
+            'วันที่ของข้อมูล CIF Number	สถานการณ์ภาวะวิกฤต	ปีที่ทดสอบภาวะวิกฤต	pd_segment เก่า	pd_segment ใหม่
             Dim Time As String = DataBinder.Eval(e.Row.DataItem, "วันที่ของข้อมูล").ToString()
             Dim CIFNumber As String = DataBinder.Eval(e.Row.DataItem, "CIF Number").ToString()
-            Dim Scenario As String = DataBinder.Eval(e.Row.DataItem, "สถาณการณ์ภาวะวิกฤต").ToString()
+            Dim Scenario As String = DataBinder.Eval(e.Row.DataItem, "สถานการณ์ภาวะวิกฤต").ToString()
             Dim Year As String = DataBinder.Eval(e.Row.DataItem, "ปีที่ทดสอบภาวะวิกฤต").ToString()
             Dim OldPdSegment As String = DataBinder.Eval(e.Row.DataItem, "pd_segment เก่า").ToString()
             Dim NewPdSegment As String = DataBinder.Eval(e.Row.DataItem, "pd_segment ใหม่").ToString()
@@ -284,7 +284,7 @@ Public Class Customer_Rating
                 ' Add headers to the worksheet
                 worksheet.Cell(1, 1).Value = "วันที่ของข้อมูล"
                 worksheet.Cell(1, 2).Value = "CIF Number"
-                worksheet.Cell(1, 3).Value = "สถาณการณ์ภาวะวิกฤต"
+                worksheet.Cell(1, 3).Value = "สถานการณ์ภาวะวิกฤต"
                 worksheet.Cell(1, 4).Value = "ปีที่ทดสอบภาวะวิกฤต"
                 worksheet.Cell(1, 5).Value = "pd_segment เก่า"
                 worksheet.Cell(1, 6).Value = "pd_segment ใหม่"

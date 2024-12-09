@@ -76,7 +76,7 @@
                                                 <asp:Label ID="lbScenarioId" Text='<%# Bind("ScenarioId") %>' runat="server" Visible="false"></asp:Label>
                                             </ItemTemplate>
                                         </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="ชื่อสถาณการณ์">
+                                        <asp:TemplateField HeaderText="ชื่อสถานการณ์">
                                             <ItemTemplate>
                                                 <asp:Label ID="lbScenarioName" Text='<%# Bind("ScenarioName") %>'
                                                     runat="server"></asp:Label>
@@ -141,7 +141,7 @@
                                                 <div>
                                                     <table>
                                                         <tr>
-                                                            <td style="text-align: right; font-size: medium">ชื่อสถาณการณ์&nbsp:&nbsp
+                                                            <td style="text-align: right; font-size: medium">ชื่อสถานการณ์&nbsp:&nbsp
                                                             </td>
                                                             <td style="text-align: left">
                                                                 <asp:TextBox ID="txtScenarioName" runat="server" class="form-control" Style="margin-bottom: 2px; font-size: medium; text-align: left"></asp:TextBox>

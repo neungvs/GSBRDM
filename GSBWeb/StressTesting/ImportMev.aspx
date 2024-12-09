@@ -160,7 +160,7 @@
                                             <HeaderStyle HorizontalAlign="Center" BorderColor="Gray" BorderWidth="1" CssClass="td-center" VerticalAlign="Middle" />
                                             <ItemStyle HorizontalAlign="Center" Width="95px" BorderColor="Gray" BorderWidth="1" />
                                         </asp:TemplateField>
-                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle" HeaderText="สถาณการณ์ภาวะวิกฤต">
+                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle" HeaderText="สถานการณ์ภาวะวิกฤต">
                                             <ItemTemplate>
                                                 <asp:Label ID="lbScenario" Text='<%# Bind("ScenarioName") %>'
                                                     runat="server"></asp:Label>
@@ -368,7 +368,7 @@
                                                        </td>
                                                    </tr>
                                                    <tr>
-                                                       <td style="text-align: right; font-size: medium">ชื่อสถาณการณ์&nbsp:&nbsp
+                                                       <td style="text-align: right; font-size: medium">ชื่อสถานการณ์&nbsp:&nbsp
                                                        </td>
                                                        <td style="text-align: left">
                                                            <asp:DropDownList ID="ddlAddEditScenario" runat="server" Height="30px" CssClass="TextBoxRoundCorrner">
