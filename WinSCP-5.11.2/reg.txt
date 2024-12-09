@@ -1,0 +1,44 @@
+%WINDIR%\Microsoft.NET\Framework\v4.0.30319\RegAsm.exe WinSCPnet.dll /codebase /tlb:WinSCPnet32.tlb
+%WINDIR%\Microsoft.NET\Framework64\v4.0.30319\RegAsm.exe WinSCPnet.dll /codebase /tlb:WinSCPnet64.tlb
+
+C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6.2 Tools
+
+C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6.2 Tools
+
+gacutil.exe /i D:\WinSCP-5.11.2\WinSCPnet.dll
+
+"C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6.2 Tools\gacutil.exe" /i WinSCPnet.dll
+
+
+The winscp.exe executable was not found at location of the assembly (C:\Windows\assembly\GAC_MSIL\WinSCPnet\1.4.0.7781__2271ec4a3c56d0bf), 
+nor in an installation path. You may use Session.ExecutablePath property to explicitly set path to winscp.exe.
+
+
+
+====================PowerShell=========
+Add-Type -AssemblyName "System.EnterpriseServices"
+$publish = New-Object System.EnterpriseServices.Internal.Publish
+$publish.GacInstall("C:\path\WinSCPnet.dll")
+
+
+==========
+Using from PowerShell
+
+You use WinSCP .NET assembly from PowerShell as any other .NET assembly.
+
+Though there are some less known techniques and peculiarities that you may need to use, which are described in following sections.
+Loading Assembly
+
+PowerShell script needs to load the assembly before it can use classes the assembly exposes. To load assembly use Add-Type cmdlet.4)
+
+Add-Type -Path "WinSCPnet.dll"
+
+Had you need to run the script from other directory, you need to specify a full path to the assembly. You can derive the path from the script file path using $PSScriptRoot automatic variable:5)
+
+Add-Type -Path (Join-Path $PSScriptRoot "WinSCPnet.dll")
+
+If you are writing a script that you plan to use as a WinSCP extension (a custom command), you can use the copy of the assembly installed with WinSCP. In that case you can use the WINSCP_PATH environment variable to resolve the path to the assembly. To allow the script run even outside of WinSCP, you should fall back to the $PSScriptRoot approach (as above), if the variable is not defined:
+
+$assemblyPath = if ($env:WINSCP_PATH) { $env:WINSCP_PATH } else { $PSScriptRoot }
+Add-Type -Path (Join-Path $assemblyPath "WinSCPnet.dll")
+

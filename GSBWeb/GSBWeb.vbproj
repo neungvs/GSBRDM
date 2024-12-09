@@ -1,0 +1,1300 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>
+    </SchemaVersion>
+    <ProjectGuid>{593D22A5-4369-4EF8-83EE-C20075456D73}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <RootNamespace>GSBWeb</RootNamespace>
+    <AssemblyName>GSBWeb</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <MyType>Custom</MyType>
+    <UseIISExpress>true</UseIISExpress>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>4.0</OldToolsVersion>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <TargetFrameworkProfile />
+    <Use64BitIISExpress />
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>GSBWeb.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>GSBWeb.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Prodution|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+    <NoWarn>42353,42354,42355</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Production|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+    <NoWarn>42353,42354,42355</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Accessibility">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="LibraryReX">
+      <HintPath>..\..\GSB_Web_Object\Library\LibraryReX.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Microsoft.ReportViewer.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.WebForms, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Microsoft.ReportViewer.WebForms.dll</HintPath>
+    </Reference>
+    <Reference Include="OfficeOpenXml.Extends">
+      <HintPath>..\..\..\OfficeOpenXml.Extends.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Collections.Specialized" />
+    <Import Include="System.Configuration" />
+    <Import Include="System.Text" />
+    <Import Include="System.Text.RegularExpressions" />
+    <Import Include="System.Web" />
+    <Import Include="System.Web.Caching" />
+    <Import Include="System.Web.SessionState" />
+    <Import Include="System.Web.Security" />
+    <Import Include="System.Web.Profile" />
+    <Import Include="System.Web.UI" />
+    <Import Include="System.Web.UI.WebControls" />
+    <Import Include="System.Web.UI.WebControls.WebParts" />
+    <Import Include="System.Web.UI.HtmlControls" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="AmbitReportingsuiteweb\AmbitReport.aspx" />
+    <Content Include="bin\GSBWeb.BLL.dll" />
+    <Content Include="bin\GSBWeb.BLL.pdb" />
+    <Content Include="bin\GSBWeb.BLL.xml" />
+    <Content Include="bin\GSBWeb.DAL.dll" />
+    <Content Include="bin\GSBWeb.DAL.pdb" />
+    <Content Include="bin\GSBWeb.DAL.xml" />
+    <Content Include="bin\GSBWeb.dll" />
+    <Content Include="bin\GSBWeb.pdb" />
+    <Content Include="bin\GSBWeb.xml" />
+    <Content Include="CapitalCalulation\Capital_Calulation_Report.aspx" />
+    <Content Include="CapitalPlanning\Capital_Planning_Report.aspx" />
+    <Content Include="CIR\CIR_Report.aspx" />
+    <Content Include="CIR\CIR_Report_02.aspx" />
+    <Content Include="CIR\CIR_Report_03.aspx" />
+    <Content Include="CIR\CIR_Report_04.aspx" />
+    <Content Include="CPM\CPM_Report.aspx" />
+    <Content Include="css\bootstrap-multiselect.css" />
+    <Content Include="css\bootstrap.min.css" />
+    <Content Include="css\style.css" />
+    <Content Include="DataSet\DataSet_Market_Report.aspx" />
+    <Content Include="DataSet\DataSet_Report.aspx" />
+    <Content Include="Defult.aspx" />
+    <Content Include="ErrorPage\ErrorPage404_BK.aspx" />
+    <Content Include="ErrorPage\ErrorPageOther_BK.aspx" />
+    <Content Include="ErrorPage\SessionExpired_BK.aspx" />
+    <Content Include="ErrorPage\ErrorPage404.aspx" />
+    <Content Include="ErrorPage\ErrorPageOther.aspx" />
+    <Content Include="ErrorPage\SessionExpired.aspx" />
+    <Content Include="Exp.aspx" />
+    <Content Include="fonts\font-awesome-4.7.0\css\font-awesome.css" />
+    <Content Include="fonts\font-awesome-4.7.0\css\font-awesome.min.css" />
+    <Content Include="fonts\font-awesome-4.7.0\HELP-US-OUT.txt" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="Images\checkbox _UnChecked.png" />
+    <Content Include="Images\checkbox_Checked.png" />
+    <Content Include="Images\checkbox_SomeChecked.png" />
+    <Content Include="Images\checktree_icon.png" />
+    <Content Include="Images\Correct.png" />
+    <Content Include="Images\Infomation.png" />
+    <Content Include="Images\NotCorrect.png" />
+    <Content Include="Images\Question.png" />
+    <Content Include="Images\Warning.png" />
+    <Content Include="IndustryLimit\SettingReceiveMailReport_2_3.aspx" />
+    <Content Include="IndustryLimit\SettingReceiveMailReport_2_5.aspx" />
+    <Content Include="IRRBB\IRRBB.aspx" />
+    <Content Include="IRRBB\PopupReport1.aspx" />
+    <Content Include="IRRBB\WaitingPage.aspx" />
+    <Content Include="Periods\RDM_Periods.aspx" />
+    <Content Include="RDM_Reports\RDM_Report.aspx" />
+    <Content Include="Images\calendar.gif" />
+    <Content Include="Images\gsb-banner.png" />
+    <Content Include="Images\loader.gif" />
+    <Content Include="Images\LoaderRed.gif" />
+    <Content Include="Images\logo.png" />
+    <Content Include="Images\LogoGSB.png" />
+    <Content Include="Images\LogoTest.gif" />
+    <Content Include="Images\Logo_GSB.png" />
+    <Content Include="Images\pen.gif" />
+    <Content Include="IndustryLimit\EffectiveDateDetail_Add.aspx" />
+    <Content Include="IndustryLimit\EffectiveDateDetail_Edit.aspx" />
+    <Content Include="IndustryLimit\EffectiveDate_Add.aspx" />
+    <Content Include="IndustryLimit\IndustryLimit.aspx" />
+    <Content Include="IndustryLimit\Industry_Limit_Add.aspx" />
+    <Content Include="IndustryLimit\Industry_Limit_Edit.aspx" />
+    <Content Include="IndustryLimit\ModifyIndustryLimit.aspx" />
+    <Content Include="Login.aspx" />
+    <Content Include="Pillar3\Pillar3_Report.aspx" />
+    <Content Include="Pillar3\Pillar3_Report_02.aspx" />
+    <Content Include="Pillar3\Pillar3_Report_03.aspx" />
+    <Content Include="Pillar3\Pillar3_Report_04.aspx" />
+    <Content Include="RDWeb\RDWeb.aspx" />
+    <Content Include="ReportViewer\Report.aspx" />
+    <Content Include="Scripts\aes.js" />
+    <Content Include="Scripts\alertify.js" />
+    <Content Include="Scripts\bootstrap-multiselect.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\bootstrap.min_login.js" />
+    <Content Include="Scripts\checkTree.js" />
+    <Content Include="Scripts\jquery-1.10.2.min_Login.js" />
+    <Content Include="Scripts\jquery-1.11.2.min.js" />
+    <Content Include="Scripts\jquery-1.12.4.js" />
+    <Content Include="Scripts\jquery-1.12.4.min.js" />
+    <Content Include="Scripts\jquery-1.9.0.min.js" />
+    <Content Include="Scripts\jquery-3.0.0-vsdoc.js" />
+    <Content Include="Scripts\jquery-3.0.0.js" />
+    <Content Include="Scripts\jquery-3.0.0.min.js" />
+    <Content Include="Scripts\jquery-3.0.0.slim.js" />
+    <Content Include="Scripts\jquery-3.0.0.slim.min.js" />
+    <Content Include="Scripts\jquery-ui-1.10.3.custom.js" />
+    <Content Include="Scripts\jquery-ui-1.11.4.js" />
+    <Content Include="Scripts\jquery-ui-1.11.4.min.js" />
+    <Content Include="Scripts\jquery-ui-1.12.1.js" />
+    <Content Include="Scripts\jquery-ui-1.12.1.min.js" />
+    <Content Include="Scripts\jquery-ui.js" />
+    <Content Include="Scripts\show_ads.js" />
+    <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\npm.js" />
+    <Content Include="Scripts\sweetalert2.all.min.js" />
+    <Content Include="Scripts\_references.js" />
+    <Content Include="Setting\AmountSetting.xml" />
+    <Content Include="Setting\MatchGroupUser.aspx" />
+    <Content Include="Setting\ModuleManagement.aspx" />
+    <Content Include="Setting\SettingAmount.aspx" />
+    <Content Include="Setting\TreeSetting.aspx" />
+    <Content Include="Setting\UserGroupManagement.aspx" />
+    <Content Include="Setting\UserInfo.aspx" />
+    <Content Include="Setting\UserLogData.aspx" />
+    <Content Include="Setting\UserManagement.aspx" />
+    <Content Include="StdCredit\10DimensionSpecifiedApproach.aspx" />
+    <Content Include="StdCredit\11CounterpartyList.aspx" />
+    <Content Include="StdCredit\12CounterpartyExposureStatement.aspx" />
+    <Content Include="StdCredit\13ExposureTranche.aspx" />
+    <Content Include="StdCredit\13ExposureTrancheStatement.aspx" />
+    <Content Include="StdCredit\14ExposureAIRB.aspx" />
+    <Content Include="StdCredit\15ExposureFIRB.aspx" />
+    <Content Include="StdCredit\17Economic Capital.aspx" />
+    <Content Include="StdCredit\18LossDist.aspx" />
+    <Content Include="StdCredit\19RiskTree.aspx" />
+    <Content Include="StdCredit\1CRDashboard.aspx" />
+    <Content Include="StdCredit\20RegulatoryCapital.aspx" />
+    <Content Include="StdCredit\21CapitalAdequacy.aspx" />
+    <Content Include="StdCredit\22CapitalOrganization.aspx" />
+    <Content Include="StdCredit\2DimensionArrearsStatus.aspx" />
+    <Content Include="StdCredit\3DimensionAssetType.aspx" />
+    <Content Include="StdCredit\4DimensionCountryOfOrigin.aspx" />
+    <Content Include="StdCredit\5DimensionCRM.aspx" />
+    <Content Include="StdCredit\6DimensionExposure.aspx" />
+    <Content Include="StdCredit\7DimensionCRating.aspx" />
+    <Content Include="StdCredit\8DimensionIgroup.aspx" />
+    <Content Include="StdCredit\9DimensionOtype.aspx" />
+    <Content Include="StdCredit\InternalEx.aspx" />
+    <Content Include="StdCredit\RDMMenu.aspx" />
+    <Content Include="StdCredit\ReportTest.aspx" />
+    <Content Include="Stress\Stress_Report.aspx" />
+    <Content Include="Styles\alertify.css" />
+    <Content Include="Styles\bootstrap-theme.css" />
+    <Content Include="Styles\bootstrap-theme.min.css" />
+    <Content Include="Styles\bootstrap.css" />
+    <Content Include="Styles\bootstrap_Tahoma.min.css" />
+    <Content Include="Styles\bootstrap.min.css" />
+    <Content Include="Styles\checkTree.css" />
+    <Content Include="Styles\jquerysctipttop.css" />
+    <Content Include="Styles\style.css" />
+    <Content Include="Styles\Style_login.css" />
+    <Content Include="Styles\sweetalert2.min.css" />
+    <Content Include="Styles\ui-lightness\datePickerjq.css" />
+    <Content Include="Styles\ui-lightness\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Styles\ui-lightness\images\ui-bg_flat_55_999999_40x100.png" />
+    <Content Include="Styles\ui-lightness\images\ui-bg_flat_75_aaaaaa_40x100.png" />
+    <Content Include="Styles\ui-lightness\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Styles\ui-lightness\images\ui-bg_glass_45_0078ae_1x400.png" />
+    <Content Include="Styles\ui-lightness\images\ui-bg_glass_55_f8da4e_1x400.png" />
+    <Content Include="Styles\ui-lightness\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Styles\ui-lightness\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Styles\ui-lightness\images\ui-bg_glass_75_79c9ec_1x400.png" />
+    <Content Include="Styles\ui-lightness\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Styles\ui-lightness\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Styles\ui-lightness\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Styles\ui-lightness\images\ui-bg_gloss-wave_45_e14f1c_500x100.png" />
+    <Content Include="Styles\ui-lightness\images\ui-bg_gloss-wave_50_6eac2c_500x100.png" />
+    <Content Include="Styles\ui-lightness\images\ui-bg_gloss-wave_75_2191c0_500x100.png" />
+    <Content Include="Styles\ui-lightness\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Styles\ui-lightness\images\ui-bg_inset-hard_100_fcfdfd_1x100.png" />
+    <Content Include="Styles\ui-lightness\images\ui-icons_0078ae_256x240.png" />
+    <Content Include="Styles\ui-lightness\images\ui-icons_056b93_256x240.png" />
+    <Content Include="Styles\ui-lightness\images\ui-icons_222222_256x240.png" />
+    <Content Include="Styles\ui-lightness\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Styles\ui-lightness\images\ui-icons_454545_256x240.png" />
+    <Content Include="Styles\ui-lightness\images\ui-icons_888888_256x240.png" />
+    <Content Include="Styles\ui-lightness\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Styles\ui-lightness\images\ui-icons_d8e7f3_256x240.png" />
+    <Content Include="Styles\ui-lightness\images\ui-icons_e0fdff_256x240.png" />
+    <Content Include="Styles\ui-lightness\images\ui-icons_f5e175_256x240.png" />
+    <Content Include="Styles\ui-lightness\images\ui-icons_f7a50d_256x240.png" />
+    <Content Include="Styles\ui-lightness\images\ui-icons_fcd113_256x240.png" />
+    <Content Include="SystemReport\SystemReport.aspx" />
+    <Content Include="TestFont.aspx" />
+    <Content Include="TestFunction.aspx" />
+    <Content Include="UserControl\alert_and_confirm.ascx" />
+    <Content Include="UserControl\AutoRedirect.ascx" />
+    <Content Include="UserControl\UC_Menu.ascx" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="WebAdjust\CO52_RejEdit.aspx" />
+    <Content Include="WebAdjust\CO52_RejList.aspx" />
+    <Content Include="WebAdjust\DataAdjustment.aspx" />
+    <Content Include="WebAdjust\FW53_RejEdit.aspx" />
+    <Content Include="WebAdjust\FW53_RejList.aspx" />
+    <Content Include="WebAdjust\IN51_RejEdit.aspx" />
+    <Content Include="WebAdjust\IN51_RejList.aspx" />
+    <Content Include="WebAdjust\IN52_RejEdit.aspx" />
+    <Content Include="WebAdjust\IN52_RejList.aspx" />
+    <Content Include="WebAdjust\LN70_RejEdit.aspx" />
+    <Content Include="WebAdjust\LN70_RejList.aspx" />
+    <Content Include="WebAdjust\Swap_RejEdit.aspx" />
+    <Content Include="WebAdjust\Swap_RejList.aspx" />
+    <Content Include="WebAdjust\TF_FIXED_RejEdit.aspx" />
+    <Content Include="WebAdjust\TF_FIXED_RejList.aspx" />
+    <Content Include="WebAdjust\TF_FLOAT_RejEdit.aspx" />
+    <Content Include="WebAdjust\TF_FLOAT_RejList.aspx" />
+    <Content Include="WebAdjust\TF_NM_RejEdit.aspx" />
+    <Content Include="WebAdjust\TF_NM_RejList.aspx" />
+    <Content Include="WebAdjust\WebForm1.aspx" />
+    <Content Include="WebAdjust\WF52_RejEdit.aspx" />
+    <Content Include="WebAdjust\WF52_RejList.aspx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AmbitReportingsuiteweb\AmbitReport.aspx.designer.vb">
+      <DependentUpon>AmbitReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AmbitReportingsuiteweb\AmbitReport.aspx.vb">
+      <DependentUpon>AmbitReport.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="bin\Dataset\RejectDataInvest.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RejectDataInvest.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="bin\Dataset\RejectDataSet.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RejectDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="CapitalCalulation\Capital_Calulation_Report.aspx.designer.vb">
+      <DependentUpon>Capital_Calulation_Report.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CapitalCalulation\Capital_Calulation_Report.aspx.vb">
+      <DependentUpon>Capital_Calulation_Report.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CapitalPlanning\Capital_Planning_Report.aspx.designer.vb">
+      <DependentUpon>Capital_Planning_Report.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CapitalPlanning\Capital_Planning_Report.aspx.vb">
+      <DependentUpon>Capital_Planning_Report.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CIR\CIR_Report.aspx.designer.vb">
+      <DependentUpon>CIR_Report.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CIR\CIR_Report.aspx.vb">
+      <DependentUpon>CIR_Report.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CIR\CIR_Report_02.aspx.designer.vb">
+      <DependentUpon>CIR_Report_02.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CIR\CIR_Report_02.aspx.vb">
+      <DependentUpon>CIR_Report_02.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CIR\CIR_Report_03.aspx.designer.vb">
+      <DependentUpon>CIR_Report_03.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CIR\CIR_Report_03.aspx.vb">
+      <DependentUpon>CIR_Report_03.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CIR\CIR_Report_04.aspx.designer.vb">
+      <DependentUpon>CIR_Report_04.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CIR\CIR_Report_04.aspx.vb">
+      <DependentUpon>CIR_Report_04.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CPM\CPM_Report.aspx.designer.vb">
+      <DependentUpon>CPM_Report.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CPM\CPM_Report.aspx.vb">
+      <DependentUpon>CPM_Report.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DataSet\DataSet_Market_Report.aspx.designer.vb">
+      <DependentUpon>DataSet_Market_Report.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DataSet\DataSet_Market_Report.aspx.vb">
+      <DependentUpon>DataSet_Market_Report.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DataSet\DataSet_Report.aspx.designer.vb">
+      <DependentUpon>DataSet_Report.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DataSet\DataSet_Report.aspx.vb">
+      <DependentUpon>DataSet_Report.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Defult.aspx.designer.vb">
+      <DependentUpon>Defult.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Defult.aspx.vb">
+      <DependentUpon>Defult.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="ErrorPage\ErrorPage404_BK.aspx.designer.vb">
+      <DependentUpon>ErrorPage404_BK.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ErrorPage\ErrorPage404_BK.aspx.vb">
+      <DependentUpon>ErrorPage404_BK.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="ErrorPage\ErrorPageOther_BK.aspx.designer.vb">
+      <DependentUpon>ErrorPageOther_BK.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ErrorPage\ErrorPageOther_BK.aspx.vb">
+      <DependentUpon>ErrorPageOther_BK.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="ErrorPage\SessionExpired_BK.aspx.designer.vb">
+      <DependentUpon>SessionExpired_BK.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ErrorPage\SessionExpired_BK.aspx.vb">
+      <DependentUpon>SessionExpired_BK.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="ErrorPage\Site2.Master.designer.vb">
+      <DependentUpon>Site2.Master</DependentUpon>
+    </Compile>
+    <Compile Include="ErrorPage\Site2.Master.vb">
+      <DependentUpon>Site2.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ErrorPage\ErrorPage404.aspx.designer.vb">
+      <DependentUpon>ErrorPage404.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ErrorPage\ErrorPage404.aspx.vb">
+      <DependentUpon>ErrorPage404.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="ErrorPage\ErrorPageOther.aspx.designer.vb">
+      <DependentUpon>ErrorPageOther.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ErrorPage\ErrorPageOther.aspx.vb">
+      <DependentUpon>ErrorPageOther.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="ErrorPage\SessionExpired.aspx.designer.vb">
+      <DependentUpon>SessionExpired.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ErrorPage\SessionExpired.aspx.vb">
+      <DependentUpon>SessionExpired.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Exp.aspx.designer.vb">
+      <DependentUpon>Exp.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Exp.aspx.vb">
+      <DependentUpon>Exp.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Global.asax.vb">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="IndustryLimit\SettingReceiveMailReport_2_3.aspx.designer.vb">
+      <DependentUpon>SettingReceiveMailReport_2_3.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="IndustryLimit\SettingReceiveMailReport_2_3.aspx.vb">
+      <DependentUpon>SettingReceiveMailReport_2_3.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="IndustryLimit\SettingReceiveMailReport_2_5.aspx.designer.vb">
+      <DependentUpon>SettingReceiveMailReport_2_5.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="IndustryLimit\SettingReceiveMailReport_2_5.aspx.vb">
+      <DependentUpon>SettingReceiveMailReport_2_5.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="IRRBB\IRRBB.aspx.designer.vb">
+      <DependentUpon>IRRBB.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="IRRBB\IRRBB.aspx.vb">
+      <DependentUpon>IRRBB.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="IRRBB\PopupReport1.aspx.vb">
+      <DependentUpon>PopupReport1.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="IRRBB\WaitingPage.aspx.designer.vb">
+      <DependentUpon>WaitingPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="IRRBB\WaitingPage.aspx.vb">
+      <DependentUpon>WaitingPage.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Periods\RDM_Periods.aspx.designer.vb">
+      <DependentUpon>RDM_Periods.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Periods\RDM_Periods.aspx.vb">
+      <DependentUpon>RDM_Periods.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RDM_Reports\RDM_Report.aspx.designer.vb">
+      <DependentUpon>RDM_Report.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RDM_Reports\RDM_Report.aspx.vb">
+      <DependentUpon>RDM_Report.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="IndustryLimit\EffectiveDateDetail_Add.aspx.designer.vb">
+      <DependentUpon>EffectiveDateDetail_Add.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="IndustryLimit\EffectiveDateDetail_Add.aspx.vb">
+      <DependentUpon>EffectiveDateDetail_Add.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="IndustryLimit\EffectiveDateDetail_Edit.aspx.designer.vb">
+      <DependentUpon>EffectiveDateDetail_Edit.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="IndustryLimit\EffectiveDateDetail_Edit.aspx.vb">
+      <DependentUpon>EffectiveDateDetail_Edit.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="IndustryLimit\EffectiveDate_Add.aspx.designer.vb">
+      <DependentUpon>EffectiveDate_Add.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="IndustryLimit\EffectiveDate_Add.aspx.vb">
+      <DependentUpon>EffectiveDate_Add.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="IndustryLimit\IndustryLimit.aspx.designer.vb">
+      <DependentUpon>IndustryLimit.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="IndustryLimit\IndustryLimit.aspx.vb">
+      <DependentUpon>IndustryLimit.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="IndustryLimit\Industry_Limit_Add.aspx.designer.vb">
+      <DependentUpon>Industry_Limit_Add.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="IndustryLimit\Industry_Limit_Add.aspx.vb">
+      <DependentUpon>Industry_Limit_Add.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="IndustryLimit\Industry_Limit_Edit.aspx.designer.vb">
+      <DependentUpon>Industry_Limit_Edit.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="IndustryLimit\Industry_Limit_Edit.aspx.vb">
+      <DependentUpon>Industry_Limit_Edit.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="IndustryLimit\ModifyIndustryLimit.aspx.designer.vb">
+      <DependentUpon>ModifyIndustryLimit.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="IndustryLimit\ModifyIndustryLimit.aspx.vb">
+      <DependentUpon>ModifyIndustryLimit.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Login.aspx.designer.vb">
+      <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Login.aspx.vb">
+      <DependentUpon>Login.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\MyExtensions\MyWebExtension.vb">
+      <VBMyExtensionTemplateID>Microsoft.VisualBasic.Web.MyExtension</VBMyExtensionTemplateID>
+      <VBMyExtensionTemplateVersion>1.0.0.0</VBMyExtensionTemplateVersion>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Pillar3\Pillar3_Report.aspx.designer.vb">
+      <DependentUpon>Pillar3_Report.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pillar3\Pillar3_Report.aspx.vb">
+      <DependentUpon>Pillar3_Report.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pillar3\Pillar3_Report_02.aspx.designer.vb">
+      <DependentUpon>Pillar3_Report_02.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pillar3\Pillar3_Report_02.aspx.vb">
+      <DependentUpon>Pillar3_Report_02.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pillar3\Pillar3_Report_03.aspx.designer.vb">
+      <DependentUpon>Pillar3_Report_03.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pillar3\Pillar3_Report_03.aspx.vb">
+      <DependentUpon>Pillar3_Report_03.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pillar3\Pillar3_Report_04.aspx.designer.vb">
+      <DependentUpon>Pillar3_Report_04.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pillar3\Pillar3_Report_04.aspx.vb">
+      <DependentUpon>Pillar3_Report_04.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RDWeb\RDWeb.aspx.designer.vb">
+      <DependentUpon>RDWeb.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RDWeb\RDWeb.aspx.vb">
+      <DependentUpon>RDWeb.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="ReportViewer\Report.aspx.designer.vb">
+      <DependentUpon>Report.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ReportViewer\Report.aspx.vb">
+      <DependentUpon>Report.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Setting\MatchGroupUser.aspx.designer.vb">
+      <DependentUpon>MatchGroupUser.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Setting\MatchGroupUser.aspx.vb">
+      <DependentUpon>MatchGroupUser.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Setting\ModuleManagement.aspx.designer.vb">
+      <DependentUpon>ModuleManagement.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Setting\ModuleManagement.aspx.vb">
+      <DependentUpon>ModuleManagement.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Setting\SettingAmount.aspx.designer.vb">
+      <DependentUpon>SettingAmount.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Setting\SettingAmount.aspx.vb">
+      <DependentUpon>SettingAmount.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Setting\TreeSetting.aspx.designer.vb">
+      <DependentUpon>TreeSetting.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Setting\TreeSetting.aspx.vb">
+      <DependentUpon>TreeSetting.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Setting\UserGroupManagement.aspx.designer.vb">
+      <DependentUpon>UserGroupManagement.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Setting\UserGroupManagement.aspx.vb">
+      <DependentUpon>UserGroupManagement.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Setting\UserInfo.aspx.designer.vb">
+      <DependentUpon>UserInfo.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Setting\UserInfo.aspx.vb">
+      <DependentUpon>UserInfo.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Setting\UserLogData.aspx.designer.vb">
+      <DependentUpon>UserLogData.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Setting\UserLogData.aspx.vb">
+      <DependentUpon>UserLogData.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Setting\UserManagement.aspx.designer.vb">
+      <DependentUpon>UserManagement.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Setting\UserManagement.aspx.vb">
+      <DependentUpon>UserManagement.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Site.Master.designer.vb">
+      <DependentUpon>Site.Master</DependentUpon>
+    </Compile>
+    <Compile Include="Site.Master.vb">
+      <DependentUpon>Site.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Site1.Master.designer.vb">
+      <DependentUpon>Site1.Master</DependentUpon>
+    </Compile>
+    <Compile Include="Site1.Master.vb">
+      <DependentUpon>Site1.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StdCredit\10DimensionSpecifiedApproach.aspx.designer.vb">
+      <DependentUpon>10DimensionSpecifiedApproach.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="StdCredit\10DimensionSpecifiedApproach.aspx.vb">
+      <DependentUpon>10DimensionSpecifiedApproach.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StdCredit\11CounterpartyList.aspx.designer.vb">
+      <DependentUpon>11CounterpartyList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="StdCredit\11CounterpartyList.aspx.vb">
+      <DependentUpon>11CounterpartyList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StdCredit\12CounterpartyExposureStatement.aspx.designer.vb">
+      <DependentUpon>12CounterpartyExposureStatement.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="StdCredit\12CounterpartyExposureStatement.aspx.vb">
+      <DependentUpon>12CounterpartyExposureStatement.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StdCredit\13ExposureTranche.aspx.designer.vb">
+      <DependentUpon>13ExposureTranche.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="StdCredit\13ExposureTranche.aspx.vb">
+      <DependentUpon>13ExposureTranche.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StdCredit\13ExposureTrancheStatement.aspx.designer.vb">
+      <DependentUpon>13ExposureTrancheStatement.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="StdCredit\13ExposureTrancheStatement.aspx.vb">
+      <DependentUpon>13ExposureTrancheStatement.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StdCredit\14ExposureAIRB.aspx.designer.vb">
+      <DependentUpon>14ExposureAIRB.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="StdCredit\14ExposureAIRB.aspx.vb">
+      <DependentUpon>14ExposureAIRB.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StdCredit\15ExposureFIRB.aspx.designer.vb">
+      <DependentUpon>15ExposureFIRB.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="StdCredit\15ExposureFIRB.aspx.vb">
+      <DependentUpon>15ExposureFIRB.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StdCredit\17Economic Capital.aspx.designer.vb">
+      <DependentUpon>17Economic Capital.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="StdCredit\17Economic Capital.aspx.vb">
+      <DependentUpon>17Economic Capital.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StdCredit\18LossDist.aspx.designer.vb">
+      <DependentUpon>18LossDist.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="StdCredit\18LossDist.aspx.vb">
+      <DependentUpon>18LossDist.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StdCredit\19RiskTree.aspx.designer.vb">
+      <DependentUpon>19RiskTree.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="StdCredit\19RiskTree.aspx.vb">
+      <DependentUpon>19RiskTree.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StdCredit\1CRDashboard.aspx.designer.vb">
+      <DependentUpon>1CRDashboard.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="StdCredit\1CRDashboard.aspx.vb">
+      <DependentUpon>1CRDashboard.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StdCredit\20RegulatoryCapital.aspx.designer.vb">
+      <DependentUpon>20RegulatoryCapital.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="StdCredit\20RegulatoryCapital.aspx.vb">
+      <DependentUpon>20RegulatoryCapital.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StdCredit\21CapitalAdequacy.aspx.designer.vb">
+      <DependentUpon>21CapitalAdequacy.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="StdCredit\21CapitalAdequacy.aspx.vb">
+      <DependentUpon>21CapitalAdequacy.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StdCredit\22CapitalOrganization.aspx.designer.vb">
+      <DependentUpon>22CapitalOrganization.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="StdCredit\22CapitalOrganization.aspx.vb">
+      <DependentUpon>22CapitalOrganization.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StdCredit\2DimensionArrearsStatus.aspx.designer.vb">
+      <DependentUpon>2DimensionArrearsStatus.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="StdCredit\2DimensionArrearsStatus.aspx.vb">
+      <DependentUpon>2DimensionArrearsStatus.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StdCredit\3DimensionAssetType.aspx.designer.vb">
+      <DependentUpon>3DimensionAssetType.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="StdCredit\3DimensionAssetType.aspx.vb">
+      <DependentUpon>3DimensionAssetType.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StdCredit\4DimensionCountryOfOrigin.aspx.designer.vb">
+      <DependentUpon>4DimensionCountryOfOrigin.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="StdCredit\4DimensionCountryOfOrigin.aspx.vb">
+      <DependentUpon>4DimensionCountryOfOrigin.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StdCredit\5DimensionCRM.aspx.designer.vb">
+      <DependentUpon>5DimensionCRM.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="StdCredit\5DimensionCRM.aspx.vb">
+      <DependentUpon>5DimensionCRM.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StdCredit\6DimensionExposure.aspx.designer.vb">
+      <DependentUpon>6DimensionExposure.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="StdCredit\6DimensionExposure.aspx.vb">
+      <DependentUpon>6DimensionExposure.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StdCredit\7DimensionCRating.aspx.designer.vb">
+      <DependentUpon>7DimensionCRating.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="StdCredit\7DimensionCRating.aspx.vb">
+      <DependentUpon>7DimensionCRating.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StdCredit\8DimensionIgroup.aspx.designer.vb">
+      <DependentUpon>8DimensionIgroup.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="StdCredit\8DimensionIgroup.aspx.vb">
+      <DependentUpon>8DimensionIgroup.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StdCredit\9DimensionOtype.aspx.designer.vb">
+      <DependentUpon>9DimensionOtype.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="StdCredit\9DimensionOtype.aspx.vb">
+      <DependentUpon>9DimensionOtype.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StdCredit\clsboldb.vb" />
+    <Compile Include="StdCredit\InternalEx.aspx.designer.vb">
+      <DependentUpon>InternalEx.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="StdCredit\InternalEx.aspx.vb">
+      <DependentUpon>InternalEx.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StdCredit\RDMMenu.aspx.designer.vb">
+      <DependentUpon>RDMMenu.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="StdCredit\RDMMenu.aspx.vb">
+      <DependentUpon>RDMMenu.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StdCredit\ReportServerCredentials.vb" />
+    <Compile Include="StdCredit\ReportTest.aspx.designer.vb">
+      <DependentUpon>ReportTest.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="StdCredit\ReportTest.aspx.vb">
+      <DependentUpon>ReportTest.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StdCredit\TimeSearch.vb" />
+    <Compile Include="Stress\Stress_Report.aspx.designer.vb">
+      <DependentUpon>Stress_Report.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Stress\Stress_Report.aspx.vb">
+      <DependentUpon>Stress_Report.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="SystemReport\SystemReport.aspx.designer.vb">
+      <DependentUpon>SystemReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SystemReport\SystemReport.aspx.vb">
+      <DependentUpon>SystemReport.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="TestFont.aspx.designer.vb">
+      <DependentUpon>TestFont.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TestFont.aspx.vb">
+      <DependentUpon>TestFont.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="TestFunction.aspx.designer.vb">
+      <DependentUpon>TestFunction.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TestFunction.aspx.vb">
+      <DependentUpon>TestFunction.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="UserControl\alert_and_confirm.ascx.designer.vb">
+      <DependentUpon>alert_and_confirm.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl\alert_and_confirm.ascx.vb">
+      <DependentUpon>alert_and_confirm.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UserControl\AutoRedirect.ascx.designer.vb">
+      <DependentUpon>AutoRedirect.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl\AutoRedirect.ascx.vb">
+      <DependentUpon>AutoRedirect.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UserControl\UC_Menu.ascx.designer.vb">
+      <DependentUpon>UC_Menu.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl\UC_Menu.ascx.vb">
+      <DependentUpon>UC_Menu.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebAdjust\CO52_RejEdit.aspx.designer.vb">
+      <DependentUpon>CO52_RejEdit.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WebAdjust\CO52_RejEdit.aspx.vb">
+      <DependentUpon>CO52_RejEdit.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="WebAdjust\CO52_RejList.aspx.designer.vb">
+      <DependentUpon>CO52_RejList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WebAdjust\CO52_RejList.aspx.vb">
+      <DependentUpon>CO52_RejList.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="WebAdjust\DataAdjustment.aspx.designer.vb">
+      <DependentUpon>DataAdjustment.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WebAdjust\DataAdjustment.aspx.vb">
+      <DependentUpon>DataAdjustment.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebAdjust\FW53_RejEdit.aspx.designer.vb">
+      <DependentUpon>FW53_RejEdit.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WebAdjust\FW53_RejEdit.aspx.vb">
+      <DependentUpon>FW53_RejEdit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebAdjust\FW53_RejList.aspx.designer.vb">
+      <DependentUpon>FW53_RejList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WebAdjust\FW53_RejList.aspx.vb">
+      <DependentUpon>FW53_RejList.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="WebAdjust\IN51_RejEdit.aspx.designer.vb">
+      <DependentUpon>IN51_RejEdit.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WebAdjust\IN51_RejEdit.aspx.vb">
+      <DependentUpon>IN51_RejEdit.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="WebAdjust\IN51_RejList.aspx.designer.vb">
+      <DependentUpon>IN51_RejList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WebAdjust\IN51_RejList.aspx.vb">
+      <DependentUpon>IN51_RejList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebAdjust\IN52_RejEdit.aspx.designer.vb">
+      <DependentUpon>IN52_RejEdit.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WebAdjust\IN52_RejEdit.aspx.vb">
+      <DependentUpon>IN52_RejEdit.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="WebAdjust\IN52_RejList.aspx.designer.vb">
+      <DependentUpon>IN52_RejList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WebAdjust\IN52_RejList.aspx.vb">
+      <DependentUpon>IN52_RejList.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="WebAdjust\LN70_RejEdit.aspx.designer.vb">
+      <DependentUpon>LN70_RejEdit.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WebAdjust\LN70_RejEdit.aspx.vb">
+      <DependentUpon>LN70_RejEdit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebAdjust\LN70_RejList.aspx.designer.vb">
+      <DependentUpon>LN70_RejList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WebAdjust\LN70_RejList.aspx.vb">
+      <DependentUpon>LN70_RejList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebAdjust\Swap_RejEdit.aspx.designer.vb">
+      <DependentUpon>Swap_RejEdit.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WebAdjust\Swap_RejEdit.aspx.vb">
+      <DependentUpon>Swap_RejEdit.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="WebAdjust\Swap_RejList.aspx.designer.vb">
+      <DependentUpon>Swap_RejList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WebAdjust\Swap_RejList.aspx.vb">
+      <DependentUpon>Swap_RejList.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="WebAdjust\TF_FIXED_RejEdit.aspx.designer.vb">
+      <DependentUpon>TF_FIXED_RejEdit.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WebAdjust\TF_FIXED_RejEdit.aspx.vb">
+      <DependentUpon>TF_FIXED_RejEdit.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="WebAdjust\TF_FIXED_RejList.aspx.designer.vb">
+      <DependentUpon>TF_FIXED_RejList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WebAdjust\TF_FIXED_RejList.aspx.vb">
+      <DependentUpon>TF_FIXED_RejList.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="WebAdjust\TF_FLOAT_RejEdit.aspx.designer.vb">
+      <DependentUpon>TF_FLOAT_RejEdit.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WebAdjust\TF_FLOAT_RejEdit.aspx.vb">
+      <DependentUpon>TF_FLOAT_RejEdit.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="WebAdjust\TF_FLOAT_RejList.aspx.designer.vb">
+      <DependentUpon>TF_FLOAT_RejList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WebAdjust\TF_FLOAT_RejList.aspx.vb">
+      <DependentUpon>TF_FLOAT_RejList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebAdjust\TF_NM_RejEdit.aspx.designer.vb">
+      <DependentUpon>TF_NM_RejEdit.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WebAdjust\TF_NM_RejEdit.aspx.vb">
+      <DependentUpon>TF_NM_RejEdit.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="WebAdjust\TF_NM_RejList.aspx.designer.vb">
+      <DependentUpon>TF_NM_RejList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WebAdjust\TF_NM_RejList.aspx.vb">
+      <DependentUpon>TF_NM_RejList.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="WebAdjust\WebForm1.aspx.designer.vb">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WebAdjust\WebForm1.aspx.vb">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="WebAdjust\WF52_RejEdit.aspx.designer.vb">
+      <DependentUpon>WF52_RejEdit.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WebAdjust\WF52_RejEdit.aspx.vb">
+      <DependentUpon>WF52_RejEdit.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="WebAdjust\WF52_RejList.aspx.designer.vb">
+      <DependentUpon>WF52_RejList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WebAdjust\WF52_RejList.aspx.vb">
+      <DependentUpon>WF52_RejList.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Content Include="Reports\CO52_RejReport_Detail.rdlc" />
+    <Content Include="Reports\CO52_RejReport.rdlc" />
+    <Content Include="Reports\Swap_RejReport.rdlc" />
+    <Content Include="Reports\FW53_RejReport.rdlc" />
+    <Content Include="Reports\WF52_RejReport.rdlc" />
+    <Content Include="Reports\IN52_RejReport.rdlc" />
+    <Content Include="Reports\IN51_RejReport.rdlc" />
+    <Content Include="Reports\TF_NM_RejReport.rdlc" />
+    <Content Include="Reports\TF_FLOAT_RejReport.rdlc" />
+    <Content Include="Reports\TF_FIXED_RejReport.rdlc" />
+    <Content Include="Reports\LN70_RejReport_Detail.rdlc" />
+    <Content Include="Reports\Swap_RejReport_Detail.rdlc" />
+    <Content Include="Reports\WF52_RejReport_Detail.rdlc" />
+    <Content Include="Reports\TF_NM_RejReport_Detail.rdlc" />
+    <Content Include="Reports\TF_FLOAT_RejReport_Detail.rdlc" />
+    <Content Include="Reports\TF_FIXED_RejReport_Detail.rdlc" />
+    <Content Include="Reports\IN52_RejReport_Detail.rdlc" />
+    <Content Include="Reports\IN51_RejReport_Detail.rdlc" />
+    <Content Include="Reports\FW53_RejReport_Detail.rdlc" />
+    <Content Include="Reports\LN70_RejReport.rdlc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
+    <None Include="bin\Dataset\RejectDataInvest.xsc">
+      <DependentUpon>RejectDataInvest.xsd</DependentUpon>
+    </None>
+    <Content Include="bin\Dataset\RejectDataInvest.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>RejectDataInvest.Designer.vb</LastGenOutput>
+    </Content>
+    <None Include="bin\Dataset\RejectDataInvest.xss">
+      <DependentUpon>RejectDataInvest.xsd</DependentUpon>
+    </None>
+    <None Include="bin\Dataset\RejectDataSet.xsc">
+      <DependentUpon>RejectDataSet.xsd</DependentUpon>
+    </None>
+    <Content Include="bin\Dataset\RejectDataSet.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>RejectDataSet.Designer.vb</LastGenOutput>
+    </Content>
+    <None Include="bin\Dataset\RejectDataSet.xss">
+      <DependentUpon>RejectDataSet.xsd</DependentUpon>
+    </None>
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\DBHelvethaicaXMedCondv3_2.woff" />
+    <Content Include="DataSet\Reports\DDMS03020170831MRC_DUR_MComm_OPDel.XLS" />
+    <None Include="DataSet\Reports\DDMS03020170831MRC_DUR_MComm_OPSim.XLS" />
+    <None Include="DataSet\Reports\DDMS03020170831MRC_DUR_SComm_OPDel.XLS" />
+    <None Include="DataSet\Reports\DDMS03020170831MRC_DUR_SComm_OPSim.XLS" />
+    <None Include="DataSet\Reports\DDMS03020170831MRC_MAT_MComm_OPDel.XLS" />
+    <None Include="DataSet\Reports\DDMS03020170831MRC_MAT_MComm_OPSim.XLS" />
+    <None Include="DataSet\Reports\DDMS03020170831MRC_MAT_SComm_OPDel.XLS" />
+    <None Include="DataSet\Reports\DDMS03020170831MRC_MAT_SComm_OPSim.XLS" />
+    <Content Include="fonts\font-awesome-4.7.0\fonts\fontawesome-webfont.eot" />
+    <Content Include="fonts\font-awesome-4.7.0\fonts\fontawesome-webfont.svg" />
+    <Content Include="fonts\font-awesome-4.7.0\fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\font-awesome-4.7.0\fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\font-awesome-4.7.0\fonts\fontawesome-webfont.woff2" />
+    <Content Include="fonts\font-awesome-4.7.0\fonts\FontAwesome.otf" />
+    <Content Include="ErrorPage\Site2.Master" />
+    <None Include="fonts\font-awesome-4.7.0\less\animated.less" />
+    <None Include="fonts\font-awesome-4.7.0\less\bordered-pulled.less" />
+    <None Include="fonts\font-awesome-4.7.0\less\core.less" />
+    <None Include="fonts\font-awesome-4.7.0\less\fixed-width.less" />
+    <None Include="fonts\font-awesome-4.7.0\less\font-awesome.less" />
+    <None Include="fonts\font-awesome-4.7.0\less\icons.less" />
+    <None Include="fonts\font-awesome-4.7.0\less\larger.less" />
+    <None Include="fonts\font-awesome-4.7.0\less\list.less" />
+    <None Include="fonts\font-awesome-4.7.0\less\mixins.less" />
+    <None Include="fonts\font-awesome-4.7.0\less\path.less" />
+    <None Include="fonts\font-awesome-4.7.0\less\rotated-flipped.less" />
+    <None Include="fonts\font-awesome-4.7.0\less\screen-reader.less" />
+    <None Include="fonts\font-awesome-4.7.0\less\stacked.less" />
+    <None Include="fonts\font-awesome-4.7.0\less\variables.less" />
+    <None Include="fonts\font-awesome-4.7.0\scss\font-awesome.scss" />
+    <None Include="fonts\font-awesome-4.7.0\scss\_animated.scss" />
+    <None Include="fonts\font-awesome-4.7.0\scss\_bordered-pulled.scss" />
+    <None Include="fonts\font-awesome-4.7.0\scss\_core.scss" />
+    <None Include="fonts\font-awesome-4.7.0\scss\_fixed-width.scss" />
+    <None Include="fonts\font-awesome-4.7.0\scss\_icons.scss" />
+    <None Include="fonts\font-awesome-4.7.0\scss\_larger.scss" />
+    <None Include="fonts\font-awesome-4.7.0\scss\_list.scss" />
+    <None Include="fonts\font-awesome-4.7.0\scss\_mixins.scss" />
+    <None Include="fonts\font-awesome-4.7.0\scss\_path.scss" />
+    <None Include="fonts\font-awesome-4.7.0\scss\_rotated-flipped.scss" />
+    <None Include="fonts\font-awesome-4.7.0\scss\_screen-reader.scss" />
+    <None Include="fonts\font-awesome-4.7.0\scss\_stacked.scss" />
+    <None Include="fonts\font-awesome-4.7.0\scss\_variables.scss" />
+    <Content Include="IRRBB\Input\ALM 1 Adjusted By User.pdf" />
+    <Content Include="IRRBB\Input\ALM 2 Adjusted By User.pdf" />
+    <Content Include="IRRBB\Input\ALM_Report 7-1.pdf" />
+    <Content Include="IRRBB\Input\ALM_Report 7-2.pdf" />
+    <Content Include="IRRBB\Input_ADJUST\ALM 1 Adjusted By User.pdf" />
+    <Content Include="IRRBB\Input_ADJUST\ALM 2 Adjusted By User.pdf" />
+    <Content Include="IRRBB\Input_ADJUST\ALM_Report 7-1.pdf" />
+    <Content Include="IRRBB\Input_ADJUST\ALM_Report 7-2.pdf" />
+    <Content Include="IRRBB\Report\Template\ALM_Report 7-1.pdf" />
+    <Content Include="IRRBB\Report\Template\Test.pdf" />
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\PublishProfiles\FolderProfile.pubxml" />
+    <None Include="My Project\PublishProfiles\RDMWEBREPORT.pubxml" />
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+    <Content Include="Site.Master" />
+    <Content Include="Scripts\jquery-3.0.0.min.map" />
+    <Content Include="Scripts\jquery-3.0.0.slim.min.map" />
+    <Content Include="Styles\bootstrap-theme.css.map" />
+    <Content Include="Styles\bootstrap.css.map" />
+    <Content Include="Site1.Master" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App\" />
+    <Folder Include="App_Data\" />
+    <Folder Include="Code_App\" />
+    <Folder Include="IRRBB\Upload_IRRBB\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Arsoft.Utility\Arsoft.Utility.vbproj">
+      <Project>{C558EA2B-28E4-48A8-90C9-BE44FD8FC814}</Project>
+      <Name>Arsoft.Utility</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GSBWeb.BLL\GSBWeb.BLL.vbproj">
+      <Project>{C4946FB7-D28B-46F6-A1CD-C77EFE2A3C3C}</Project>
+      <Name>GSBWeb.BLL</Name>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\GSBWeb.DAL\GSBWeb.DAL.vbproj">
+      <Project>{6566C11A-42AE-495D-AF11-4AFA6740015A}</Project>
+      <Name>GSBWeb.DAL</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>4357</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:4357/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

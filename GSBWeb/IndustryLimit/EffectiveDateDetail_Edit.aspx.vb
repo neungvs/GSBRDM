@@ -1,0 +1,194 @@
+﻿Imports System.Globalization
+Imports System.Threading
+Imports System.Data
+Imports System.IO
+Imports GSBWeb.BLL
+Imports System.Data.SqlClient
+Imports System.Configuration
+Imports Microsoft.Reporting.WebForms
+Imports System.Web.HttpApplicationState
+Imports GSBWeb.DAL
+Imports System.Linq
+Imports Arsoft.Utility
+
+Public Class EffectiveDateDetail_Edit
+    Inherits System.Web.UI.Page
+    Dim gui As New Guid
+    Shared detailList As New List(Of IndustyDetailEntity)
+
+    Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+        If Not IsPostBack Then
+            hfIndex.Value = Session("rowIndex")
+            SetData()
+        End If
+    End Sub
+
+    Protected Sub btnCancle_Click(sender As Object, e As EventArgs) Handles btnCancle.Click
+        Response.Redirect("~/IndustryLimit/EffectiveDate_Add.aspx")
+    End Sub
+
+
+    Private Sub SetData()
+        Dim index As Integer = Convert.ToInt32(hfIndex.Value)
+        Dim tlist = TryCast(CObj(Session("DetailList")), List(Of IndustyDetailEntity))
+        Dim type As String
+        detailList = tlist
+        type = tlist(index).Type
+
+        If type = 1 Then
+            lblISICCODE.Text = tlist(index).ISICCODE
+            lblISICCODESUBLEVEL.Text = tlist(index).ISICCODESUBLEVEL
+            lblIndustry.Text = tlist(index).Industry
+            trISICCODE.Visible = True
+            trISICSUB.Visible = True
+            trIndustry.Visible = True
+            trLN_TYPE_CODE.Visible = False
+            trLN_SUB_TYPE.Visible = False
+            trMKT_CODE.Visible = False
+            trLoanType.Visible = False
+            lblNameType.Text = "ข้อมูลภาคธุรกิจ"
+        Else
+            lblLN_TYPE_CODE.Text = tlist(index).LN_TYPE_CODE
+            lblLN_SUB_TYPE.Text = tlist(index).LN_SUB_TYPE
+            lblMKT_CODE.Text = tlist(index).LN_MKT_CODE
+            lblLoanType.Text = tlist(index).LoanType
+            trISICCODE.Visible = False
+            trISICSUB.Visible = False
+            trIndustry.Visible = False
+            trLN_TYPE_CODE.Visible = True
+            trLN_SUB_TYPE.Visible = True
+            trMKT_CODE.Visible = True
+            trLoanType.Visible = True
+            lblNameType.Text = "ข้อมูลประเภทสินเชื่อ"
+        End If
+
+        If tlist(index).IndustryLimitAmount = "-" Then
+            txtIndustryLimitAmount.Text = ""
+        Else
+            txtIndustryLimitAmount.Text = tlist(index).IndustryLimitAmount
+        End If
+
+        If tlist(index).IndustryLimitPercentage = "-" Then
+            txtIndustryLimitPercentage.Text = ""
+        Else
+            txtIndustryLimitPercentage.Text = tlist(index).IndustryLimitPercentage
+        End If
+
+        CheckTextBox()
+    End Sub
+
+    Protected Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
+        Try
+            Dim IndustryLimitAmount As Double? = 0
+            Dim IndustryLimitPercentage As Double? = 0
+            Dim entDetail As New IndustyDetailEntity
+
+            If (Not String.IsNullOrEmpty(txtIndustryLimitPercentage.Text)) Then
+                IndustryLimitPercentage = Convert.ToDouble(txtIndustryLimitPercentage.Text)
+            Else
+                IndustryLimitPercentage = Nothing
+            End If
+
+            If (Not String.IsNullOrEmpty(txtIndustryLimitAmount.Text)) Then
+                IndustryLimitAmount = Convert.ToDouble(txtIndustryLimitAmount.Text)
+            Else
+                IndustryLimitAmount = Nothing
+            End If
+
+            If (IndustryLimitPercentage Is Nothing And IndustryLimitAmount Is Nothing) Then
+                MessageBoxAlert("แจ้งเตือน", "กรุณาบันทึกข้อมูล เปอร์เซ็น หรือ วงเงินอนุมัติ อย่างใดอย่างหนึ่ง", "", "ปิด", False, True)
+                Return
+            End If
+
+            If (IndustryLimitPercentage = 0 And IndustryLimitAmount = 0) Then
+                MessageBoxAlert("แจ้งเตือน", "กรุณาบันทึกข้อมูล เปอร์เซ็น หรือ วงเงินอนุมัติ อย่างใดอย่างหนึ่ง", "", "ปิด", False, True)
+                Return
+            End If
+
+            If (IndustryLimitPercentage <> 0 And IndustryLimitAmount <> 0) Then
+                MessageBoxAlert("แจ้งเตือน", "กรุณาบันทึกข้อมูล เปอร์เซ็น หรือ วงเงินอนุมัติ อย่างใดอย่างหนึ่ง", "", "ปิด", False, True)
+                Return
+            Else
+                Dim index As Integer = Convert.ToInt32(hfIndex.Value)
+
+                If Not IndustryLimitAmount Is Nothing Then
+                    detailList(index).IndustryLimitAmount = String.Format("{0:N2}", IndustryLimitAmount)
+                Else
+                    detailList(index).IndustryLimitAmount = Convert.ToString(IndustryLimitAmount)
+                End If
+
+
+                If Not IndustryLimitPercentage Is Nothing Then
+                    detailList(index).IndustryLimitPercentage = String.Format("{0:N2}", IndustryLimitPercentage)
+                Else
+                    detailList(index).IndustryLimitPercentage = Convert.ToString(IndustryLimitPercentage)
+                End If
+
+                Session("DetailList") = detailList
+                MessageBoxAlert("Success", "บันทึกข้อมูลสำเร็จ", "ปิด", "", True, False)
+                btn_OK.Attributes.Remove("data-dismiss")
+            End If
+
+        Catch ex As Exception
+            MessageBoxAlert("Error", ex.Message, "", "ปิด", False, True)
+            UtilLogfile.writeToLog("EffectiveDateDetail_Add", "IsAuthen()", ex.Message)
+        End Try
+    End Sub
+
+    Protected Sub txtIndustryLimitAmount_TextChanged(sender As Object, e As EventArgs) Handles txtIndustryLimitAmount.TextChanged
+        If String.IsNullOrEmpty(txtIndustryLimitAmount.Text) = True Then
+            txtIndustryLimitPercentage.Enabled = True
+        Else
+            txtIndustryLimitPercentage.Enabled = False
+        End If
+    End Sub
+
+    Protected Sub txtIndustryLimitPercentage_TextChanged(sender As Object, e As EventArgs) Handles txtIndustryLimitPercentage.TextChanged
+        If String.IsNullOrEmpty(txtIndustryLimitPercentage.Text) = True Then
+            txtIndustryLimitAmount.Enabled = True
+        Else
+            txtIndustryLimitAmount.Enabled = False
+        End If
+    End Sub
+
+    Private Sub CheckTextBox()
+        If String.IsNullOrEmpty(txtIndustryLimitAmount.Text) = True Then
+            txtIndustryLimitAmount.Enabled = False
+        Else
+            txtIndustryLimitAmount.Enabled = True
+        End If
+
+        If String.IsNullOrEmpty(txtIndustryLimitPercentage.Text) = True Then
+            txtIndustryLimitPercentage.Enabled = False
+        Else
+            txtIndustryLimitPercentage.Enabled = True
+        End If
+    End Sub
+
+    Protected Sub MessageBoxAlert(ByVal title As String, ByVal _message As String, ByVal BtnOKString As String, ByVal BtnNOString As String, ByVal YesbtnStatus As Boolean, ByVal NobtnStatus As Boolean)
+        lbl_Title.Text = title
+        If title = "Error" Then
+            Symbol_Image.ImageUrl = "~/Images/NotCorrect.png"
+        ElseIf title = "Success" Then
+            Symbol_Image.ImageUrl = "~/Images/Correct.png"
+        ElseIf title = "Question" Then
+            Symbol_Image.ImageUrl = "~/Images/Question.png"
+        ElseIf title = "แจ้งเตือน" Then
+            Symbol_Image.ImageUrl = "~/Images/Warning.png"
+        End If
+
+        Messages.Text = _message
+        btn_OK.Visible = YesbtnStatus
+        btn_NO.Visible = NobtnStatus
+        btn_OK.Text = BtnOKString
+        btn_NO.Text = BtnNOString
+
+        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "AlertBox", "$('#AlertBox').modal();", True)
+        UpdModal.Update()
+    End Sub
+
+    Protected Sub btn_OK_Click(sender As Object, e As EventArgs) Handles btn_OK.Click
+        Response.Redirect("~/IndustryLimit/EffectiveDate_Add.aspx")
+    End Sub
+
+End Class
