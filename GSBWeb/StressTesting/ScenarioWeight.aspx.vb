@@ -42,7 +42,7 @@ Public Class Scenario_Weight
         ddlAddEditScenario.DataBind()
     End Sub
 
-    Protected Sub btn_Searchr_Click(sender As Object, e As EventArgs) Handles btn_Searchr.Click
+    Protected Sub btn_Search_Click(sender As Object, e As EventArgs) Handles btn_Search.Click
         BindGridData()
         LoadScenario()
     End Sub
@@ -65,7 +65,6 @@ Public Class Scenario_Weight
 
     Private Sub BindGridData()
         Dim listData As List(Of ScenarioWeightEntity)
-        Dim _html As New StringBuilder
         Dim _timeId As String = GetLastDayOfMonth()
         listData = _scenarioWeightBiz.GetByTime(_timeId)
         gvScenarioWeight.DataSource = listData
@@ -129,9 +128,9 @@ Public Class Scenario_Weight
         'Dim lstFactor As List(Of FactorEntity) = LoadFactor()
         'สถานการณ์ภาวะวิกฤต = กรอกได้ทั้ง text,ตัวเลข และต้องห้ามซ้ำตาม list Scenario
         If (weight = "") Then
-            errMsgList.Add("Weight ห้ามว่าง")
-            'ElseIf (IsExistingFactorName(factorName, lstFactor) = True) Then
-            '    errMsgList.Add("ชื่อตัวแปรทางเศรษฐกิจ ห้ามซ้ำ")
+            errMsgList.Add("กรุณาระบุค่าน้ำหนัก")
+        ElseIf (_valBiz.IsValidNumber(weight) = False) Then
+            errMsgList.Add("ค่าน้ำหนักต้องเป็นตัวเลขเท่านั้น")
         End If
         Return errMsgList
     End Function
@@ -146,14 +145,14 @@ Public Class Scenario_Weight
     End Function
 
     Protected Sub btnSaveAdd_Click(sender As Object, e As EventArgs) Handles btnSaveAdd.Click
-        If ViewState("mode") = "add" Then
-            Dim errMsgList As List(Of String) = Vaidate()
-            If errMsgList.Count > 0 Then
-                lblMessage.Visible = True
-                lblMessage.Text = String.Join(",", errMsgList.ToArray())
-                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal({backdrop: true});", True)
-                UpdModal.Update()
-            Else
+        Dim errMsgList As List(Of String) = Vaidate()
+        If errMsgList.Count > 0 Then
+            lblMessage.Visible = True
+            lblMessage.Text = String.Join(",", errMsgList.ToArray())
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal({backdrop: true});", True)
+            UpdModal.Update()
+        Else
+            If ViewState("mode") = "add" Then
                 lblMessage.Visible = False
                 If SaveAdd() Then
                     BindGridData()
@@ -161,16 +160,16 @@ Public Class Scenario_Weight
                 Else
                     MessageBoxAlert("Error", "เกิดข้อผิดพลาดไม่สามารถบันทึกข้อมูลได้", "", "ปิด", False, True)
                 End If
-            End If
-        ElseIf ViewState("mode") = "edit" Then
-            Dim timeId As String = ViewState("TimeId")
-            Dim scenarioId As String = ViewState("ScenarioId")
-            Dim weight As String = txtAddEditWeight.Text
-            If _scenarioWeightBiz.SaveUpdate(timeId, scenarioId, weight) Then
-                BindGridData()
-                MessageBoxAlert("Success", "บันทึกข้อมูลสำเร็จ", "", "ปิด", False, True)
-            Else
-                MessageBoxAlert("Error", "เกิดข้อผิดพลาดไม่สามารถบันทึกข้อมูลได้", "", "ปิด", False, True)
+            ElseIf ViewState("mode") = "edit" Then
+                Dim timeId As String = ViewState("TimeId")
+                Dim scenarioId As String = ViewState("ScenarioId")
+                Dim weight As String = txtAddEditWeight.Text
+                If _scenarioWeightBiz.SaveUpdate(timeId, scenarioId, weight) Then
+                    BindGridData()
+                    MessageBoxAlert("Success", "บันทึกข้อมูลสำเร็จ", "", "ปิด", False, True)
+                Else
+                    MessageBoxAlert("Error", "เกิดข้อผิดพลาดไม่สามารถบันทึกข้อมูลได้", "", "ปิด", False, True)
+                End If
             End If
         End If
     End Sub
