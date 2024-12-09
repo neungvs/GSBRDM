@@ -34,7 +34,7 @@
                                                 <asp:DropDownList ID="ddlTime" runat="server" Height="30px" Width="150px" CssClass="TextBoxRoundCorrner">
                                                 </asp:DropDownList></td>
                                             <td align="left">&nbsp;&nbsp;&nbsp;
-                                                <asp:LinkButton ID="btn_Searchr" runat="server" CssClass="btn btn-primary ButtonStyle">
+                                                <asp:LinkButton ID="btn_Search" runat="server" CssClass="btn btn-primary ButtonStyle">
                                                     <span class="glyphicon glyphicon-search"></span>&nbsp;&nbsp;&nbsp;ค้นหา
                                                 </asp:LinkButton>
                                             </td>
