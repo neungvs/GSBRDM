@@ -179,7 +179,7 @@
                                                 <div>
                                                     <table>
                                                         <tr>
-                                                            <td style="text-align: right; font-size: medium">ชื่อสถาณการณ์&nbsp:&nbsp
+                                                            <td style="text-align: right; font-size: medium">ชื่อสถานการณ์&nbsp;:&nbsp;
                                                             </td>
                                                             <td style="text-align: left">
                                                                 <asp:TextBox ID="txtScenarioName" runat="server" class="form-control" Style="margin-bottom: 2px; font-size: medium; text-align: left"></asp:TextBox>
