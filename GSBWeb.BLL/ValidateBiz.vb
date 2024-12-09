@@ -24,7 +24,7 @@ Public Class ValidateBiz
         'สถานการณ์ภาวะวิกฤต = กรอกได้ทั้ง text,ตัวเลข และต้อง Valid ตาม list Scenario
         If (checkDataType = "Scenario") Then
             If (rawData = "") Then
-                retData.Add("สถาณการณ์ภาวะวิกฤต ห้ามว่าง")
+                retData.Add("สถานการณ์ภาวะวิกฤต ห้ามว่าง")
             ElseIf (IsValidScenario(rawData, lstScenario) = False) Then
                 retData.Add("ข้อมูลสถานการณ์ภาวะวิกฤต ไม่ถูกต้อง")
             End If
@@ -117,7 +117,7 @@ Public Class ValidateBiz
         'สถานการณ์ภาวะวิกฤต = กรอกได้ทั้ง text,ตัวเลข และต้อง Valid ตาม list Scenario
         If (checkDataType = "Scenario") Then
             If (rawData = "") Then
-                retData.Add("สถาณการณ์ภาวะวิกฤต ห้ามว่าง")
+                retData.Add("สถานการณ์ภาวะวิกฤต ห้ามว่าง")
             ElseIf (IsValidScenario(rawData, lstScenario) = False) Then
                 retData.Add("ข้อมูลสถานการณ์ภาวะวิกฤต ไม่ถูกต้อง")
             End If
@@ -196,7 +196,7 @@ Public Class ValidateBiz
     'Private Function CheckValidScenario(checkDataType As String, row As DataRow) As List(Of String)
     '    Dim Time As String = row("วันที่ของข้อมูล").ToString()
     '    Dim Year As String = row("ปีที่ทดสอบภาวะวิกฤต").ToString()
-    '    Dim Scenario As String = row("สถาณการณ์ภาวะวิกฤต").ToString()
+    '    Dim Scenario As String = row("สถานการณ์ภาวะวิกฤต").ToString()
     '    Dim StressLgdScalar As String = row("ค่า LGD Scalar").ToString()
     '    Dim retData As New List(Of String)()
 
@@ -218,7 +218,7 @@ Public Class ValidateBiz
 
     '    'สถานการณ์ภาวะวิกฤต = กรอกได้ทั้ง text,ตัวเลข และต้อง Valid ตาม list Scenario
     '    If (Scenario = "") Then
-    '        retData.Add("สถาณการณ์ภาวะวิกฤต ห้ามว่าง")
+    '        retData.Add("สถานการณ์ภาวะวิกฤต ห้ามว่าง")
     '    ElseIf (IsValidScenario(Scenario, lstScenario) = False) Then
     '        retData.Add("ข้อมูลสถานการณ์ภาวะวิกฤต ไม่ถูกต้อง")
     '    End If
