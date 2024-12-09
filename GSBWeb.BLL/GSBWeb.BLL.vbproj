@@ -90,11 +90,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataSetBiz.vb" />
+    <Compile Include="DateHelperUtil.vb" />
     <Compile Include="EmailBiz.vb" />
     <Compile Include="Entity\ActiveDirectoryEntity.vb" />
     <Compile Include="Entity\ActiveDirectoryLists.vb" />
     <Compile Include="ActiveDirectoryManagement.vb" />
     <Compile Include="CO52Biz.vb" />
+    <Compile Include="CustomerRatingBiz.vb" />
+    <Compile Include="MacroEconomicFactorBiz.vb" />
+    <Compile Include="ReportBiz.vb" />
+    <Compile Include="ScenarioWeightBiz.vb" />
+    <Compile Include="GrowthWriteOffBiz.vb" />
+    <Compile Include="FactorNameBiz.vb" />
+    <Compile Include="ImportMevBiz.vb" />
+    <Compile Include="MeasureBiz.vb" />
+    <Compile Include="StressScenarioWeightBiz.vb" />
+    <Compile Include="StressScenarioBiz.vb" />
+    <Compile Include="TimeBiz.vb" />
+    <Compile Include="LGDBiz.vb" />
     <Compile Include="UserModuleBiz.vb" />
     <Compile Include="Periods.vb" />
     <Compile Include="FW53Biz.vb" />
@@ -123,6 +136,7 @@
     <Compile Include="TF_FLOATBiz.vb" />
     <Compile Include="TF_NMBiz.vb" />
     <Compile Include="UtilsBiz.vb" />
+    <Compile Include="ValidateBiz.vb" />
     <Compile Include="WF52Biz.vb" />
   </ItemGroup>
   <ItemGroup>

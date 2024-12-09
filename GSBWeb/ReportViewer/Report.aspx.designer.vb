@@ -12,7 +12,7 @@ Option Explicit On
 
 
 Partial Public Class Report
-    
+
     '''<summary>
     '''AutoRedirect control.
     '''</summary>
@@ -21,7 +21,7 @@ Partial Public Class Report
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents AutoRedirect As Global.GSBWeb.AutoRedirect
-    
+
     '''<summary>
     '''ScriptManager1 control.
     '''</summary>
@@ -30,7 +30,7 @@ Partial Public Class Report
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents ScriptManager1 As Global.System.Web.UI.ScriptManager
-    
+
     '''<summary>
     '''ReportViewer1 control.
     '''</summary>

@@ -6,6 +6,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head id="Head1" runat="server">
     <link rel="shortcut icon" href="~/Images/gsb-banner.png" />
+    <!-- Bootstrap Min CSS -->
+    <link href="<%= Page.ResolveClientUrl("~/Styles/bootstrap.min.css")%>" rel="stylesheet" type="text/css" />
+
     <!-- Bootstrap CSS -->
     <link href="<%= Page.ResolveClientUrl("~/Styles/bootstrap.css")%>" rel="stylesheet" type="text/css" />
     <!-- Font awesome -->
