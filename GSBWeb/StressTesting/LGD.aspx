@@ -105,7 +105,7 @@
                                             <HeaderStyle HorizontalAlign="Center" BorderColor="Gray" BorderWidth="1" CssClass="td-center" VerticalAlign="Middle" />
                                             <ItemStyle HorizontalAlign="Center" Width="95px" BorderColor="Gray" BorderWidth="1" />
                                         </asp:TemplateField>
-                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle" HeaderText="สถาณการณ์ภาวะวิกฤต">
+                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle" HeaderText="สถานการณ์ภาวะวิกฤต">
                                             <ItemTemplate>
                                                 <asp:Label ID="lbScenario" Text='<%# Bind("Scenario") %>'
                                                     runat="server"></asp:Label>
