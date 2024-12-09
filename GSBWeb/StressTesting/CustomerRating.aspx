@@ -26,7 +26,7 @@
                 <div class="col-md-8 col-md-offset-2">
                     <div class="panel panel-default">
                         <div class="NormalHeader">
-                            Custom Rating
+                            Customer Rating
                         </div>
                         <table width="100%">
                             <tr style="height: 50px;">
@@ -60,7 +60,7 @@
                         <table width="100%" border="0" id="tbCustomerRatingHeader" runat="server">
                             <tr valign="middle" style="height: 40px;">
                                 <td align="left">
-                                    <font color="#FFFFFF">Custom Rating</font>
+                                    <font color="#FFFFFF">Customer Rating</font>
                                 </td>
                                 <td align="right"></td>
                             </tr>
@@ -88,17 +88,17 @@
                                             <HeaderStyle HorizontalAlign="Center" BorderColor="Gray" BorderWidth="1" CssClass="td-center" VerticalAlign="Middle" />
                                             <ItemStyle HorizontalAlign="Center" Width="95px" BorderColor="Gray" BorderWidth="1" />
                                         </asp:TemplateField>
-                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle" HeaderText="สถานการณ์ภาวะวิกฤต">
+                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle" HeaderText="ปีที่ทดสอบภาวะวิกฤต">
                                             <ItemTemplate>
-                                                <asp:Label ID="lbScenario" Text='<%# Bind("ScenarioName") %>'
+                                                <asp:Label ID="lbYear" Text='<%# Bind("Year") %>'
                                                     runat="server"></asp:Label>
                                             </ItemTemplate>
                                             <HeaderStyle HorizontalAlign="Center" BorderColor="Gray" BorderWidth="1" CssClass="td-center" VerticalAlign="Middle" />
                                             <ItemStyle HorizontalAlign="Center" Width="95px" BorderColor="Gray" BorderWidth="1" />
                                         </asp:TemplateField>
-                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle" HeaderText="ปีที่ทดสอบภาวะวิกฤต">
+                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle" HeaderText="สถานการณ์ภาวะวิกฤต">
                                             <ItemTemplate>
-                                                <asp:Label ID="lbYear" Text='<%# Bind("Year") %>'
+                                                <asp:Label ID="lbScenario" Text='<%# Bind("ScenarioName") %>'
                                                     runat="server"></asp:Label>
                                             </ItemTemplate>
                                             <HeaderStyle HorizontalAlign="Center" BorderColor="Gray" BorderWidth="1" CssClass="td-center" VerticalAlign="Middle" />
