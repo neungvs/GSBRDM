@@ -131,15 +131,6 @@ Partial Public Class MacroEconomicFactor
     Protected WithEvents btn_Excel_Import As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
-    '''btnAdd control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents btnAdd As Global.System.Web.UI.WebControls.LinkButton
-
-    '''<summary>
     '''tbFactorDetail control.
     '''</summary>
     '''<remarks>
@@ -174,6 +165,15 @@ Partial Public Class MacroEconomicFactor
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents lbHeaderFactorDesc As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''btnAdd control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnAdd As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
     '''gvMacroEconomicFactor control.
@@ -284,13 +284,13 @@ Partial Public Class MacroEconomicFactor
     Protected WithEvents txtAddEditYear As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''txtAddEditMonth control.
+    '''ddlAddEditMonth control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents txtAddEditMonth As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents ddlAddEditMonth As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
     '''txtAddEditFactorValue control.
@@ -320,13 +320,13 @@ Partial Public Class MacroEconomicFactor
     Protected WithEvents btnCancel As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''Label2 control.
+    '''lbAddEditErrorMessage control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents Label2 As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents lbAddEditErrorMessage As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''UpdatePanel2 control.

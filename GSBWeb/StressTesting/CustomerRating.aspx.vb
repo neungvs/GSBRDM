@@ -227,8 +227,12 @@ Public Class Customer_Rating
     End Sub
 
     Private Function SaveImport() As Boolean
-        Dim _listData As List(Of CustomerRatingEntity) = BindingData()
-        Return _customerRatingBiz.Save(_listData)
+        Dim timeId As String = ddlTime.SelectedValue
+        If _customerRatingBiz.DeleteByTimeId(timeId) Then
+            Dim _listData As List(Of CustomerRatingEntity) = BindingData()
+            Return _customerRatingBiz.SaveInsertImportExcel(_listData)
+        End If
+        Return False
     End Function
 
     Protected Sub btnCancelImport_Click(sender As Object, e As EventArgs) Handles btnCancelImport.Click

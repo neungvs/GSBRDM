@@ -1,4 +1,5 @@
-﻿Imports System.IO
+﻿Imports System.Globalization
+Imports System.IO
 Imports Arsoft.Utility
 Imports ClosedXML.Excel
 Imports GSBWeb.BLL
@@ -18,7 +19,9 @@ Public Class MacroEconomicFactor
             tbFactorHeader.Visible = False
             gvMacroEconomicFactor.Visible = False
             LoadTimeFactor()
+            BindThaiMonths(ddlAddEditMonth)
             tbFactorDetail.Visible = False
+            btnAdd.Visible = False
         End If
     End Sub
 
@@ -36,21 +39,23 @@ Public Class MacroEconomicFactor
 
         If (lstFactor.Count > 1) Then
             tbFactorDetail.Visible = True
+            btnAdd.Visible = True
         Else
             tbFactorDetail.Visible = False
+            btnAdd.Visible = False
         End If
-
-        'Dim lstScenario As List(Of ScenarioEntity)
-        'lstScenario = LoadScenario()
-        'ddlAddEditScenario.DataSource = lstScenario
-        'ddlAddEditScenario.DataValueField = "ScenarioId"
-        'ddlAddEditScenario.DataTextField = "ScenarioName"
-        'ddlAddEditScenario.DataBind()
     End Sub
 
     Private Sub BindGridView()
-        Dim timeId As String = ddlTime.SelectedValue
-        Dim factorId As String = ddlFactor.SelectedValue
+        Dim timeId As String
+        Dim factorId As String
+        If (ViewState("timeId") <> Nothing) And (ViewState("factorId") <> Nothing) Then
+            timeId = ViewState("timeId")
+            factorId = ViewState("factorId")
+        Else
+            timeId = ddlTime.SelectedValue
+            factorId = ddlFactor.SelectedValue
+        End If
 
         Dim lstFactor As List(Of FactorEntity)
         lstFactor = LoadFactor()
@@ -59,7 +64,7 @@ Public Class MacroEconomicFactor
         lbHeaderFactorName.Text = factor.FactorName
         lbHeaderFactorUnit.Text = factor.FactorUnit
         tbFactorDetail.Visible = True
-
+        btnAdd.Visible = True
         Dim listEntity As List(Of MacroEconomicFactorEntity) = _macroEconomicFactorBiz.GetByTimeAndFactor(timeId, factorId)
         gvMacroEconomicFactor.Visible = True
         gvMacroEconomicFactor.DataSource = listEntity
@@ -140,6 +145,7 @@ Public Class MacroEconomicFactor
                         grvImportExcel.DataSource = Nothing
                         grvImportExcel.DataBind()
                         ViewState("dtImportRawData") = Nothing
+                        BindGridView()
                         MessageBoxAlert("Success", "บันทึกข้อมูลสำเร็จ", "", "ปิด", False, True)
                     End If
                 Else
@@ -196,7 +202,7 @@ Public Class MacroEconomicFactor
         Dim StressYear As String = row("Stress_Year").ToString()
         Dim StressMonth As String = row("Stress_Month").ToString()
         Dim FactorName As String = row("FactorID").ToString()
-        Dim FactorValue As String = row("FartorValue").ToString()
+        Dim FactorValue As String = row("FactorValue").ToString()
 
         Dim retData As New List(Of String)
         Dim errMsgList As New List(Of String)
@@ -254,21 +260,21 @@ Public Class MacroEconomicFactor
             Dim StressYear As String = DataBinder.Eval(e.Row.DataItem, "Stress_Year").ToString()
             Dim StressMonth As String = DataBinder.Eval(e.Row.DataItem, "Stress_Month").ToString()
             Dim FactorId As String = DataBinder.Eval(e.Row.DataItem, "FactorID").ToString()
-            Dim FartorValue As String = DataBinder.Eval(e.Row.DataItem, "FartorValue").ToString()
+            Dim FactorValue As String = DataBinder.Eval(e.Row.DataItem, "FactorValue").ToString()
             Dim ErrorDetail As String = DataBinder.Eval(e.Row.DataItem, "ErrorDetail").ToString()
 
             Dim lbTimeId As Label = CType(e.Row.FindControl("lbTimeId"), Label)
             Dim lbStressYear As Label = CType(e.Row.FindControl("lbStressYear"), Label)
             Dim lbStressMonth As Label = CType(e.Row.FindControl("lbStressMonth"), Label)
             Dim lbFactorId As Label = CType(e.Row.FindControl("lbFactorId"), Label)
-            Dim lbFartorValue As Label = CType(e.Row.FindControl("lbFartorValue"), Label)
+            Dim lbFactorValue As Label = CType(e.Row.FindControl("lbFactorValue"), Label)
             Dim lbErrorDetail As Label = CType(e.Row.FindControl("lbErrorDetail"), Label)
 
             lbTimeId.Text = TimeId
             lbStressYear.Text = StressYear
             lbStressMonth.Text = StressMonth
             lbFactorId.Text = FactorId
-            lbFartorValue.Text = FartorValue
+            lbFactorValue.Text = FactorValue
             lbErrorDetail.Text = ErrorDetail
 
             e.Row.ForeColor = System.Drawing.Color.Red
@@ -295,13 +301,13 @@ Public Class MacroEconomicFactor
                 Dim StressYear As String = row("Stress_Year").ToString()
                 Dim StressMonth As String = row("Stress_Month").ToString()
                 Dim FactorName As String = row("FactorID").ToString()
-                Dim FartorValue As String = row("FartorValue").ToString()
+                Dim FactorValue As String = row("FactorValue").ToString()
 
                 entity.TimeId = dateUtil.GetLastDayOfMonth(TimeId)
                 entity.StressYear = StressYear - 543
                 entity.StressMonth = dateUtil.GetMonthIdByMonthName(StressMonth)
                 entity.FactorId = GetFactorId(FactorName, lstFactor)
-                entity.FactorValue = FartorValue
+                entity.FactorValue = FactorValue
 
                 _listEntity.Add(entity)
             Next
@@ -312,7 +318,11 @@ Public Class MacroEconomicFactor
     Private Function SaveImport() As Boolean
         Dim _listEntity As List(Of MacroEconomicFactorEntity) = Binding()
         Dim _userId As Integer = Convert.ToInt16(Session("UserID"))
-        Return _macroEconomicFactorBiz.Save(_userId, _listEntity)
+        Dim timeId As String = ddlTime.SelectedValue
+        If _macroEconomicFactorBiz.DeleteByTimeId(timeId) Then
+            Return _macroEconomicFactorBiz.SaveImportExcel(_userId, _listEntity)
+        End If
+        Return False
     End Function
 
     Protected Sub btn_Searchr_Click(sender As Object, e As EventArgs) Handles btn_Searchr.Click
@@ -321,6 +331,7 @@ Public Class MacroEconomicFactor
         tbFactorHeader.Visible = True
         gvMacroEconomicFactor.Visible = False
         tbFactorDetail.Visible = False
+        btnAdd.Visible = False
     End Sub
 
     Protected Sub btnCancelImport_Click(sender As Object, e As EventArgs) Handles btnCancelImport.Click
@@ -328,9 +339,10 @@ Public Class MacroEconomicFactor
         grvImportExcel.DataBind()
     End Sub
 
-    Protected Sub gv_Lgd_PageIndexChanging(sender As Object, e As GridViewPageEventArgs) Handles gvMacroEconomicFactor.PageIndexChanging
+    Protected Sub gvMacroEconomicFactor_PageIndexChanging(sender As Object, e As GridViewPageEventArgs) Handles gvMacroEconomicFactor.PageIndexChanging
         gvMacroEconomicFactor.PageIndex = e.NewPageIndex
-        LoadData()
+        'LoadData()
+        BindGridView()
         tbImportMevHeader.Visible = True
         tbFactorHeader.Visible = True
         gvMacroEconomicFactor.Visible = True
@@ -349,7 +361,6 @@ Public Class MacroEconomicFactor
         _timeId = _dateBiz.GetLastDayOfMonth(_month, _year)
         Return _timeId
     End Function
-
 
     Private Function GetScenarioId(Scenario As String, lstScenario As List(Of ScenarioEntity)) As String
         For Each _senario As ScenarioEntity In lstScenario
@@ -373,7 +384,6 @@ Public Class MacroEconomicFactor
         BindGridView()
     End Sub
 
-
     Protected Sub OnRowDeleting(sender As Object, e As GridViewDeleteEventArgs)
         Dim _result As Boolean = False
         Dim userId As Integer = Convert.ToInt16(Session("UserID"))
@@ -381,12 +391,15 @@ Public Class MacroEconomicFactor
         Dim lbFactorId As Label = gvMacroEconomicFactor.Rows(e.RowIndex).Cells(1).FindControl("lbFactorId")
         Dim lbStressMonth As Label = gvMacroEconomicFactor.Rows(e.RowIndex).Cells(1).FindControl("lbStressMonth")
         Dim lbStressYear As Label = gvMacroEconomicFactor.Rows(e.RowIndex).Cells(1).FindControl("lbStressYear")
-
+        ViewState("timeId") = lbTimeId.Text
+        ViewState("factorId") = lbFactorId.Text
         _result = _macroEconomicFactorBiz.Delete(lbTimeId.Text, lbStressYear.Text, lbStressMonth.Text, lbFactorId.Text)
         Try
             If _result = True Then
-                LoadData()
+                'LoadData()
                 BindGridView()
+                ViewState("timeId") = Nothing
+                ViewState("factorId") = Nothing
                 MessageBoxAlert("Success", "ลบข้อมูลเรียบร้อยแล้ว", "", "ปิด", False, True)
             Else
                 MessageBoxAlert("Error", "เกิดข้อผิดพลาดไม่สามารถลบข้อมูลได้", "", "ปิด", False, True)
@@ -403,7 +416,13 @@ Public Class MacroEconomicFactor
         If (e.Row.RowType = DataControlRowType.DataRow) Then
             Dim lbStressYear As Label = CType(e.Row.FindControl("lbStressYear"), Label)
             Dim StressYear As String = DataBinder.Eval(e.Row.DataItem, "StressYear").ToString()
-            lbStressYear.Text = StressYear - 543
+            Dim StressMonth As Integer = DataBinder.Eval(e.Row.DataItem, "StressMonth").ToString()
+            Dim lbMonth As Label = CType(e.Row.FindControl("lbMonth"), Label)
+            'Dim monthId As Integer = 3 ' Example: March
+            Dim thaiCulture As New CultureInfo("th-TH")
+            Dim thaiMonthName As String = thaiCulture.DateTimeFormat.MonthNames(StressMonth - 1) ' Subtract 1 as the array is 0-based
+            lbMonth.Text = thaiMonthName
+            lbStressYear.Text = StressYear
             btnDelete.Attributes("onclick") = "if(!confirm('คุณต้องการลบข้อมูลใช่หรือไม่ ?')){ return false; };"
         End If
     End Sub
@@ -413,61 +432,162 @@ Public Class MacroEconomicFactor
         lblMessage.Visible = False
         lblModalTitle.Text = "เพิ่ม (Add)"
         txtAddEditFactorValue.Text = ""
-        txtAddEditMonth.Text = ""
+        'txtAddEditMonth.Text = ""
         txtAddEditYear.Text = ""
+
+        ddlAddEditMonth.Enabled = True
+        ddlAddEditFactor.Enabled = True
+        txtAddEditYear.Enabled = True
+        txtAddEditFactorValue.Enabled = True
+
+        ddlAddEditMonth.ClearSelection()
+        ddlAddEditFactor.SelectedValue = ddlFactor.SelectedValue
+
+        lbAddEditErrorMessage.Visible = False
+
+        ViewState("timeId") = Nothing
+        ViewState("factorId") = Nothing
+
         ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myAddEditModal", "$('#myAddEditModal').modal();", True)
         UpdModal.Update()
     End Sub
 
-    Protected Sub btnSaveAdd_Click(sender As Object, e As EventArgs) Handles btnSaveAdd.Click
+    Private Sub BindThaiMonths(ByVal ddl As DropDownList)
+        ' Create a dictionary of Thai month names and their IDs
+        Dim thaiMonths As New Dictionary(Of Integer, String) From {
+        {1, "มกราคม"},
+        {2, "กุมภาพันธ์"},
+        {3, "มีนาคม"},
+        {4, "เมษายน"},
+        {5, "พฤษภาคม"},
+        {6, "มิถุนายน"},
+        {7, "กรกฎาคม"},
+        {8, "สิงหาคม"},
+        {9, "กันยายน"},
+        {10, "ตุลาคม"},
+        {11, "พฤศจิกายน"},
+        {12, "ธันวาคม"}
+    }
+
+        ' Bind the dictionary to the DropDownList
+        ddl.DataSource = thaiMonths
+        ddl.DataTextField = "Value"  ' Display Thai month names
+        ddl.DataValueField = "Key"  ' Use month IDs as values
+        ddl.DataBind()
+
+        ' Optionally add a default "Please select" item
+        ddl.Items.Insert(0, New ListItem("--เลือกเดือน--", ""))
+    End Sub
+
+    Private Function Vaidate()
+        Dim errMsgList As New List(Of String)
+        Dim factorId As String = ddlAddEditFactor.SelectedValue
+        Dim year As String = txtAddEditYear.Text
+        Dim month As String = ddlAddEditMonth.SelectedValue
+        Dim factorValue As String = txtAddEditFactorValue.Text
+        Dim timeId As String = ddlTime.SelectedValue
+        Dim maxDecimals As Integer = 15
+
         If ViewState("mode") = "add" Then
-            Dim errMsgList As New List(Of String) '= VaidateFactorName()
-            If errMsgList.Count > 0 Then
-                lblMessage.Visible = True
-                lblMessage.Text = String.Join(",", errMsgList.ToArray())
-                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal({backdrop: true});", True)
-                UpdModal.Update()
-            Else
-                lblMessage.Visible = False
+            If (year <> "" And month <> "" And factorId <> "") Then
+                Dim listEntity As List(Of MacroEconomicFactorEntity) = _macroEconomicFactorBiz.GetByTimeAndFactor(timeId, factorId)
+                For Each ds As MacroEconomicFactorEntity In listEntity
+                    If (ds.StressYear = year And ds.StressMonth = month And ds.FactorId = factorId) Then
+                        errMsgList.Add("ข้อมูลซ้ำ")
+                    End If
+                Next
+            End If
+
+            If (year = "") Then
+                errMsgList.Add("กรุณาเลือกปีที่ทดสอบภาวะวิกฤต")
+            ElseIf (_valBiz.IsValidNumber(year) = False) Then
+                errMsgList.Add("ปีที่ทดสอบภาวะวิกฤตต้องเป็นตัวเลขเท่านั้น")
+            ElseIf (_valBiz.IsValidBuddhistYear(year) = False) Then
+                errMsgList.Add("ปีที่ทดสอบภาวะวิกฤต กรอกพ.ศ.เท่านั้น")
+            End If
+
+            If (month = "") Then
+                errMsgList.Add("กรุณาเลือกเดือนที่ทดสอบภาวะวิกฤต")
+            End If
+
+            If (factorValue = "") Then
+                errMsgList.Add("กรุณากรอกค่า Factor Value")
+            ElseIf (_valBiz.IsValidNumber(factorValue) = False) Then
+                errMsgList.Add("ค่า Factor Value ต้องเป็นตัวเลขเท่านั้น")
+            ElseIf (_valBiz.IsValidDecimal(factorValue, maxDecimals) = False) Then
+                errMsgList.Add("ค่า Factor Value ทศยนืยมไม่เดิน " & maxDecimals & " หลัก")
+            End If
+
+        ElseIf ViewState("mode") = "edit" Then
+            If (factorValue = "") Then
+                errMsgList.Add("กรุณากรอกค่า Factor Value")
+            ElseIf (_valBiz.IsValidNumber(factorValue) = False) Then
+                errMsgList.Add("ค่า Factor Value ต้องเป็นตัวเลขเท่านั้น")
+            ElseIf (_valBiz.IsValidDecimal(factorValue, maxDecimals) = False) Then
+                errMsgList.Add("ค่า Factor Value ทศยนืยมไม่เดิน " & maxDecimals & " หลัก")
+            End If
+        End If
+
+        Return errMsgList
+    End Function
+
+    Protected Sub btnSaveAdd_Click(sender As Object, e As EventArgs) Handles btnSaveAdd.Click
+        Dim errMsgList As List(Of String) = Vaidate()
+        If errMsgList.Count > 0 Then
+            lbAddEditErrorMessage.Visible = True
+            lbAddEditErrorMessage.Text = String.Join(",", errMsgList.ToArray())
+            'ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal({backdrop: true});", True)
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myAddEditModal", "$('#myAddEditModal').modal({backdrop: true});", True)
+            UpdModal.Update()
+        Else
+            If ViewState("mode") = "add" Then
+                lbAddEditErrorMessage.Visible = False
                 If SaveAddEdit() Then
-                    LoadData()
+                    'LoadData()
                     BindGridView()
+                    ViewState("timeId") = Nothing
+                    ViewState("factorId") = Nothing
                     MessageBoxAlert("Success", "บันทึกข้อมูลสำเร็จ", "", "ปิด", False, True)
                 Else
                     MessageBoxAlert("Error", "เกิดข้อผิดพลาดไม่สามารถบันทึกข้อมูลได้", "", "ปิด", False, True)
                 End If
-            End If
-        ElseIf ViewState("mode") = "edit" Then
-            Dim timeId As String = ViewState("TimeId")
-            Dim factorId As String = ViewState("FactorId")
-            Dim scenarioId As String = ViewState("ScenarioId")
-            Dim month As String = ViewState("Month")
-            Dim year As String = ViewState("Year")
-
-            Dim userId As Integer = Convert.ToInt16(Session("UserID"))
-            If SaveAddEdit() Then
-                LoadData()
-                BindGridView()
-                MessageBoxAlert("Success", "บันทึกข้อมูลสำเร็จ", "", "ปิด", False, True)
-            Else
-                MessageBoxAlert("Error", "เกิดข้อผิดพลาดไม่สามารถบันทึกข้อมูลได้", "", "ปิด", False, True)
+            ElseIf ViewState("mode") = "edit" Then
+                Dim timeId As String = ViewState("TimeId")
+                Dim factorId As String = ViewState("FactorId")
+                Dim scenarioId As String = ViewState("ScenarioId")
+                Dim month As String = ViewState("Month")
+                Dim year As String = ViewState("Year")
+                Dim userId As Integer = Convert.ToInt16(Session("UserID"))
+                If SaveAddEdit() Then
+                    'LoadData()
+                    BindGridView()
+                    ViewState("timeId") = Nothing
+                    ViewState("factorId") = Nothing
+                    MessageBoxAlert("Success", "บันทึกข้อมูลสำเร็จ", "", "ปิด", False, True)
+                Else
+                    MessageBoxAlert("Error", "เกิดข้อผิดพลาดไม่สามารถบันทึกข้อมูลได้", "", "ปิด", False, True)
+                End If
             End If
         End If
     End Sub
 
     Private Function SaveAddEdit() As Boolean
 
-        Dim _listEntity As New List(Of MacroEconomicFactorEntity)
+        'Dim _listEntity As New List(Of MacroEconomicFactorEntity)
         Dim _entity As New MacroEconomicFactorEntity
         _entity.TimeId = ddlTime.SelectedValue
         _entity.FactorValue = txtAddEditFactorValue.Text
-        _entity.StressMonth = txtAddEditMonth.Text
-        _entity.StressYear = txtAddEditYear.Text
+        _entity.StressMonth = ddlAddEditMonth.SelectedValue
+        _entity.StressYear = txtAddEditYear.Text - 543
         _entity.FactorId = ddlAddEditFactor.SelectedValue
-        _listEntity.Add(_entity)
+        '_listEntity.Add(_entity)
 
         Dim _userId As Integer = Convert.ToInt16(Session("UserID"))
-        Return _macroEconomicFactorBiz.Save(_userId, _listEntity)
+
+        ViewState("timeId") = ddlTime.SelectedValue
+        ViewState("factorId") = ddlAddEditFactor.SelectedValue
+
+        Return _macroEconomicFactorBiz.Save(_userId, _entity)
     End Function
 
     Protected Sub gvImportMev_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles gvMacroEconomicFactor.RowCommand
@@ -495,8 +615,14 @@ Public Class MacroEconomicFactor
             lblModalTitle.Text = "แก้ไข (Edit)"
 
             txtAddEditYear.Text = lbStressYear.Text
-            txtAddEditMonth.Text = lbStressMonth.Text
+            ddlAddEditMonth.SelectedValue = lbStressMonth.Text
             txtAddEditFactorValue.Text = lbFactorValue.Text
+
+            ddlAddEditMonth.Enabled = False
+            ddlAddEditFactor.Enabled = False
+            txtAddEditYear.Enabled = False
+            txtAddEditFactorValue.Enabled = True
+
             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myAddEditModal", "$('#myAddEditModal').modal();", True)
             UpdModal.Update()
         End If
@@ -506,7 +632,7 @@ Public Class MacroEconomicFactor
 
     End Sub
 
-    Protected Sub O_DataBound(sender As Object, e As EventArgs) Handles gvMacroEconomicFactor.DataBound
+    Protected Sub gvMacroEconomicFactor_DataBound(sender As Object, e As EventArgs) Handles gvMacroEconomicFactor.DataBound
 
     End Sub
 
@@ -521,20 +647,20 @@ Public Class MacroEconomicFactor
 
                 ' Add headers to the worksheet
                 worksheet.Cell(1, 1).Value = "TIMEID"
-                worksheet.Cell(1, 2).Value = "ScenarioID"
-                worksheet.Cell(1, 3).Value = "Stress_Year"
-                worksheet.Cell(1, 4).Value = "Stress_Month"
-                worksheet.Cell(1, 5).Value = "FactorID"
-                worksheet.Cell(1, 6).Value = "FartorValue"
+                'worksheet.Cell(1, 2).Value = "ScenarioID"
+                worksheet.Cell(1, 2).Value = "Stress_Year"
+                worksheet.Cell(1, 3).Value = "Stress_Month"
+                worksheet.Cell(1, 4).Value = "FactorID"
+                worksheet.Cell(1, 5).Value = "FactorValue"
 
                 Dim rowNum As Integer = 2
                 For Each entity As MacroEconomicFactorEntity In listEntity
                     worksheet.Cell(rowNum, 1).Value = entity.TimeId.Trim()
-                    worksheet.Cell(rowNum, 2).Value = entity.ScenarioName.Trim()
-                    worksheet.Cell(rowNum, 3).Value = entity.StressYear.Trim()
-                    worksheet.Cell(rowNum, 4).Value = entity.StressMonth.Trim()
-                    worksheet.Cell(rowNum, 5).Value = entity.FactorName.Trim()
-                    worksheet.Cell(rowNum, 6).Value = entity.FactorValue.Trim()
+                    'worksheet.Cell(rowNum, 2).Value = entity.ScenarioName.Trim()
+                    worksheet.Cell(rowNum, 2).Value = entity.StressYear.Trim()
+                    worksheet.Cell(rowNum, 3).Value = entity.StressMonth.Trim()
+                    worksheet.Cell(rowNum, 4).Value = entity.FactorName.Trim()
+                    worksheet.Cell(rowNum, 5).Value = entity.FactorValue.Trim()
                     rowNum = rowNum + 1
                 Next
 

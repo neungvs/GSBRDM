@@ -10,6 +10,7 @@ Public Class Measure
     Private _measureBiz As New MeasureBiz
     Private _timeBiz As New TimeBiz
     Private _valBiz As New ValidateBiz
+    Private dateUtil As New DateHelperUtil
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         If Not Page.IsPostBack Then
@@ -122,7 +123,6 @@ Public Class Measure
         Dim _listTimeEntity As List(Of TimeEntity)
         _listTimeEntity = _timeBiz.GetDate()
 
-
         If dt.Rows.Count > 0 Then
             For Each row As DataRow In dt.Rows
                 Dim retError As List(Of String) = CheckValidData(row, _listTimeEntity)
@@ -186,7 +186,6 @@ Public Class Measure
         ScriptManager.RegisterStartupScript(Page, Page.GetType(), "AlertBox", "$('#AlertBox').modal();", True)
         UpdModal.Update()
     End Sub
-
     Private Sub grvImportExcel_DataBound(ByVal sender As Object, ByVal e As System.Web.UI.WebControls.GridViewRowEventArgs) Handles grvImportExcel.RowDataBound
         If e.Row.RowType = DataControlRowType.DataRow Then
             Dim Time As String = DataBinder.Eval(e.Row.DataItem, "วันที่ของข้อมูล").ToString()
@@ -219,7 +218,7 @@ Public Class Measure
                 Dim MainMeasure As String = row("ชื่อมาตรการหลัก").ToString()
                 Dim SubMeasure As String = row("มาตรการย่อย(ถ้ามี)").ToString()
                 Dim AccountNumber As String = row("เลขที่บัญชี").ToString()
-                entity.TimeId = Time
+                entity.TimeId = dateUtil.GetLastDayOfMonth(Time)
                 entity.MainMeasure = MainMeasure
                 entity.SubMeasure = SubMeasure
                 entity.AccountNumber = AccountNumber
@@ -230,8 +229,12 @@ Public Class Measure
     End Function
 
     Private Function SaveImport() As Boolean
-        Dim _listEntity As List(Of MeasureEntity) = Binding()
-        Return _measureBiz.Save(_listEntity)
+        Dim timeId As String = cb_List_Time.SelectedValue
+        If _measureBiz.DeleteByTimeId(timeId) Then
+            Dim _listEntity As List(Of MeasureEntity) = Binding()
+            Return _measureBiz.SaveInsertImportExcel(_listEntity)
+        End If
+        Return False
     End Function
 
     Protected Sub btnSearch_Click(sender As Object, e As EventArgs) Handles btnSearch.Click

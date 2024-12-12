@@ -5,6 +5,10 @@
         th {
             text-align: center;
         }
+        .custom-scroll {
+            max-height: 400px; /* Set the max height for the modal body */
+            overflow-y: auto; /* Enable vertical scrolling */
+        }
     </style>
 
     <script>
@@ -169,8 +173,9 @@
                                         <tr>
                                             <td align="center">
                                                 <asp:Label ID="lblMessage" runat="server" ForeColor="Red" Visible="false" />
+                                                <div  class=" custom-scroll" >
                                                 <asp:GridView ID="grvImportExcel" runat="server" AutoGenerateColumns="False" PageSize="5"
-                                                    AllowPaging="True" EnableModelValidation="True" Style="border-width: 1px; border-color: Gray;"
+                                                    AllowPaging="False" EnableModelValidation="True" Style="border-width: 1px; border-color: Gray;"
                                                     Width="100%" ShowHeaderWhenEmpty="True" SelectedRowStyle-BackColor="#CCCCCC">
                                                     <Columns>
                                                         <asp:TemplateField HeaderText="รายการที่">
@@ -246,6 +251,7 @@
                                                     <PagerSettings PageButtonCount="10" NextPageText="ถัดไป" PreviousPageText="ก่อนหน้า" FirstPageText="First" LastPageText="Last" />
                                                     <RowStyle Font-Size="Medium" Height="40px" BackColor="#FFCEDB" BorderColor="Gray" BorderWidth="1" />
                                                 </asp:GridView>
+                                                 </div>
                                             </td>
                                         </tr>
                                         <tr>

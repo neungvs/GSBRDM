@@ -23,6 +23,7 @@ Public Class Import_MEV
             BindDropDownListTimeFactor()
             BindThaiMonths(ddlAddEditMonth)
             tbFactorDetail.Visible = False
+            tbBtnAdd.Visible = False
         End If
     End Sub
 
@@ -99,6 +100,7 @@ Public Class Import_MEV
         tbFactorHeader.Visible = True
         gvImportMev.Visible = False
         tbFactorDetail.Visible = False
+        tbBtnAdd.Visible = False
     End Sub
 
     Protected Sub btnSearchByFactor_Click(sender As Object, e As EventArgs) Handles btnSearchByFactor.Click
@@ -132,6 +134,12 @@ Public Class Import_MEV
 
             lblModalTitle.Text = "แก้ไข (Edit)"
 
+            ddlAddEditFactor.Enabled = False
+            ddlAddEditMonth.Enabled = False
+            ddlAddEditScenario.Enabled = False
+            txtAddEditFactorValue.Enabled = True
+            txtAddEditYear.Enabled = False
+
             txtAddEditYear.Text = lbStressYear.Text + 543
             txtAddEditFactorValue.Text = lbFactorValue.Text
             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myAddEditModal", "$('#myAddEditModal').modal();", True)
@@ -146,19 +154,29 @@ Public Class Import_MEV
     Protected Sub gvImportMev_DataBound(sender As Object, e As EventArgs) Handles gvImportMev.DataBound
 
     End Sub
-    Private Sub BindGridViewImportMev()
-        Dim timeId As String = ddlTime.SelectedValue
-        Dim factorId As String = ddlFactor.SelectedValue
+
+    Private Sub BindGridViewImportMev(Optional TimeId As String = Nothing, Optional FactorId As String = Nothing)
+        Dim _TimeId As String
+        Dim _FactorId As String
+
+        If TimeId <> Nothing And FactorId <> Nothing Then
+            _TimeId = TimeId
+            _FactorId = FactorId
+        Else
+            _TimeId = ddlTime.SelectedValue
+            _FactorId = ddlFactor.SelectedValue
+        End If
+
         Dim lstFactor As List(Of FactorEntity)
         lstFactor = LoadFactor()
-        Dim factor As FactorEntity = lstFactor.SingleOrDefault(Function(c) c.FactorId = factorId)
+        Dim factor As FactorEntity = lstFactor.SingleOrDefault(Function(c) c.FactorId = _FactorId)
         'Factor Detail
         lbHeaderFactorDesc.Text = factor.FactorDesc
         lbHeaderFactorName.Text = factor.FactorName
         lbHeaderFactorUnit.Text = factor.FactorUnit
         tbFactorDetail.Visible = True
-
-        Dim listImportMev As List(Of ImportMevEntity) = _importMevBiz.GetByTimeAndFactor(timeId, factorId)
+        tbBtnAdd.Visible = True
+        Dim listImportMev As List(Of ImportMevEntity) = _importMevBiz.GetByTimeAndFactor(_TimeId, _FactorId)
         gvImportMev.Visible = True
         gvImportMev.DataSource = listImportMev
         gvImportMev.DataBind()
@@ -190,7 +208,9 @@ Public Class Import_MEV
         Try
             If result = True Then
                 BindDropDownList()
-                BindGridViewImportMev()
+                'BindGridViewImportMev()
+                BindGridViewImportMev(timeId, factorId)
+                ddlFactor.SelectedValue = factorId
                 MessageBoxAlert("Success", "ลบข้อมูลเรียบร้อยแล้ว", "", "ปิด", False, True)
             Else
                 MessageBoxAlert("Error", "เกิดข้อผิดพลาดไม่สามารถลบข้อมูลได้", "", "ปิด", False, True)
@@ -214,6 +234,7 @@ Public Class Import_MEV
     Protected Sub btnCancelImport_Click(sender As Object, e As EventArgs) Handles btnCancelImport.Click
         grvImportExcel.DataSource = Nothing
         grvImportExcel.DataBind()
+        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal({backdrop: false});", True)
     End Sub
     Private Sub grvImportExcel_DataBound(ByVal sender As Object, ByVal e As System.Web.UI.WebControls.GridViewRowEventArgs) Handles grvImportExcel.RowDataBound
         If e.Row.RowType = DataControlRowType.DataRow Then
@@ -222,7 +243,7 @@ Public Class Import_MEV
             Dim StressYear As String = DataBinder.Eval(e.Row.DataItem, "Stress_Year").ToString()
             Dim StressMonth As String = DataBinder.Eval(e.Row.DataItem, "Stress_Month").ToString()
             Dim FactorId As String = DataBinder.Eval(e.Row.DataItem, "FactorID").ToString()
-            Dim FartorValue As String = DataBinder.Eval(e.Row.DataItem, "FartorValue").ToString()
+            Dim FactorValue As String = DataBinder.Eval(e.Row.DataItem, "FactorValue").ToString()
             Dim ErrorDetail As String = DataBinder.Eval(e.Row.DataItem, "ErrorDetail").ToString()
 
             Dim lbTimeId As Label = CType(e.Row.FindControl("lbTimeId"), Label)
@@ -230,7 +251,7 @@ Public Class Import_MEV
             Dim lbStressYear As Label = CType(e.Row.FindControl("lbStressYear"), Label)
             Dim lbStressMonth As Label = CType(e.Row.FindControl("lbStressMonth"), Label)
             Dim lbFactorId As Label = CType(e.Row.FindControl("lbFactorId"), Label)
-            Dim lbFartorValue As Label = CType(e.Row.FindControl("lbFartorValue"), Label)
+            Dim lbFactorValue As Label = CType(e.Row.FindControl("lbFactorValue"), Label)
             Dim lbErrorDetail As Label = CType(e.Row.FindControl("lbErrorDetail"), Label)
 
             lbTimeId.Text = TimeId
@@ -238,7 +259,7 @@ Public Class Import_MEV
             lbStressYear.Text = StressYear
             lbStressMonth.Text = StressMonth
             lbFactorId.Text = FactorId
-            lbFartorValue.Text = FartorValue
+            lbFactorValue.Text = FactorValue
             lbErrorDetail.Text = ErrorDetail
 
             e.Row.ForeColor = System.Drawing.Color.Red
@@ -253,8 +274,8 @@ Public Class Import_MEV
     End Sub
     Protected Sub grvImportExcel_PageIndexChanging(sender As Object, e As System.Web.UI.WebControls.GridViewPageEventArgs) Handles grvImportExcel.PageIndexChanging
         grvImportExcel.PageIndex = e.NewPageIndex
-        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal({backdrop: false});", True)
-        grvImportExcel.DataSource = ViewState("dtImportLgdRawData")
+        'ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal({backdrop: false});", True)
+        grvImportExcel.DataSource = ViewState("dtInvalidData")
         grvImportExcel.DataBind()
     End Sub
     Protected Sub btnUpload_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnUpload.Click
@@ -303,6 +324,7 @@ Public Class Import_MEV
                     End If
                 Else
                     MessageBoxAlert("Error", "เกิดข้อผิดพลาดไม่สามารถบันทึกข้อมูลได้", "", "ปิด", False, True)
+                    ViewState("dtInvalidData") = dtInvalidData
                     grvImportExcel.DataSource = dtInvalidData
                     grvImportExcel.DataBind()
                     Dim submitButton As Button = CType(sender, Button)
@@ -328,44 +350,131 @@ Public Class Import_MEV
         lblModalTitle.Text = "เพิ่ม (Add)"
         txtAddEditFactorValue.Text = ""
         ddlAddEditMonth.ClearSelection()
+        ddlAddEditFactor.SelectedValue = ddlFactor.SelectedValue
         txtAddEditYear.Text = ""
+
+        txtAddEditFactorValue.Enabled = True
+        txtAddEditYear.Enabled = True
+        ddlAddEditFactor.Enabled = True
+        ddlAddEditMonth.Enabled = True
+        ddlAddEditScenario.Enabled = True
+
         ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myAddEditModal", "$('#myAddEditModal').modal();", True)
         UpdModal.Update()
     End Sub
 
-    Protected Sub btnSaveAdd_Click(sender As Object, e As EventArgs) Handles btnSaveAdd.Click
-        If ViewState("mode") = "add" Then
-            Dim errMsgList As New List(Of String) '= VaidateFactorName()
-            If errMsgList.Count > 0 Then
-                lblMessage.Visible = True
-                lblMessage.Text = String.Join(",", errMsgList.ToArray())
-                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal({backdrop: true});", True)
-                UpdModal.Update()
-            Else
-                lblMessage.Visible = False
-                If SaveAdd() Then
-                    BindDropDownList()
-                    BindGridViewImportMev()
-                    MessageBoxAlert("Success", "บันทึกข้อมูลสำเร็จ", "", "ปิด", False, True)
-                Else
-                    MessageBoxAlert("Error", "เกิดข้อผิดพลาดไม่สามารถบันทึกข้อมูลได้", "", "ปิด", False, True)
-                End If
-            End If
-        ElseIf ViewState("mode") = "edit" Then
-            'Dim timeId As String = ViewState("TimeId")
-            'Dim factorId As String = ViewState("FactorId")
-            'Dim scenarioId As String = ViewState("ScenarioId")
-            'Dim month As String = ViewState("Month")
-            'Dim year As String = ViewState("Year")
+    Function IsValidNumber(value As String) As Boolean
+        Return IsNumeric(value)
+    End Function
 
-            'Dim userId As Integer = Convert.ToInt16(Session("UserID"))
-            'If _factorNameBiz.SaveUpdate(timeId, factorId, txtFactorName.Text, txtFactorDesc.Text, txtFactorUnit.Text, userId) Then
-            '    LoadData()
-            '    MessageBoxAlert("Success", "Add Data สำเร็จ", "", "ปิด", False, True)
-            'Else
-            '    MessageBoxAlert("Error", "เกิดข้อผิดพลาดไม่สามารถบันทึกข้อมูลได้", "", "ปิด", False, True)
+    Function IsValidBuddhistYear(year As String) As Boolean
+        year = Convert.ToInt16(year)
+        Return year >= 2500
+    End Function
+
+    Function IsValidDecimal(input As String, maxDecimals As Integer) As Boolean
+        Dim number As Decimal
+
+        ' Try to convert the input to a decimal
+        If Decimal.TryParse(input, number) Then
+            ' Check the number of decimal places
+            Dim decimalPlaces As Integer = BitConverter.GetBytes(Decimal.GetBits(number)(3))(2)
+            Return decimalPlaces <= maxDecimals
+        Else
+            ' Invalid number format
+            Return False
+        End If
+    End Function
+
+    Private Function Vaidate()
+        Dim errMsgList As New List(Of String)
+        Dim factorId As String = ddlAddEditFactor.SelectedValue
+        Dim scenarioId As String = ddlAddEditScenario.SelectedValue
+        Dim year As String = txtAddEditYear.Text
+        Dim month As String = ddlAddEditMonth.SelectedValue
+        Dim factorValue As String = txtAddEditFactorValue.Text
+        Dim timeId As String = ddlTime.SelectedValue
+        Dim maxDecimals As Integer = 15
+
+        If ViewState("mode") = "add" Then
+            If (year <> "" And month <> "" And scenarioId <> "") Then
+                Dim listImportMev As List(Of ImportMevEntity) = _importMevBiz.GetByTimeAndFactor(timeId, factorId)
+                For Each ds As ImportMevEntity In listImportMev
+                    If (ds.StressYear = year - 543 And ds.StressMonth = month And ds.ScenarioId = scenarioId) Then
+                        errMsgList.Add("ข้อมูลซ้ำ")
+                    End If
+                Next
+            End If
+
+            If (year = "") Then
+                errMsgList.Add("กรุณาเลือกปีที่ทดสอบภาวะวิกฤต")
+            ElseIf (IsValidNumber(year) = False) Then
+                errMsgList.Add("ปีที่ทดสอบภาวะวิกฤตต้องเป็นตัวเลขเท่านั้น")
+            ElseIf (IsValidBuddhistYear(year) = False) Then
+                errMsgList.Add("ปีที่ทดสอบภาวะวิกฤต กรอกพ.ศ.เท่านั้น")
+            End If
+
+            If (month = "") Then
+                errMsgList.Add("กรุณาเลือกเดือนที่ทดสอบภาวะวิกฤต")
+            End If
+
+            If (factorValue = "") Then
+                errMsgList.Add("กรุณากรอกค่า Factor Value")
+            ElseIf (IsValidNumber(factorValue) = False) Then
+                errMsgList.Add("ค่า Factor Value ต้องเป็นตัวเลขเท่านั้น")
+            ElseIf (IsValidDecimal(factorValue, maxDecimals) = False) Then
+                errMsgList.Add("ค่า Factor Value ทศยนืยมไม่เดิน " & maxDecimals & " หลัก")
+            End If
+
+        ElseIf ViewState("mode") = "edit" Then
+            If (factorValue = "") Then
+                errMsgList.Add("กรุณากรอกค่า Factor Value")
+            ElseIf (IsValidNumber(factorValue) = False) Then
+                errMsgList.Add("ค่า Factor Value ต้องเป็นตัวเลขเท่านั้น")
+            ElseIf (IsValidDecimal(factorValue, maxDecimals) = False) Then
+                errMsgList.Add("ค่า Factor Value ทศยนืยมไม่เดิน " & maxDecimals & " หลัก")
+            End If
+        End If
+
+        Return errMsgList
+    End Function
+
+    Protected Sub btnSaveAdd_Click(sender As Object, e As EventArgs) Handles btnSaveAdd.Click
+
+        Dim errMsgList As List(Of String) = Vaidate()
+        If errMsgList.Count > 0 Then
+            lblMessageErrAdd.Visible = True
+            lblMessageErrAdd.Text = String.Join(",", errMsgList.ToArray())
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myAddEditModal", "$('#myAddEditModal').modal({backdrop: true});", True)
+            UpdModal.Update()
+        Else
+            'If ViewState("mode") = "add" Or ViewState("mode") = "edit" Then
+            lblMessageErrAdd.Visible = False
+            If SaveAdd() Then
+                'BindDropDownList()
+                BindGridViewImportMev(ViewState("timeId"), ViewState("factorId"))
+                MessageBoxAlert("Success", "บันทึกข้อมูลสำเร็จ", "", "ปิด", False, True)
+            Else
+                MessageBoxAlert("Error", "เกิดข้อผิดพลาดไม่สามารถบันทึกข้อมูลได้", "", "ปิด", False, True)
+            End If
+            'ElseIf ViewState("mode") = "edit" Then
+            '    Dim timeId As String = ViewState("TimeId")
+            '    Dim factorId As String = ViewState("FactorId")
+            '    Dim scenarioId As String = ViewState("ScenarioId")
+            '    Dim month As String = ViewState("Month")
+            '    Dim year As String = ViewState("Year")
+
+            '    'Dim userId As Integer = Convert.ToInt16(Session("UserID"))
+            '    'If _factorNameBiz.SaveUpdate(timeId, factorId, txtFactorName.Text, txtFactorDesc.Text, txtFactorUnit.Text, userId) Then
+            '    '    LoadData()
+            '    '    MessageBoxAlert("Success", "Add Data สำเร็จ", "", "ปิด", False, True)
+            '    'Else
+            '    '    MessageBoxAlert("Error", "เกิดข้อผิดพลาดไม่สามารถบันทึกข้อมูลได้", "", "ปิด", False, True)
+            '    'End If
             'End If
         End If
+
+
     End Sub
 
 #End Region
@@ -384,8 +493,10 @@ Public Class Import_MEV
 
         If (lstFactor.Count > 1) Then
             tbFactorDetail.Visible = True
+            tbBtnAdd.Visible = True
         Else
             tbFactorDetail.Visible = False
+            tbBtnAdd.Visible = False
         End If
 
         Dim lstScenario As List(Of ScenarioEntity)
@@ -449,7 +560,7 @@ Public Class Import_MEV
         Dim StressYear As String = row("Stress_Year").ToString()
         Dim StressMonth As String = row("Stress_Month").ToString()
         Dim FactorName As String = row("FactorID").ToString()
-        Dim FactorValue As String = row("FartorValue").ToString()
+        Dim FactorValue As String = row("FactorValue").ToString()
 
         Dim retData As New List(Of String)
         Dim errMsgList As New List(Of String)
@@ -496,14 +607,14 @@ Public Class Import_MEV
                 Dim StressYear As String = row("Stress_Year").ToString()
                 Dim StressMonth As String = row("Stress_Month").ToString()
                 Dim FactorName As String = row("FactorID").ToString()
-                Dim FartorValue As String = row("FartorValue").ToString()
+                Dim FactorValue As String = row("FactorValue").ToString()
 
                 entity.TimeId = dateUtil.GetLastDayOfMonth(TimeId)
                 entity.ScenarioId = GetScenarioId(ScenarioName, lstScenario)
                 entity.StressYear = StressYear - 543
                 entity.StressMonth = dateUtil.GetMonthIdByMonthName(StressMonth)
                 entity.FactorId = GetFactorId(FactorName, lstFactor)
-                entity.FactorValue = FartorValue
+                entity.FactorValue = FactorValue
 
                 _listEntity.Add(entity)
             Next
@@ -514,7 +625,11 @@ Public Class Import_MEV
     Private Function SaveImport() As Boolean
         Dim _listEntity As List(Of ImportMevEntity) = Binding()
         Dim _userId As Integer = Convert.ToInt16(Session("UserID"))
-        Return _importMevBiz.Save(_userId, _listEntity)
+        Dim timeId As String = ddlTime.SelectedValue
+        If _importMevBiz.DeleteByTimeId(timeId) Then
+            Return _importMevBiz.SaveInsertExcel(_userId, _listEntity)
+        End If
+        Return False
     End Function
 
     Private Function GetScenarioId(Scenario As String, lstScenario As List(Of ScenarioEntity)) As String
@@ -551,16 +666,14 @@ Public Class Import_MEV
         entity.StressMonth = stressMonth
         entity.FactorId = factorId
         entity.FactorValue = factorValue
-        Dim _listEntity As New List(Of ImportMevEntity)
-        _listEntity.Add(entity)
-        Return _importMevBiz.Save(userId, _listEntity)
+        'Dim _listEntity As New List(Of ImportMevEntity)
+        '_listEntity.Add(entity)
 
-        'Dim _factorName As String = txtFactorName.Text
-        'Dim _factorDesc As String = txtFactorDesc.Text
-        'Dim _unit As String = txtFactorUnit.Text
-        'Dim _userId As Integer = Convert.ToInt16(Session("UserID"))
-        'Dim _timeId As String = GetLastDayOfMonth()
-        'Return _factorNameBiz.SaveAdd(_timeId, _factorName, _factorDesc, _unit, _userId)
+        ViewState("timeId") = timeId
+        ViewState("factorId") = factorId
+
+        Return _importMevBiz.Save(userId, entity)
+
     End Function
 
     Protected Sub btnDownloadTemplate_Click(sender As Object, e As EventArgs) Handles btnDownloadTemplate.Click
@@ -578,7 +691,7 @@ Public Class Import_MEV
                 worksheet.Cell(1, 3).Value = "Stress_Year"
                 worksheet.Cell(1, 4).Value = "Stress_Month"
                 worksheet.Cell(1, 5).Value = "FactorID"
-                worksheet.Cell(1, 6).Value = "FartorValue"
+                worksheet.Cell(1, 6).Value = "FactorValue"
 
                 Dim rowNum As Integer = 2
                 For Each entity As ImportMevEntity In listImportMev

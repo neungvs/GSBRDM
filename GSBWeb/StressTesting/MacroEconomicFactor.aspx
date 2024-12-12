@@ -102,10 +102,7 @@
                                                  <asp:LinkButton ID="btn_Excel_Import" runat="server" CssClass="btn btn-primary ButtonStyle" Width="200">
                                                     <span class="glyphicon glyphicon-import"></span>&nbsp;&nbsp;&nbsp;นำเข้าข้อมูลจาก Excel
                                                  </asp:LinkButton>
-                                                        &nbsp;&nbsp;&nbsp;
-                                                 <asp:LinkButton ID="btnAdd" runat="server" CssClass="btn btn-primary ButtonStyle" Width="100">
-                                                    <span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;&nbsp;เพิ่ม (Add)
-                                                 </asp:LinkButton>
+
                                                     </td>
                                                 </tr>
                                             </table>
@@ -129,6 +126,11 @@
                                             <asp:Label ID="lbHeaderFactorDesc" runat="server"></asp:Label></td>
                                     </tr>
                                 </table>
+                                <div style="text-align: right">
+                                    <asp:LinkButton ID="btnAdd" runat="server" CssClass="btn btn-primary ButtonStyle" Width="100">
+                                                    <span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;&nbsp;เพิ่ม (Add)
+                                    </asp:LinkButton>
+                                </div>
                                 <asp:GridView ID="gvMacroEconomicFactor" runat="server" AutoGenerateColumns="False" PageSize="10"
                                     AllowPaging="True" EnableModelValidation="True" Style="border-width: 1px; border-color: Gray;"
                                     Width="100%" ShowHeaderWhenEmpty="True" SelectedRowStyle-BackColor="#CCCCCC"  OnRowDeleting="OnRowDeleting" OnRowDataBound="OnRowDataBound" >
@@ -149,7 +151,7 @@
                                                 <asp:Label ID="lbYear" runat="server"  Text='<%# Bind("StressYear") %>'></asp:Label>
                                             </ItemTemplate>
                                             <HeaderStyle HorizontalAlign="Center" BorderColor="Gray" BorderWidth="1" CssClass="td-center" VerticalAlign="Middle" />
-                                            <ItemStyle HorizontalAlign="Center" Width="95px" BorderColor="Gray" BorderWidth="1" />
+                                            <ItemStyle HorizontalAlign="Center" Width="200px" BorderColor="Gray" BorderWidth="1" />
                                         </asp:TemplateField>
                                         <asp:TemplateField HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle" HeaderText="เดือน">
                                             <ItemTemplate>
@@ -157,7 +159,7 @@
                                                     runat="server"></asp:Label>
                                             </ItemTemplate>
                                             <HeaderStyle HorizontalAlign="Center" BorderColor="Gray" BorderWidth="1" CssClass="td-center" VerticalAlign="Middle" />
-                                            <ItemStyle HorizontalAlign="Center" Width="95px" BorderColor="Gray" BorderWidth="1" />
+                                            <ItemStyle HorizontalAlign="Center" Width="100px" BorderColor="Gray" BorderWidth="1" />
                                         </asp:TemplateField>
  <%--                                       <asp:TemplateField HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle" HeaderText="FactorId">
                                             <ItemTemplate>
@@ -168,28 +170,26 @@
                                             <ItemStyle HorizontalAlign="Center" Width="95px" BorderColor="Gray" BorderWidth="1" />
                                         </asp:TemplateField>--%>
 
-                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle" HeaderText="Fartor Value">
+                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle" HeaderText="Factor Value">
                                             <ItemTemplate>
                                                 <asp:Label ID="lbFactorValue" Text='<%# Bind("FactorValue") %>'
                                                     runat="server"></asp:Label>
                                             </ItemTemplate>
                                             <HeaderStyle HorizontalAlign="Center" BorderColor="Gray" BorderWidth="1" CssClass="td-center" VerticalAlign="Middle" />
-                                            <ItemStyle HorizontalAlign="Center" Width="95px" BorderColor="Gray" BorderWidth="1" />
+                                            <ItemStyle HorizontalAlign="Center" Width="200px" BorderColor="Gray" BorderWidth="1" />
                                         </asp:TemplateField>
 
                                         <asp:TemplateField HeaderText="ปรับปรุงข้อมูล">
                                             <ItemTemplate>
                                                 <asp:LinkButton ID="btnEdit" Width="40px" Height="35px" CommandName="Edit" class="btn btn-primary btn-search;" ToolTip="ปรับปรุงข้อมูล"
-                                                    CausesValidation="true" runat="server" Style="text-decoration: none;" CommandArgument='<%# Container.DisplayIndex %>'>
-                                                                    <span aria-hidden="true" class="glyphicon glyphicon-pencil"></span>
+                                                    CausesValidation="true" runat="server" Style="text-decoration: none;" CommandArgument='<%# Container.DisplayIndex %>'><span aria-hidden="true" class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;&nbsp;
                                                 </asp:LinkButton>
                                             </ItemTemplate>
                                         </asp:TemplateField>
                                         <asp:TemplateField HeaderText="ลบข้อมูล">
                                             <ItemTemplate>
                                                 <asp:LinkButton ID="btnDelete" Width="40px" Height="35px" CommandName="Delete" class="btn btn-danger" ToolTip="ลบข้อมูล"
-                                                    CausesValidation="false" runat="server" Style="text-decoration: none">
-                                                                    <span aria-hidden="true" class="glyphicon glyphicon-trash"></span>
+                                                    CausesValidation="false" runat="server" Style="text-decoration: none"><span aria-hidden="true" class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp;&nbsp;
                                                 </asp:LinkButton>
                                             </ItemTemplate>
                                         </asp:TemplateField>
@@ -283,9 +283,9 @@
                                                             <HeaderStyle HorizontalAlign="Center" BorderColor="Gray" BorderWidth="1" CssClass="td-center" VerticalAlign="Middle" />
                                                             <ItemStyle HorizontalAlign="Center" Width="10%" BorderColor="Gray" BorderWidth="1" />
                                                         </asp:TemplateField>
-                                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle" HeaderText="FartorValue">
+                                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle" HeaderText="FactorValue">
                                                             <ItemTemplate>
-                                                                <asp:Label ID="lbFartorValue" runat="server"></asp:Label>
+                                                                <asp:Label ID="lbFactorValue" runat="server"></asp:Label>
                                                             </ItemTemplate>
                                                             <HeaderStyle HorizontalAlign="Center" BorderColor="Gray" BorderWidth="1" CssClass="td-center" VerticalAlign="Middle" />
                                                             <ItemStyle HorizontalAlign="Center" Width="10%" BorderColor="Gray" BorderWidth="1" />
@@ -367,7 +367,8 @@
                                                        <td style="text-align: right; font-size: medium">เดือน&nbsp:&nbsp
                                                        </td>
                                                        <td style="text-align: left">
-                                                           <asp:TextBox ID="txtAddEditMonth" runat="server" class="form-control" Style="margin-bottom: 2px; font-size: medium; text-align: left"></asp:TextBox>
+                                                            <asp:DropDownList ID="ddlAddEditMonth" runat="server" Height="30px" CssClass="TextBoxRoundCorrner">
+                                                         </asp:DropDownList>
                                                        </td>
                                                    </tr>
                                                    <tr>
@@ -389,7 +390,7 @@
                                    </tr>
                                    <tr>
                                        <td align="center">
-                                           <asp:Label ID="Label2" runat="server" ForeColor="Red" Visible="false" />
+                                           <asp:Label ID="lbAddEditErrorMessage" runat="server" ForeColor="Red" Visible="false" />
                                        </td>
                                    </tr>
                                </table>

@@ -5,6 +5,11 @@
         th {
             text-align: center;
         }
+
+        .custom-scroll {
+            max-height: 400px; /* Set the max height for the modal body */
+            overflow-y: auto; /* Enable vertical scrolling */
+        }
     </style>
 
     <script>
@@ -13,6 +18,31 @@
             var button = document.getElementById('<%= btnUpload.ClientID %>');
             button.disabled = !fileInput.value;
         }
+
+        $(document).on('click', '#myModal .gridview a', function (e) {
+            alert('test1');
+            e.stopPropagation(); // Prevent the event from bubbling up to the modal
+        });
+
+
+        // Prevent modal close when paging through GridView
+        $('#<%=gvImportMev.ClientID%>').on('click', 'a', function (e) {
+            alert('test2');
+            // Check if this is a link for paging (adjust selector as needed)
+            if ($(this).closest('td').hasClass('pager')) {
+                e.stopPropagation(); // Prevent event from propagating and closing the modal
+            }
+        });
+
+        // Ensure the modal does not close when clicking on pagination controls
+        $('#myModal').on('click', function (e) {
+
+            alert('test3');
+            // If the click happens on the pagination, don't close the modal
+            if ($(e.target).closest('#<%=gvImportMev.ClientID%> a').length) {
+                e.stopPropagation(); // Prevent the modal from closing
+            }
+        });
     </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="BodyContent" runat="server">
@@ -26,7 +56,7 @@
                 <div class="col-md-8 col-md-offset-2">
                     <div class="panel panel-default">
                         <div class="NormalHeader">
-                            Import Mev
+                            Import MEV
                         </div>
                         <table width="100%">
                             <tr style="height: 50px;">
@@ -56,7 +86,7 @@
                         <table width="100%" border="0" id="tbImportMevHeader" runat="server">
                             <tr valign="middle" style="height: 40px;">
                                 <td align="left">
-                                    <font color="#FFFFFF">Import Mev</font>
+                                    <font color="#FFFFFF">Import MEV</font>
                                 </td>
                                 <td align="right">&nbsp;&nbsp;&nbsp;
                                     <asp:LinkButton ID="btn_Delete_Group" runat="server" CssClass="btn btn-primary ButtonStyle" Visible="false">
@@ -102,10 +132,7 @@
                                                  <asp:LinkButton ID="btnExcelImport" runat="server" CssClass="btn btn-primary ButtonStyle" Width="200">
                                                     <span class="glyphicon glyphicon-import"></span>&nbsp;&nbsp;&nbsp;นำเข้าข้อมูลจาก Excel
                                                  </asp:LinkButton>
-                                                        &nbsp;&nbsp;&nbsp;
-                                                 <asp:LinkButton ID="btnAdd" runat="server" CssClass="btn btn-primary ButtonStyle" Width="100">
-                                                    <span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;&nbsp;เพิ่ม (Add)
-                                                 </asp:LinkButton>
+
                                                     </td>
                                                 </tr>
                                             </table>
@@ -117,16 +144,27 @@
                                         <td align="right">ชื่อ Factor&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;</td>
                                         <td align="left">
                                             <asp:Label ID="lbHeaderFactorName" runat="server"></asp:Label></td>
+                                        <td align="left">                                                        </td>
                                     </tr>
                                     <tr>
                                         <td align="right">หน่วย&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;</td>
                                         <td align="left">
                                             <asp:Label ID="lbHeaderFactorUnit" runat="server"></asp:Label></td>
+                                        <td align="left">&nbsp;</td>
                                     </tr>
                                     <tr>
                                         <td align="right">รายละเอียด&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;</td>
                                         <td align="left">
                                             <asp:Label ID="lbHeaderFactorDesc" runat="server"></asp:Label></td>
+                                        <td align="left"></td>
+                                    </tr>
+                                </table>
+                                <table id="tbBtnAdd" runat="server" style="width: 100%">
+                                    <tr>
+                                        <td  style="text-align: right">&nbsp;&nbsp;&nbsp;
+                                                 <asp:LinkButton ID="btnAdd" runat="server" CssClass="btn btn-primary ButtonStyle" Width="100">
+                                                    <span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;&nbsp;เพิ่ม (Add)
+                                                 </asp:LinkButton></td>
                                     </tr>
                                 </table>
                                 <asp:GridView ID="gvImportMev" runat="server" AutoGenerateColumns="False" PageSize="10"
@@ -137,9 +175,9 @@
                                             <ItemTemplate>
                                                 <asp:Label ID="lblSeq" runat="server" Text="<%# Container.DataItemIndex + 1 %>"></asp:Label>
                                                 <asp:Label ID="lbTimeId" Text='<%# Bind("TimeId") %>' runat="server" Visible="false"></asp:Label>
-                                                <asp:Label ID="lbFactorId" Text='<%# Bind("FactorId") %>' runat="server" Visible="true"></asp:Label>
+                                                <asp:Label ID="lbFactorId" Text='<%# Bind("FactorId") %>' runat="server" Visible="false"></asp:Label>
                                                 <asp:Label ID="lbScenarioId" Text='<%# Bind("ScenarioId") %>' runat="server" Visible="false"></asp:Label>
-                                                <asp:Label ID="lbStressMonth" Text='<%# Bind("StressMonth") %>' runat="server" Visible="true"></asp:Label>
+                                                <asp:Label ID="lbStressMonth" Text='<%# Bind("StressMonth") %>' runat="server" Visible="false"></asp:Label>
                                                 <asp:Label ID="lbStressYear" Text='<%# Bind("StressYear")  %>' runat="server" Visible="false"></asp:Label>
                                             </ItemTemplate>
                                             <HeaderStyle HorizontalAlign="Center" BorderColor="Gray" BorderWidth="1" CssClass="td-center ChangeHeaderforMarketReport1" Width="10%" VerticalAlign="Middle" Font-Size="Medium" Height="20px" />
@@ -169,7 +207,7 @@
                                             <ItemStyle HorizontalAlign="Center" Width="95px" BorderColor="Gray" BorderWidth="1" />
                                         </asp:TemplateField>
 
-                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle" HeaderText="Fartor Value">
+                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle" HeaderText="Factor Value">
                                             <ItemTemplate>
                                                 <asp:Label ID="lbFactorValue" Text='<%# Bind("FactorValue") %>'
                                                     runat="server"></asp:Label>
@@ -248,80 +286,82 @@
                                         <tr>
                                             <td align="center">
                                                 <asp:Label ID="lblMessage" runat="server" ForeColor="Red" Visible="false" />
-                                                <asp:GridView ID="grvImportExcel" runat="server" AutoGenerateColumns="False" PageSize="5"
-                                                    AllowPaging="True" EnableModelValidation="True" Style="border-width: 1px; border-color: Gray;"
-                                                    Width="100%" ShowHeaderWhenEmpty="True" SelectedRowStyle-BackColor="#CCCCCC">
-                                                    <Columns>
-                                                        <asp:TemplateField HeaderText="รายการที่">
-                                                            <ItemTemplate>
-                                                                <asp:Label ID="lblSeq" runat="server" Text="<%# Container.DataItemIndex + 1 %>"></asp:Label>
-                                                            </ItemTemplate>
-                                                            <HeaderStyle HorizontalAlign="Center" BorderColor="Gray" BorderWidth="1" CssClass="td-center ChangeHeaderforMarketReport1" Width="10%" VerticalAlign="Middle" Font-Size="Medium" Height="20px" />
-                                                            <ItemStyle BorderColor="Gray" BorderWidth="1" HorizontalAlign="Center" Width="10%" VerticalAlign="Middle" Height="20px" Font-Size="Small" />
-                                                        </asp:TemplateField>
-                                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle" HeaderText="TIMEID">
-                                                            <ItemTemplate>
-                                                                <asp:Label ID="lbTimeId" runat="server"></asp:Label>
-                                                            </ItemTemplate>
-                                                            <HeaderStyle HorizontalAlign="Center" BorderColor="Gray" BorderWidth="1" CssClass="td-center" VerticalAlign="Middle" />
-                                                            <ItemStyle HorizontalAlign="Center" Width="10%" BorderColor="Gray" BorderWidth="1" />
-                                                        </asp:TemplateField>
-                                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle" HeaderText="ScenarioID">
-                                                            <ItemTemplate>
-                                                                <asp:Label ID="lbScenarioId" runat="server"></asp:Label>
-                                                            </ItemTemplate>
-                                                            <HeaderStyle HorizontalAlign="Center" BorderColor="Gray" BorderWidth="1" CssClass="td-center" VerticalAlign="Middle" />
-                                                            <ItemStyle HorizontalAlign="Center" Width="10%" BorderColor="Gray" BorderWidth="1" />
-                                                        </asp:TemplateField>
-                                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle" HeaderText="Stress_Year">
-                                                            <ItemTemplate>
-                                                                <asp:Label ID="lbStressYear" runat="server"></asp:Label>
-                                                            </ItemTemplate>
-                                                            <HeaderStyle HorizontalAlign="Center" BorderColor="Gray" BorderWidth="1" CssClass="td-center" VerticalAlign="Middle" />
-                                                            <ItemStyle HorizontalAlign="Center" Width="10%" BorderColor="Gray" BorderWidth="1" />
-                                                        </asp:TemplateField>
-                                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle" HeaderText="Stress_Month">
-                                                            <ItemTemplate>
-                                                                <asp:Label ID="lbStressMonth" runat="server"></asp:Label>
-                                                            </ItemTemplate>
-                                                            <HeaderStyle HorizontalAlign="Center" BorderColor="Gray" BorderWidth="1" CssClass="td-center" VerticalAlign="Middle" />
-                                                            <ItemStyle HorizontalAlign="Center" Width="10%" BorderColor="Gray" BorderWidth="1" />
-                                                        </asp:TemplateField>
-                                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle" HeaderText="FactorID">
-                                                            <ItemTemplate>
-                                                                <asp:Label ID="lbFactorId" runat="server"></asp:Label>
-                                                            </ItemTemplate>
-                                                            <HeaderStyle HorizontalAlign="Center" BorderColor="Gray" BorderWidth="1" CssClass="td-center" VerticalAlign="Middle" />
-                                                            <ItemStyle HorizontalAlign="Center" Width="10%" BorderColor="Gray" BorderWidth="1" />
-                                                        </asp:TemplateField>
-                                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle" HeaderText="FartorValue">
-                                                            <ItemTemplate>
-                                                                <asp:Label ID="lbFartorValue" runat="server"></asp:Label>
-                                                            </ItemTemplate>
-                                                            <HeaderStyle HorizontalAlign="Center" BorderColor="Gray" BorderWidth="1" CssClass="td-center" VerticalAlign="Middle" />
-                                                            <ItemStyle HorizontalAlign="Center" Width="10%" BorderColor="Gray" BorderWidth="1" />
-                                                        </asp:TemplateField>
-                                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderStyle-VerticalAlign="Middle" HeaderText="Error Detail">
-                                                            <ItemTemplate>
-                                                                <asp:Label ID="lbErrorDetail" runat="server"></asp:Label>
-                                                            </ItemTemplate>
-                                                            <HeaderStyle HorizontalAlign="Center" BorderColor="Gray" BorderWidth="1" CssClass="td-center" VerticalAlign="Middle" />
-                                                            <ItemStyle HorizontalAlign="Left" Width="50%" BorderColor="Gray" BorderWidth="1" />
-                                                        </asp:TemplateField>
-                                                    </Columns>
-                                                    <EmptyDataTemplate>
-                                                        <div align="center">
-                                                            ไม่พบข้อมูล
-                                                        </div>
-                                                    </EmptyDataTemplate>
-                                                    <HeaderStyle BackColor="#FF388C" Font-Size="Medium" BorderColor="Gray" BorderWidth="1"
-                                                        Height="35px" ForeColor="White" />
-                                                    <AlternatingRowStyle BackColor="#FFE8EE" BorderColor="Gray" BorderWidth="1" />
-                                                    <PagerStyle HorizontalAlign="Right" BorderColor="Gray" BorderWidth="1" />
-                                                    <EmptyDataRowStyle BorderColor="Gray" BorderWidth="1" />
-                                                    <PagerSettings PageButtonCount="10" NextPageText="ถัดไป" PreviousPageText="ก่อนหน้า" FirstPageText="First" LastPageText="Last" />
-                                                    <RowStyle Font-Size="Medium" Height="40px" BackColor="#FFCEDB" BorderColor="Gray" BorderWidth="1" />
-                                                </asp:GridView>
+                                                <div class=" custom-scroll">
+                                                    <asp:GridView ID="grvImportExcel" runat="server" AutoGenerateColumns="False" PageSize="5"
+                                                        AllowPaging="False" EnableModelValidation="True" Style="border-width: 1px; border-color: Gray;"
+                                                        Width="100%" ShowHeaderWhenEmpty="True" SelectedRowStyle-BackColor="#CCCCCC">
+                                                        <Columns>
+                                                            <asp:TemplateField HeaderText="รายการที่">
+                                                                <ItemTemplate>
+                                                                    <asp:Label ID="lblSeq" runat="server" Text="<%# Container.DataItemIndex + 1 %>"></asp:Label>
+                                                                </ItemTemplate>
+                                                                <HeaderStyle HorizontalAlign="Center" BorderColor="Gray" BorderWidth="1" CssClass="td-center ChangeHeaderforMarketReport1" Width="10%" VerticalAlign="Middle" Font-Size="Medium" Height="20px" />
+                                                                <ItemStyle BorderColor="Gray" BorderWidth="1" HorizontalAlign="Center" Width="10%" VerticalAlign="Middle" Height="20px" Font-Size="Small" />
+                                                            </asp:TemplateField>
+                                                            <asp:TemplateField HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle" HeaderText="TIMEID">
+                                                                <ItemTemplate>
+                                                                    <asp:Label ID="lbTimeId" runat="server"></asp:Label>
+                                                                </ItemTemplate>
+                                                                <HeaderStyle HorizontalAlign="Center" BorderColor="Gray" BorderWidth="1" CssClass="td-center" VerticalAlign="Middle" />
+                                                                <ItemStyle HorizontalAlign="Center" Width="10%" BorderColor="Gray" BorderWidth="1" />
+                                                            </asp:TemplateField>
+                                                            <asp:TemplateField HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle" HeaderText="ScenarioID">
+                                                                <ItemTemplate>
+                                                                    <asp:Label ID="lbScenarioId" runat="server"></asp:Label>
+                                                                </ItemTemplate>
+                                                                <HeaderStyle HorizontalAlign="Center" BorderColor="Gray" BorderWidth="1" CssClass="td-center" VerticalAlign="Middle" />
+                                                                <ItemStyle HorizontalAlign="Center" Width="10%" BorderColor="Gray" BorderWidth="1" />
+                                                            </asp:TemplateField>
+                                                            <asp:TemplateField HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle" HeaderText="Stress_Year">
+                                                                <ItemTemplate>
+                                                                    <asp:Label ID="lbStressYear" runat="server"></asp:Label>
+                                                                </ItemTemplate>
+                                                                <HeaderStyle HorizontalAlign="Center" BorderColor="Gray" BorderWidth="1" CssClass="td-center" VerticalAlign="Middle" />
+                                                                <ItemStyle HorizontalAlign="Center" Width="10%" BorderColor="Gray" BorderWidth="1" />
+                                                            </asp:TemplateField>
+                                                            <asp:TemplateField HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle" HeaderText="Stress_Month">
+                                                                <ItemTemplate>
+                                                                    <asp:Label ID="lbStressMonth" runat="server"></asp:Label>
+                                                                </ItemTemplate>
+                                                                <HeaderStyle HorizontalAlign="Center" BorderColor="Gray" BorderWidth="1" CssClass="td-center" VerticalAlign="Middle" />
+                                                                <ItemStyle HorizontalAlign="Center" Width="10%" BorderColor="Gray" BorderWidth="1" />
+                                                            </asp:TemplateField>
+                                                            <asp:TemplateField HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle" HeaderText="FactorID">
+                                                                <ItemTemplate>
+                                                                    <asp:Label ID="lbFactorId" runat="server"></asp:Label>
+                                                                </ItemTemplate>
+                                                                <HeaderStyle HorizontalAlign="Center" BorderColor="Gray" BorderWidth="1" CssClass="td-center" VerticalAlign="Middle" />
+                                                                <ItemStyle HorizontalAlign="Center" Width="10%" BorderColor="Gray" BorderWidth="1" />
+                                                            </asp:TemplateField>
+                                                            <asp:TemplateField HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle" HeaderText="FactorValue">
+                                                                <ItemTemplate>
+                                                                    <asp:Label ID="lbFactorValue" runat="server"></asp:Label>
+                                                                </ItemTemplate>
+                                                                <HeaderStyle HorizontalAlign="Center" BorderColor="Gray" BorderWidth="1" CssClass="td-center" VerticalAlign="Middle" />
+                                                                <ItemStyle HorizontalAlign="Center" Width="10%" BorderColor="Gray" BorderWidth="1" />
+                                                            </asp:TemplateField>
+                                                            <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderStyle-VerticalAlign="Middle" HeaderText="Error Detail">
+                                                                <ItemTemplate>
+                                                                    <asp:Label ID="lbErrorDetail" runat="server"></asp:Label>
+                                                                </ItemTemplate>
+                                                                <HeaderStyle HorizontalAlign="Center" BorderColor="Gray" BorderWidth="1" CssClass="td-center" VerticalAlign="Middle" />
+                                                                <ItemStyle HorizontalAlign="Left" Width="50%" BorderColor="Gray" BorderWidth="1" />
+                                                            </asp:TemplateField>
+                                                        </Columns>
+                                                        <EmptyDataTemplate>
+                                                            <div align="center">
+                                                                ไม่พบข้อมูล
+                                                            </div>
+                                                        </EmptyDataTemplate>
+                                                        <HeaderStyle BackColor="#FF388C" Font-Size="Medium" BorderColor="Gray" BorderWidth="1"
+                                                            Height="35px" ForeColor="White" />
+                                                        <AlternatingRowStyle BackColor="#FFE8EE" BorderColor="Gray" BorderWidth="1" />
+                                                        <PagerStyle HorizontalAlign="Right" BorderColor="Gray" BorderWidth="1" />
+                                                        <EmptyDataRowStyle BorderColor="Gray" BorderWidth="1" />
+                                                        <PagerSettings PageButtonCount="10" NextPageText="ถัดไป" PreviousPageText="ก่อนหน้า" FirstPageText="First" LastPageText="Last" />
+                                                        <RowStyle Font-Size="Medium" Height="40px" BackColor="#FFCEDB" BorderColor="Gray" BorderWidth="1" />
+                                                    </asp:GridView>
+                                                </div>
                                             </td>
                                         </tr>
                                         <tr>
@@ -336,7 +376,7 @@
 
                         <Triggers>
                             <asp:PostBackTrigger ControlID="btnUpload" />
-                            <asp:AsyncPostBackTrigger ControlID="grvImportExcel" EventName="PageIndexChanging" />
+                            <%--<asp:AsyncPostBackTrigger ControlID="grvImportExcel" EventName="PageIndexChanging" />--%>
                             <asp:PostBackTrigger ControlID="btnCancelImport" />
                         </Triggers>
                     </asp:UpdatePanel>
@@ -409,7 +449,7 @@
                                    </tr>
                                    <tr>
                                        <td align="center">
-                                           <asp:Label ID="Label2" runat="server" ForeColor="Red" Visible="false" />
+                                           <asp:Label ID="lblMessageErrAdd" runat="server" ForeColor="Red" Visible="false" />
                                        </td>
                                    </tr>
                                </table>

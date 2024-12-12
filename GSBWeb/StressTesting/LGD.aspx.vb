@@ -5,12 +5,14 @@ Imports ClosedXML.Excel
 Imports DocumentFormat.OpenXml.Spreadsheet
 Imports GSBWeb.BLL
 Imports GSBWeb.DAL
+Imports MathNet.Numerics.Statistics.Mcmc
 Public Class LGD
 
     Inherits System.Web.UI.Page
     Private _lgdBiz As New LGDBiz
     Private _timeBiz As New TimeBiz
     Private _valBiz As New ValidateBiz
+    Private dateUtil As New DateHelperUtil
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         If Not Page.IsPostBack Then
@@ -49,6 +51,7 @@ Public Class LGD
     End Sub
 
     Protected Sub btnUpload_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnUpload.Click
+
         If fileUpload.HasFile Then
             Try
                 Dim dt As New DataTable
@@ -105,11 +108,24 @@ Public Class LGD
                 btnCancelImport.Visible = True
 
             Catch ex As Exception
-                lblMessage.Text = "Error: " & ex.Message
+                'UtilLogfile.writeToLog("LGD.aspx", "btnUpload_Click()", ex.Message)
+                ' Get detailed information about the exception
+                Dim errorMessage As String = "Exception Message: " & ex.Message & Environment.NewLine &
+                                 "Stack Trace: " & ex.StackTrace
+
+                ' If there's an inner exception, add its details as well
+                If ex.InnerException IsNot Nothing Then
+                    errorMessage &= Environment.NewLine & "Inner Exception Message: " & ex.InnerException.Message & Environment.NewLine &
+                        "Inner Exception Stack Trace: " & ex.InnerException.StackTrace
+                End If
+                UtilLogfile.writeToLog("LGD.aspx", "btnUpload_Click()", errorMessage)
+                'Response.Write("An error occurred: " & ex.Message)
+                Response.End()
             End Try
         Else
             lblMessage.Text = "Please upload a file."
         End If
+
     End Sub
 
     Private Function GetInvalidData(dt As DataTable) As DataTable
@@ -222,7 +238,8 @@ Public Class LGD
                 Dim Year As String = row("ปีที่ทดสอบภาวะวิกฤต").ToString()
                 Dim Scenario As String = row("สถานการณ์ภาวะวิกฤต").ToString()
                 Dim StressLgdScalar As String = row("ค่า LGD Scalar").ToString()
-                entity.TimeId = Time
+                'entity.TimeId = Time
+                entity.TimeId = dateUtil.GetLastDayOfMonth(Time)
                 entity.Year = Year
                 entity.Scenario = Scenario
                 entity.StressLgdScalar = StressLgdScalar
@@ -234,7 +251,13 @@ Public Class LGD
 
     Private Function SaveImport() As Boolean
         Dim _listEntity As List(Of LGDEntity) = BindLgdList()
-        Return _lgdBiz.Save(_listEntity)
+        Dim timeId As String = cb_List_Time.SelectedValue
+
+        If _lgdBiz.DeleteByTimeId(timeId) Then
+            Return _lgdBiz.SaveInsertImportExcel(_listEntity)
+        End If
+
+        Return False
     End Function
 
     Protected Sub btnSearch_Click(sender As Object, e As EventArgs) Handles btnSearch.Click
@@ -248,7 +271,7 @@ Public Class LGD
         grvImportExcel.DataBind()
     End Sub
 
-    Protected Sub gv_Lgd_PageIndexChanging(sender As Object, e As GridViewPageEventArgs) Handles gvLgd.PageIndexChanging
+    Protected Sub gvLgd_PageIndexChanging(sender As Object, e As GridViewPageEventArgs) Handles gvLgd.PageIndexChanging
         gvLgd.PageIndex = e.NewPageIndex
         BindGridviewLgd()
         tbLgdHeader.Visible = True
@@ -300,7 +323,17 @@ Public Class LGD
         Catch ex As Exception
             ' Handle any errors
             Response.Clear()
-            UtilLogfile.writeToLog("LGD.aspx", "btnDownloadTemplate_Click()", ex.Message)
+
+            Dim errorMessage As String = "Exception Message: " & ex.Message & Environment.NewLine &
+                                 "Stack Trace: " & ex.StackTrace
+
+            ' If there's an inner exception, add its details as well
+            If ex.InnerException IsNot Nothing Then
+                errorMessage &= Environment.NewLine & "Inner Exception Message: " & ex.InnerException.Message & Environment.NewLine &
+                        "Inner Exception Stack Trace: " & ex.InnerException.StackTrace
+            End If
+
+            UtilLogfile.writeToLog("LGD.aspx", "btnDownloadTemplate_Click()", errorMessage)
             'Response.Write("An error occurred: " & ex.Message)
             Response.End()
         End Try

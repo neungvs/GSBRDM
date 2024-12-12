@@ -131,15 +131,6 @@ Partial Public Class Import_MEV
     Protected WithEvents btnExcelImport As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
-    '''btnAdd control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents btnAdd As Global.System.Web.UI.WebControls.LinkButton
-
-    '''<summary>
     '''tbFactorDetail control.
     '''</summary>
     '''<remarks>
@@ -174,6 +165,24 @@ Partial Public Class Import_MEV
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents lbHeaderFactorDesc As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''tbBtnAdd control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents tbBtnAdd As Global.System.Web.UI.HtmlControls.HtmlTable
+
+    '''<summary>
+    '''btnAdd control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnAdd As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
     '''gvImportMev control.
@@ -338,13 +347,13 @@ Partial Public Class Import_MEV
     Protected WithEvents btnCancel As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''Label2 control.
+    '''lblMessageErrAdd control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents Label2 As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents lblMessageErrAdd As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''UpdatePanel2 control.

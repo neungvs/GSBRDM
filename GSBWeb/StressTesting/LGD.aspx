@@ -5,6 +5,11 @@
         th {
             text-align: center;
         }
+
+        .custom-scroll {
+            max-height: 400px; /* Set the max height for the modal body */
+            overflow-y: auto; /* Enable vertical scrolling */
+        }
     </style>
 
     <script>
@@ -87,7 +92,7 @@
                         <tr>
                             <td>
                                 <asp:GridView ID="gvLgd" runat="server" AutoGenerateColumns="False" PageSize="10"
-                                    AllowPaging="True" EnableModelValidation="True" Style="border-width: 1px; border-color: Gray;"
+                                    AllowPaging="False" EnableModelValidation="True" Style="border-width: 1px; border-color: Gray;"
                                     Width="100%" ShowHeaderWhenEmpty="True" SelectedRowStyle-BackColor="#CCCCCC">
                                     <Columns>
                                         <asp:TemplateField HeaderText="รายการที่">
@@ -171,66 +176,68 @@
                                         <tr>
                                             <td align="center">
                                                 <asp:Label ID="lblMessage" runat="server" ForeColor="Red" Visible="false" />
-                                                <asp:GridView ID="grvImportExcel" runat="server" AutoGenerateColumns="False" PageSize="5"
-                                                    AllowPaging="True" EnableModelValidation="True" Style="border-width: 1px; border-color: Gray;"
-                                                    Width="100%" ShowHeaderWhenEmpty="True" SelectedRowStyle-BackColor="#CCCCCC">
-                                                    <Columns>
-                                                        <asp:TemplateField HeaderText="รายการที่">
-                                                            <ItemTemplate>
-                                                                <asp:Label ID="lblSeq" runat="server" Text="<%# Container.DataItemIndex + 1 %>"></asp:Label>
-                                                            </ItemTemplate>
-                                                            <HeaderStyle HorizontalAlign="Center" BorderColor="Gray" BorderWidth="1" CssClass="td-center ChangeHeaderforMarketReport1" Width="10%" VerticalAlign="Middle" Font-Size="Medium" Height="20px" />
-                                                            <ItemStyle BorderColor="Gray" BorderWidth="1" HorizontalAlign="Center" Width="10%" VerticalAlign="Middle" Height="20px" Font-Size="Small" />
-                                                        </asp:TemplateField>
-                                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle" HeaderText="วันที่ของข้อมูล">
-                                                            <ItemTemplate>
-                                                                <asp:Label ID="lbTime" runat="server"></asp:Label>
-                                                            </ItemTemplate>
-                                                            <HeaderStyle HorizontalAlign="Center" BorderColor="Gray" BorderWidth="1" CssClass="td-center" VerticalAlign="Middle" />
-                                                            <ItemStyle HorizontalAlign="Center" Width="10%" BorderColor="Gray" BorderWidth="1" />
-                                                        </asp:TemplateField>
-                                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle" HeaderText="ปีที่ทดสอบภาวะวิกฤต">
-                                                            <ItemTemplate>
-                                                                <asp:Label ID="lbYear" runat="server"></asp:Label>
-                                                            </ItemTemplate>
-                                                            <HeaderStyle HorizontalAlign="Center" BorderColor="Gray" BorderWidth="1" CssClass="td-center" VerticalAlign="Middle" />
-                                                            <ItemStyle HorizontalAlign="Center" Width="10%" BorderColor="Gray" BorderWidth="1" />
-                                                        </asp:TemplateField>
-                                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle" HeaderText="สถานการณ์ภาวะวิกฤต">
-                                                            <ItemTemplate>
-                                                                <asp:Label ID="lbScenario" runat="server"></asp:Label>
-                                                            </ItemTemplate>
-                                                            <HeaderStyle HorizontalAlign="Center" BorderColor="Gray" BorderWidth="1" CssClass="td-center" VerticalAlign="Middle" />
-                                                            <ItemStyle HorizontalAlign="Center" Width="10%" BorderColor="Gray" BorderWidth="1" />
-                                                        </asp:TemplateField>
-                                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle" HeaderText="ค่า LGD Scalar">
-                                                            <ItemTemplate>
-                                                                <asp:Label ID="lbStressLgdScalar" runat="server"></asp:Label>
-                                                            </ItemTemplate>
-                                                            <HeaderStyle HorizontalAlign="Center" BorderColor="Gray" BorderWidth="1" CssClass="td-center" VerticalAlign="Middle" />
-                                                            <ItemStyle HorizontalAlign="Center" Width="10%" BorderColor="Gray" BorderWidth="1" />
-                                                        </asp:TemplateField>
-                                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderStyle-VerticalAlign="Middle" HeaderText="Error Detail">
-                                                            <ItemTemplate>
-                                                                <asp:Label ID="lbErrorDetail" runat="server"></asp:Label>
-                                                            </ItemTemplate>
-                                                            <HeaderStyle HorizontalAlign="Center" BorderColor="Gray" BorderWidth="1" CssClass="td-center" VerticalAlign="Middle" />
-                                                            <ItemStyle HorizontalAlign="Left" Width="50%" BorderColor="Gray" BorderWidth="1" />
-                                                        </asp:TemplateField>
-                                                    </Columns>
-                                                    <EmptyDataTemplate>
-                                                        <div align="center">
-                                                            ไม่พบข้อมูล
-                                                        </div>
-                                                    </EmptyDataTemplate>
-                                                    <HeaderStyle BackColor="#FF388C" Font-Size="Medium" BorderColor="Gray" BorderWidth="1"
-                                                        Height="35px" ForeColor="White" />
-                                                    <AlternatingRowStyle BackColor="#FFE8EE" BorderColor="Gray" BorderWidth="1" />
-                                                    <PagerStyle HorizontalAlign="Right" BorderColor="Gray" BorderWidth="1" />
-                                                    <EmptyDataRowStyle BorderColor="Gray" BorderWidth="1" />
-                                                    <PagerSettings PageButtonCount="10" NextPageText="ถัดไป" PreviousPageText="ก่อนหน้า" FirstPageText="First" LastPageText="Last" />
-                                                    <RowStyle Font-Size="Medium" Height="40px" BackColor="#FFCEDB" BorderColor="Gray" BorderWidth="1" />
-                                                </asp:GridView>
+                                                <div class=" custom-scroll">
+                                                    <asp:GridView ID="grvImportExcel" runat="server" AutoGenerateColumns="False" PageSize="5"
+                                                        AllowPaging="True" EnableModelValidation="True" Style="border-width: 1px; border-color: Gray;"
+                                                        Width="100%" ShowHeaderWhenEmpty="True" SelectedRowStyle-BackColor="#CCCCCC">
+                                                        <Columns>
+                                                            <asp:TemplateField HeaderText="รายการที่">
+                                                                <ItemTemplate>
+                                                                    <asp:Label ID="lblSeq" runat="server" Text="<%# Container.DataItemIndex + 1 %>"></asp:Label>
+                                                                </ItemTemplate>
+                                                                <HeaderStyle HorizontalAlign="Center" BorderColor="Gray" BorderWidth="1" CssClass="td-center ChangeHeaderforMarketReport1" Width="10%" VerticalAlign="Middle" Font-Size="Medium" Height="20px" />
+                                                                <ItemStyle BorderColor="Gray" BorderWidth="1" HorizontalAlign="Center" Width="10%" VerticalAlign="Middle" Height="20px" Font-Size="Small" />
+                                                            </asp:TemplateField>
+                                                            <asp:TemplateField HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle" HeaderText="วันที่ของข้อมูล">
+                                                                <ItemTemplate>
+                                                                    <asp:Label ID="lbTime" runat="server"></asp:Label>
+                                                                </ItemTemplate>
+                                                                <HeaderStyle HorizontalAlign="Center" BorderColor="Gray" BorderWidth="1" CssClass="td-center" VerticalAlign="Middle" />
+                                                                <ItemStyle HorizontalAlign="Center" Width="10%" BorderColor="Gray" BorderWidth="1" />
+                                                            </asp:TemplateField>
+                                                            <asp:TemplateField HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle" HeaderText="ปีที่ทดสอบภาวะวิกฤต">
+                                                                <ItemTemplate>
+                                                                    <asp:Label ID="lbYear" runat="server"></asp:Label>
+                                                                </ItemTemplate>
+                                                                <HeaderStyle HorizontalAlign="Center" BorderColor="Gray" BorderWidth="1" CssClass="td-center" VerticalAlign="Middle" />
+                                                                <ItemStyle HorizontalAlign="Center" Width="10%" BorderColor="Gray" BorderWidth="1" />
+                                                            </asp:TemplateField>
+                                                            <asp:TemplateField HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle" HeaderText="สถานการณ์ภาวะวิกฤต">
+                                                                <ItemTemplate>
+                                                                    <asp:Label ID="lbScenario" runat="server"></asp:Label>
+                                                                </ItemTemplate>
+                                                                <HeaderStyle HorizontalAlign="Center" BorderColor="Gray" BorderWidth="1" CssClass="td-center" VerticalAlign="Middle" />
+                                                                <ItemStyle HorizontalAlign="Center" Width="10%" BorderColor="Gray" BorderWidth="1" />
+                                                            </asp:TemplateField>
+                                                            <asp:TemplateField HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle" HeaderText="ค่า LGD Scalar">
+                                                                <ItemTemplate>
+                                                                    <asp:Label ID="lbStressLgdScalar" runat="server"></asp:Label>
+                                                                </ItemTemplate>
+                                                                <HeaderStyle HorizontalAlign="Center" BorderColor="Gray" BorderWidth="1" CssClass="td-center" VerticalAlign="Middle" />
+                                                                <ItemStyle HorizontalAlign="Center" Width="10%" BorderColor="Gray" BorderWidth="1" />
+                                                            </asp:TemplateField>
+                                                            <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderStyle-VerticalAlign="Middle" HeaderText="Error Detail">
+                                                                <ItemTemplate>
+                                                                    <asp:Label ID="lbErrorDetail" runat="server"></asp:Label>
+                                                                </ItemTemplate>
+                                                                <HeaderStyle HorizontalAlign="Center" BorderColor="Gray" BorderWidth="1" CssClass="td-center" VerticalAlign="Middle" />
+                                                                <ItemStyle HorizontalAlign="Left" Width="50%" BorderColor="Gray" BorderWidth="1" />
+                                                            </asp:TemplateField>
+                                                        </Columns>
+                                                        <EmptyDataTemplate>
+                                                            <div align="center">
+                                                                ไม่พบข้อมูล
+                                                            </div>
+                                                        </EmptyDataTemplate>
+                                                        <HeaderStyle BackColor="#FF388C" Font-Size="Medium" BorderColor="Gray" BorderWidth="1"
+                                                            Height="35px" ForeColor="White" />
+                                                        <AlternatingRowStyle BackColor="#FFE8EE" BorderColor="Gray" BorderWidth="1" />
+                                                        <PagerStyle HorizontalAlign="Right" BorderColor="Gray" BorderWidth="1" />
+                                                        <EmptyDataRowStyle BorderColor="Gray" BorderWidth="1" />
+                                                        <PagerSettings PageButtonCount="10" NextPageText="ถัดไป" PreviousPageText="ก่อนหน้า" FirstPageText="First" LastPageText="Last" />
+                                                        <RowStyle Font-Size="Medium" Height="40px" BackColor="#FFCEDB" BorderColor="Gray" BorderWidth="1" />
+                                                    </asp:GridView>
+                                                </div>
                                             </td>
                                         </tr>
                                         <tr>

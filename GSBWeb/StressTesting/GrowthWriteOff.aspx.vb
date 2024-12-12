@@ -251,8 +251,12 @@ Public Class GrowthWriteOff
         End If
     End Sub
     Private Function SaveImport() As Boolean
-        Dim _listEntity As List(Of GrowthWriteOffEntity) = BindingData()
-        Return _growthWriteOffBiz.Save(_listEntity)
+        Dim timeId As String = ddlTime.SelectedValue
+        If _growthWriteOffBiz.DeleteByTimeId(timeId) Then
+            Dim _listEntity As List(Of GrowthWriteOffEntity) = BindingData()
+            Return _growthWriteOffBiz.SaveInsertImportExcel(_listEntity)
+        End If
+        Return False
     End Function
     Protected Sub btnCancelImport_Click(sender As Object, e As EventArgs) Handles btnCancelImport.Click
         grvImportExcel.DataSource = Nothing
