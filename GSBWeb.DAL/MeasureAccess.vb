@@ -7,6 +7,31 @@ Public Class MeasureAccess
         _dbaccess = New SQLServerDBAccess
     End Sub
 
+
+    Public Function InsertImportExcel(_timeId As String, _main_measure As String, _sub_measure As String, _account_number As String) As Boolean
+        Try
+            Dim _sql As String
+            _sql = String.Format("EXEC sp_REF_STRESS_MEASURE_import_excel  '{0}','{1}','{2}','{3}'", _timeId, _main_measure, _sub_measure, _account_number)
+            _dbaccess.ExecuteNonQuery(_sql)
+            Return True
+        Catch ex As Exception
+            UtilLogfile.writeToLog("MeasureAccess", "InsertImportExcel", ex.Message)
+        End Try
+        Return False
+    End Function
+
+    Public Function DeleteByTimeId(_timeId As String) As Boolean
+        Try
+            Dim _sql As String
+            _sql = String.Format("EXEC sp_REF_STRESS_MEASURE_delete_timeid  '{0}'", _timeId)
+            _dbaccess.ExecuteNonQuery(_sql)
+            Return True
+        Catch ex As Exception
+            UtilLogfile.writeToLog("MeasureAccess", "DeleteByTimeId", ex.Message)
+        End Try
+        Return False
+    End Function
+
     Public Function Insert(_timeId As String, _main_measure As String, _sub_measure As String, _account_number As String) As Boolean
         Try
             Dim _sql As String
@@ -65,7 +90,7 @@ Public Class MeasureAccess
             Loop
             _dbaccess.CloseReader()
         Catch ex As Exception
-            UtilLogfile.writeToLog("ImportMevAccess", "GetDataByTimeId", ex.Message)
+            UtilLogfile.writeToLog("MeasureAccess", "GetDataByTimeId", ex.Message)
         End Try
 
         Return listEntity
