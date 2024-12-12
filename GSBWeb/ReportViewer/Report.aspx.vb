@@ -1,4 +1,6 @@
-﻿Public Class Report
+﻿Imports Arsoft.Utility
+
+Public Class Report
     Inherits System.Web.UI.Page
 
     Public ReportServiceURL As String = System.Configuration.ConfigurationManager.AppSettings.Get("ReportServiceURL")
@@ -23,7 +25,17 @@
                 ReportViewer1.ServerReport.Refresh()
 
             Catch ex As Exception
-                Console.WriteLine(ex.Message)
+                'Console.WriteLine(ex.Message)
+                Dim errorMessage As String = "Exception Message: " & ex.Message & Environment.NewLine &
+                                     "Stack Trace: " & ex.StackTrace
+
+                ' If there's an inner exception, add its details as well
+                If ex.InnerException IsNot Nothing Then
+                    errorMessage &= Environment.NewLine & "Inner Exception Message: " & ex.InnerException.Message & Environment.NewLine &
+                            "Inner Exception Stack Trace: " & ex.InnerException.StackTrace
+                End If
+
+                UtilLogfile.writeToLog("Report.aspx", "Page_Load()", errorMessage)
             End Try
         End If
     End Sub
