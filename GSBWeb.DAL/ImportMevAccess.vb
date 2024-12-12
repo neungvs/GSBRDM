@@ -21,6 +21,19 @@ Public Class ImportMevAccess
         Return False
     End Function
 
+    Public Function InsertExcel(_timeId As String, _scenarioId As Integer, _stressYear As Integer, _stressMonth As Integer, _factorId As Integer, _factorValue As Decimal, _createBy As Integer) As Boolean
+        Try
+            Dim _sql As String
+            _sql = String.Format("EXEC sp_REF_STRESS_MEV_import_excel  '{0}',{1},{2},{3},{4},{5}", _timeId, _scenarioId, _stressYear, _stressMonth, _factorId, _factorValue)
+            _dbaccess.ExecuteNonQuery(_sql)
+            Return True
+        Catch ex As Exception
+            UtilLogfile.writeToLog("ImportMevAccess", "Insert", ex.Message)
+        End Try
+        Return False
+    End Function
+
+
     Public Function GetDataByTimeAndFactor(_timeId As String, _factorId As Integer) As List(Of ImportMevEntity)
         Dim listLgd As New List(Of ImportMevEntity)
         Try
@@ -91,6 +104,19 @@ Public Class ImportMevAccess
         Return listLgd
     End Function
 
+    Public Function Delete(_timeId As String) As Boolean
+        Try
+            Dim _sql As String
+            _sql = String.Format("EXEC sp_REF_STRESS_MEV_delete_timeid  '{0}'", _timeId)
+            _dbaccess.ExecuteNonQuery(_sql)
+            Return True
+        Catch ex As Exception
+            UtilLogfile.writeToLog("ImportMevAccess", "Delete", ex.Message)
+        End Try
+        Return False
+    End Function
+
+
     Public Function Delete(_timeId As String, _scenarioId As Integer, _stressYear As Integer, _stressMonth As Integer, _factorId As Integer) As Boolean
         Try
             Dim _sql As String
@@ -98,7 +124,7 @@ Public Class ImportMevAccess
             _dbaccess.ExecuteNonQuery(_sql)
             Return True
         Catch ex As Exception
-            UtilLogfile.writeToLog("FactorNameAccess", "Delete", ex.Message)
+            UtilLogfile.writeToLog("ImportMevAccess", "Delete", ex.Message)
         End Try
         Return False
     End Function

@@ -4,12 +4,22 @@ Imports GSBWeb.DAL
 Public Class ImportMevBiz
     Dim _importMevAcc As New ImportMevAccess
 
+    Public Function DeleteByTimeId(_timeId As String) As Boolean
+        Try
+            _importMevAcc.Delete(_timeId)
+            Return True
+        Catch ex As Exception
+            UtilLogfile.writeToLog("ImportMevBiz", "Delete", ex.Message)
+        End Try
+        Return False
+    End Function
+
     Public Function Delete(_timeId As String, _scenarioId As Integer, _stressYear As Integer, _stressMonth As Integer, _factorId As Integer) As Boolean
         Try
             _importMevAcc.Delete(_timeId, _scenarioId, _stressYear, _stressMonth, _factorId)
             Return True
         Catch ex As Exception
-            UtilLogfile.writeToLog("FactorNameBiz", "Delete", ex.Message)
+            UtilLogfile.writeToLog("ImportMevBiz", "Delete", ex.Message)
         End Try
         Return False
     End Function
@@ -32,8 +42,41 @@ Public Class ImportMevBiz
         Return _result
     End Function
 
+    Public Function Save(_userId As Integer, entity As ImportMevEntity) As Boolean
+        Try
+            Dim TimeId As String = entity.TimeId
+            Dim ScenarioId As Integer = entity.ScenarioId
+            Dim StressYear As Integer = entity.StressYear
+            Dim StressMonth As Integer = entity.StressMonth
+            Dim FactorId As Integer = entity.FactorId
+            Dim FactorValue As Decimal = entity.FactorValue
+            _importMevAcc.Insert(TimeId, ScenarioId, StressYear, StressMonth, FactorId, FactorValue, _userId)
+            Return True
+        Catch ex As Exception
+            UtilLogfile.writeToLog("ImportMevBiz", "Save", ex.Message)
+        End Try
+        Return False
+    End Function
 
-    Public Function Save(_userId As Integer, listData As List(Of ImportMevEntity)) As Boolean
+    'Public Function Save(_userId As Integer, listData As List(Of ImportMevEntity)) As Boolean
+    '    Try
+    '        For Each entity As ImportMevEntity In listData
+    '            Dim TimeId As String = entity.TimeId
+    '            Dim ScenarioId As Integer = entity.ScenarioId
+    '            Dim StressYear As Integer = entity.StressYear
+    '            Dim StressMonth As Integer = entity.StressMonth
+    '            Dim FactorId As Integer = entity.FactorId
+    '            Dim FactorValue As Decimal = entity.FactorValue
+    '            _importMevAcc.InsertExcel(TimeId, ScenarioId, StressYear, StressMonth, FactorId, FactorValue, _userId)
+    '        Next
+    '        Return True
+    '    Catch ex As Exception
+    '        UtilLogfile.writeToLog("ImportMevBiz", "Save", ex.Message)
+    '    End Try
+    '    Return False
+    'End Function
+
+    Public Function SaveInsertExcel(_userId As Integer, listData As List(Of ImportMevEntity)) As Boolean
         Try
             For Each entity As ImportMevEntity In listData
                 Dim TimeId As String = entity.TimeId
@@ -42,13 +85,14 @@ Public Class ImportMevBiz
                 Dim StressMonth As Integer = entity.StressMonth
                 Dim FactorId As Integer = entity.FactorId
                 Dim FactorValue As Decimal = entity.FactorValue
-                _importMevAcc.Insert(TimeId, ScenarioId, StressYear, StressMonth, FactorId, FactorValue, _userId)
+                _importMevAcc.InsertExcel(TimeId, ScenarioId, StressYear, StressMonth, FactorId, FactorValue, _userId)
             Next
             Return True
         Catch ex As Exception
-            UtilLogfile.writeToLog("LGDAccess", "Save", ex.Message)
+            UtilLogfile.writeToLog("ImportMevBiz", "Save", ex.Message)
         End Try
         Return False
     End Function
+
 
 End Class

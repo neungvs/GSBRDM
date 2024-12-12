@@ -7,6 +7,31 @@ Public Class LGDAccess
         _dbaccess = New SQLServerDBAccess
     End Sub
 
+    Public Function InsertImportExcel(_timeId As String, _year As Integer, _scenario As String, _stressLgdScalar As Decimal) As Boolean
+        Try
+            Dim _sql As String
+            _sql = String.Format("EXEC sp_REF_STRESS_LGD_SCALAR_import_excel  '{0}',{1},'{2}',{3}", _timeId, _year, _scenario, _stressLgdScalar)
+            _dbaccess.ExecuteNonQuery(_sql)
+            Return True
+        Catch ex As Exception
+            UtilLogfile.writeToLog("LGDAccess", "Insert", ex.Message)
+        End Try
+        Return False
+    End Function
+
+    Public Function DeleteByTimeId(_timeId As String) As Boolean
+        Try
+            Dim _sql As String
+            _sql = String.Format("EXEC sp_REF_STRESS_LGD_SCALAR_delete_timeid  '{0}'", _timeId)
+            _dbaccess.ExecuteNonQuery(_sql)
+            Return True
+        Catch ex As Exception
+            UtilLogfile.writeToLog("LGDAccess", "Insert", ex.Message)
+        End Try
+        Return False
+    End Function
+
+
     Public Function Insert(_timeId As String, _year As Integer, _scenario As String, _stressLgdScalar As Decimal) As Boolean
         Try
             Dim _sql As String
@@ -45,7 +70,6 @@ Public Class LGDAccess
         Return listLgd
     End Function
 
-
     Public Function GetTemplateByTime(_timeId As String) As List(Of LGDEntity)
         Dim listEntity As New List(Of LGDEntity)
         Try
@@ -66,7 +90,7 @@ Public Class LGDAccess
             Loop
             _dbaccess.CloseReader()
         Catch ex As Exception
-            UtilLogfile.writeToLog("ImportMevAccess", "GetDataByTimeId", ex.Message)
+            UtilLogfile.writeToLog("LGDAccess", "GetDataByTimeId", ex.Message)
         End Try
 
         Return listEntity

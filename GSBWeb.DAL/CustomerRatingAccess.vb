@@ -7,6 +7,31 @@ Public Class CustomerRatingAccess
         _dbaccess = New SQLServerDBAccess
     End Sub
 
+
+    Public Function InsertImportExcel(_timeId As String, _customerNr As String, _year As String, _scenario As String, _old_pd_segment As String, _new_pd_segment As String) As Boolean
+        Try
+            Dim _sql As String
+            _sql = String.Format("EXEC sp_REF_STRESS_CUSTOMER_RATING_import_excel  '{0}','{1}',{2},'{3}','{4}','{5}' ", _timeId, _customerNr, _year, _scenario, _old_pd_segment, _new_pd_segment)
+            _dbaccess.ExecuteNonQuery(_sql)
+            Return True
+        Catch ex As Exception
+            UtilLogfile.writeToLog("CustomerRatingAccess", "InsertImportExcel", ex.Message)
+        End Try
+        Return False
+    End Function
+
+    Public Function DeleteByTimeId(_timeId As String) As Boolean
+        Try
+            Dim _sql As String
+            _sql = String.Format("EXEC sp_REF_STRESS_CUSTOMER_RATING_delete_timeid  '{0}'", _timeId)
+            _dbaccess.ExecuteNonQuery(_sql)
+            Return True
+        Catch ex As Exception
+            UtilLogfile.writeToLog("CustomerRatingAccess", "DeleteByTimeId", ex.Message)
+        End Try
+        Return False
+    End Function
+
     Public Function Insert(_timeId As String, _customerNr As String, _year As String, _scenario As String, _old_pd_segment As String, _new_pd_segment As String) As Boolean
         Try
             Dim _sql As String
@@ -47,7 +72,6 @@ Public Class CustomerRatingAccess
 
         Return listEntity
     End Function
-
 
     Public Function GetTemplateByTime(_timeId As String) As List(Of CustomerRatingEntity)
         Dim listEntity As New List(Of CustomerRatingEntity)

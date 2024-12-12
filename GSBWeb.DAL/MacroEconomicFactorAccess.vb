@@ -8,6 +8,18 @@ Public Class MacroEconomicFactorAccess
         _dbaccess = New SQLServerDBAccess
     End Sub
 
+    Public Function InsertImportExcel(_timeId As String, _stressYear As Integer, _stressMonth As Integer, _factorId As Integer, _factorValue As Decimal) As Boolean
+        Try
+            Dim _sql As String
+            _sql = String.Format("EXEC sp_REF_STRESS_MEV_HIS_import_excel  '{0}',{1},{2},{3},{4}", _timeId, _stressYear, _stressMonth, _factorId, _factorValue)
+            _dbaccess.ExecuteNonQuery(_sql)
+            Return True
+        Catch ex As Exception
+            UtilLogfile.writeToLog("MacroEconomicFactorAccess", "Insert", ex.Message)
+        End Try
+        Return False
+    End Function
+
     Public Function Insert(_timeId As String, _stressYear As Integer, _stressMonth As Integer, _factorId As Integer, _factorValue As Decimal) As Boolean
         Try
             Dim _sql As String
@@ -15,7 +27,7 @@ Public Class MacroEconomicFactorAccess
             _dbaccess.ExecuteNonQuery(_sql)
             Return True
         Catch ex As Exception
-            UtilLogfile.writeToLog("ImportMevAccess", "Insert", ex.Message)
+            UtilLogfile.writeToLog("MacroEconomicFactorAccess", "Insert", ex.Message)
         End Try
         Return False
     End Function
@@ -44,10 +56,22 @@ Public Class MacroEconomicFactorAccess
             Loop
             _dbaccess.CloseReader()
         Catch ex As Exception
-            UtilLogfile.writeToLog("ImportMevAccess", "GetDataByTimeId", ex.Message)
+            UtilLogfile.writeToLog("MacroEconomicFactorAccess", "GetDataByTimeId", ex.Message)
         End Try
 
         Return listLgd
+    End Function
+
+    Public Function DeleteByTimeId(_timeId As String) As Boolean
+        Try
+            Dim _sql As String
+            _sql = String.Format("EXEC sp_REF_STRESS_MEV_HIS_delete_timeid  '{0}'", _timeId)
+            _dbaccess.ExecuteNonQuery(_sql)
+            Return True
+        Catch ex As Exception
+            UtilLogfile.writeToLog("MacroEconomicFactorAccess", "Delete", ex.Message)
+        End Try
+        Return False
     End Function
 
     Public Function Delete(_timeId As String, _stressYear As Integer, _stressMonth As Integer, _factorId As Integer) As Boolean
@@ -57,7 +81,7 @@ Public Class MacroEconomicFactorAccess
             _dbaccess.ExecuteNonQuery(_sql)
             Return True
         Catch ex As Exception
-            UtilLogfile.writeToLog("FactorNameAccess", "Delete", ex.Message)
+            UtilLogfile.writeToLog("MacroEconomicFactorAccess", "Delete", ex.Message)
         End Try
         Return False
     End Function
@@ -74,7 +98,7 @@ Public Class MacroEconomicFactorAccess
                 _entity = New MacroEconomicFactorEntity
                 With _entity
                     .TimeId = _dbaccess.GetItem("TIMEID")
-                    .ScenarioName = _dbaccess.GetItem("SCENARIO_NAME")
+                    '.ScenarioName = _dbaccess.GetItem("SCENARIO_NAME")
                     .StressYear = _dbaccess.GetItem("STRESS_YEAR")
                     .StressMonth = _dbaccess.GetItem("STRESS_MONTH")
                     .FactorName = _dbaccess.GetItem("FACTORID_NAME")
@@ -84,7 +108,7 @@ Public Class MacroEconomicFactorAccess
             Loop
             _dbaccess.CloseReader()
         Catch ex As Exception
-            UtilLogfile.writeToLog("ImportMevAccess", "GetDataByTimeId", ex.Message)
+            UtilLogfile.writeToLog("MacroEconomicFactorAccess", "GetDataByTimeId", ex.Message)
         End Try
 
         Return listLgd
@@ -113,7 +137,7 @@ Public Class MacroEconomicFactorAccess
             End Using
 
         Catch ex As Exception
-            UtilLogfile.writeToLog("ImportMevAccess", "GetForecastReport", ex.Message)
+            UtilLogfile.writeToLog("MacroEconomicFactorAccess", "GetForecastReport", ex.Message)
         End Try
 
         Return dt

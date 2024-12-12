@@ -15,6 +15,29 @@ Public Class CustomerRatingBiz
         Return Nothing
     End Function
 
+    Public Function DeleteByTimeId(_timeId As String) As Boolean
+        Return _customerRatingAcc.DeleteByTimeId(_timeId)
+    End Function
+
+    Public Function SaveInsertImportExcel(listData As List(Of CustomerRatingEntity)) As Boolean
+        Try
+            For Each ds As CustomerRatingEntity In listData
+                Dim Time As Integer = ds.TimeId
+                Dim Year As String = ds.Year
+                Dim CustomerNr As String = ds.CustomerNr
+                Dim ScenarioName As String = ds.ScenarioName
+                Dim OldPdSegment As String = ds.OldPdSegment
+                Dim NewPdSegment As String = ds.NewPdSegment
+                _customerRatingAcc.InsertImportExcel(Time, CustomerNr, Year, ScenarioName, OldPdSegment, NewPdSegment)
+            Next
+            Return True
+        Catch ex As Exception
+            UtilLogfile.writeToLog("CustomerRatingBiz", "Save", ex.Message)
+        End Try
+        Return False
+    End Function
+
+
     Public Function Save(listData As List(Of CustomerRatingEntity)) As Boolean
         Try
             For Each ds As CustomerRatingEntity In listData

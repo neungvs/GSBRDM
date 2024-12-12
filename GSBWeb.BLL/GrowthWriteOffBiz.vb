@@ -10,6 +10,28 @@ Public Class GrowthWriteOffBiz
         Return _result
     End Function
 
+    Public Function SaveInsertImportExcel(listEntity As List(Of GrowthWriteOffEntity)) As Boolean
+        Try
+            For Each entity As GrowthWriteOffEntity In listEntity
+                Dim Time As String = entity.TimeId
+                Dim PdSegment As String = entity.PdSegment
+                Dim Scenario As String = entity.ScenarioName
+                Dim Year As Integer = entity.Year
+                Dim LoanGrowthPerc As Decimal = Convert.ToDecimal(entity.LoanGrowthPerc)
+                Dim WriteOffPerc As Decimal = Convert.ToDecimal(entity.WriteOffPerc)
+                _growthWriteOffAcc.InsertImportExcel(Time, PdSegment, Scenario, Year, LoanGrowthPerc, WriteOffPerc)
+            Next
+            Return True
+        Catch ex As Exception
+            UtilLogfile.writeToLog("GrowthWriteOffBiz", "Save", ex.Message)
+        End Try
+        Return False
+    End Function
+
+    Public Function DeleteByTimeId(_timeId As String) As Boolean
+        Return _growthWriteOffAcc.DeleteByTimeId(_timeId)
+    End Function
+
     Public Function Save(listEntity As List(Of GrowthWriteOffEntity)) As Boolean
         Try
             For Each entity As GrowthWriteOffEntity In listEntity
