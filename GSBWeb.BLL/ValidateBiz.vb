@@ -1,7 +1,7 @@
 ﻿Imports GSBWeb.DAL
 
 Public Class ValidateBiz
-
+    Private dateUtil As DateHelperUtil
     Public Function CheckValidCustomerRatingByDataType(checkDataType As String, rawData As String, Optional lstScenario As List(Of ScenarioEntity) = Nothing)
         Dim retData As New List(Of String)()
 
@@ -97,9 +97,11 @@ Public Class ValidateBiz
         'Stress Year
         If (checkDataType = "StressYear") Then
             If (rawData = "") Then
-                retData.Add("Stress Year ห้ามว่าง")
+                retData.Add("ปีที่ทดสอบภาวะวิกฤต ห้ามว่าง")
             ElseIf (IsValidNumber(rawData) = False) Then
-                retData.Add("Stress Year ต้องเป็นตัวเลขเท่านั้น")
+                retData.Add("ปีที่ทดสอบภาวะวิกฤต ต้องเป็นตัวเลขเท่านั้น")
+            ElseIf (IsValidBuddhistYear(rawData) = False) Then
+                retData.Add("ปีที่ทดสอบภาวะวิกฤต กรอกพ.ศ.เท่านั้น")
             End If
         End If
 
@@ -165,7 +167,7 @@ Public Class ValidateBiz
         'Factor Value
         If (checkDataType = "FactorValue") Then
             If (rawData <> "" And IsValidNumber(rawData) = False) Then
-                retData.Add("ค่า Fartor Value ต้องเป็นตัวเลขเท่านั้น")
+                retData.Add("ค่า Factor Value ต้องเป็นตัวเลขเท่านั้น")
             End If
         End If
 
@@ -192,6 +194,7 @@ Public Class ValidateBiz
 
         Return retData
     End Function
+
 
     'Private Function CheckValidScenario(checkDataType As String, row As DataRow) As List(Of String)
     '    Dim Time As String = row("วันที่ของข้อมูล").ToString()
@@ -232,6 +235,7 @@ Public Class ValidateBiz
 
     '    Return retData
     'End Function
+
     Function IsValidBuddhistYear(year As String) As Boolean
         year = Convert.ToInt16(year)
         Return year >= 2500
@@ -290,4 +294,19 @@ Public Class ValidateBiz
     Function IsValidNumber(value As String) As Boolean
         Return IsNumeric(value)
     End Function
+
+    Function IsValidDecimal(input As String, maxDecimals As Integer) As Boolean
+        Dim number As Decimal
+
+        ' Try to convert the input to a decimal
+        If Decimal.TryParse(input, number) Then
+            ' Check the number of decimal places
+            Dim decimalPlaces As Integer = BitConverter.GetBytes(Decimal.GetBits(number)(3))(2)
+            Return decimalPlaces <= maxDecimals
+        Else
+            ' Invalid number format
+            Return False
+        End If
+    End Function
+
 End Class
