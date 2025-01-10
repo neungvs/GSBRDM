@@ -393,7 +393,7 @@ Public Class MacroEconomicFactor
         Dim lbStressYear As Label = gvMacroEconomicFactor.Rows(e.RowIndex).Cells(1).FindControl("lbStressYear")
         ViewState("timeId") = lbTimeId.Text
         ViewState("factorId") = lbFactorId.Text
-        _result = _macroEconomicFactorBiz.Delete(lbTimeId.Text, lbStressYear.Text, lbStressMonth.Text, lbFactorId.Text)
+        _result = _macroEconomicFactorBiz.Delete(lbTimeId.Text, lbStressYear.Text - 543, lbStressMonth.Text, lbFactorId.Text)
         Try
             If _result = True Then
                 'LoadData()
