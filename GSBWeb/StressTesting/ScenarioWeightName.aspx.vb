@@ -65,6 +65,7 @@ Public Class ScenarioWeightName
         Dim _year As String = _timeId.Substring(0, 4)
         Dim _month As String = _timeId.Substring(4, 2)
         _timeId = _dateBiz.GetLastDayOfMonth(_month, _year)
+        ViewState("CreateNewTimeId") = _timeId
         Return _timeId
     End Function
 
@@ -119,7 +120,9 @@ Public Class ScenarioWeightName
     Protected Sub btnSaveCreateNew_Click(sender As Object, e As EventArgs) Handles btnSaveCreateNew.Click
         If SaveCreateNewTime() Then
             LoadTime()
+            cb_List_Time.SelectedValue = ddlTimeCreateNew.SelectedValue
             LoadTimeCreateNew()
+            LoadData()
             MessageBoxAlert("Success", "บันทึกข้อมูลสำเร็จ", "", "ปิด", False, True)
         Else
             MessageBoxAlert("Error", "เกิดข้อผิดพลาดไม่สามารถบันทึกข้อมูลได้", "", "ปิด", False, True)
@@ -164,6 +167,7 @@ Public Class ScenarioWeightName
             Else
                 lblMessage.Visible = False
                 If SaveAdd() Then
+                    cb_List_Time.SelectedValue = ViewState("CreateNewTimeId")
                     LoadData()
                     MessageBoxAlert("Success", "บันทึกข้อมูลสำเร็จ", "", "ปิด", False, True)
                 Else
