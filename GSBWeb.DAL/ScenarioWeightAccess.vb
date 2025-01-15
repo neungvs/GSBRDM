@@ -22,7 +22,7 @@ Public Class ScenarioWeightAccess
                     .TimeId = _dbaccess.GetItem("TIMEID")
                     .ScenarioId = _dbaccess.GetItem("SCENARIO")
                     .ScenarioName = _dbaccess.GetItem("SCENARIO_NAME")
-                    .Weight = _dbaccess.GetItem("WEIGHT")
+                    .Weight = BindingDecimalFormat(_dbaccess.GetItem("WEIGHT"))
                 End With
                 listEntiry.Add(entity)
             Loop
@@ -31,6 +31,10 @@ Public Class ScenarioWeightAccess
             UtilLogfile.writeToLog("StressScenarioAccess", "GetDataByTimeId", ex.Message)
         End Try
         Return listEntiry
+    End Function
+
+    Private Function BindingDecimalFormat(value As Decimal) As String
+        Return If(value = Math.Floor(value), value.ToString("F2"), value.ToString("G").TrimEnd("0"c).TrimEnd("."c))
     End Function
 
     Public Function Update(_timeId As String, _scenarioId As Integer, _weight As Decimal) As Boolean
