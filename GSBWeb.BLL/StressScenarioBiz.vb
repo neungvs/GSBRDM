@@ -24,8 +24,7 @@ Public Class StressScenarioBiz
 
     Public Function SaveCreateNew(timeId As String, userId As String) As Boolean
         Try
-            _stressScenarioAcc.CreateNew(timeId, userId)
-            Return True
+            Return _stressScenarioAcc.CreateNew(timeId, userId)
         Catch ex As Exception
             UtilLogfile.writeToLog("StressScenarioBiz", "SaveCreateNew", ex.Message)
         End Try
