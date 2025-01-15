@@ -119,6 +119,7 @@ Public Class ScenarioWeightName
     Protected Sub btnSaveCreateNew_Click(sender As Object, e As EventArgs) Handles btnSaveCreateNew.Click
         If SaveCreateNewTime() Then
             LoadTime()
+            LoadTimeCreateNew()
             MessageBoxAlert("Success", "บันทึกข้อมูลสำเร็จ", "", "ปิด", False, True)
         Else
             MessageBoxAlert("Error", "เกิดข้อผิดพลาดไม่สามารถบันทึกข้อมูลได้", "", "ปิด", False, True)
@@ -184,7 +185,8 @@ Public Class ScenarioWeightName
 
     Private Function SaveCreateNewTime() As Boolean
         Dim userId As Integer = Convert.ToInt16(Session("UserID"))
-        Return _stressScenarioWeightBiz.SaveCreateNew(ddlTimeCreateNew.SelectedValue, userId)
+        Dim lastestTimeId As String = ""
+        Return _stressScenarioWeightBiz.SaveCreateNew(ddlTimeCreateNew.SelectedValue, lastestTimeId, userId)
     End Function
 
     Private Function SaveAdd() As Boolean
