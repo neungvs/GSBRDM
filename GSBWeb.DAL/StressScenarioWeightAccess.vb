@@ -1,4 +1,5 @@
-﻿Imports Arsoft.Utility
+﻿Imports System.Text
+Imports Arsoft.Utility
 
 Public Class StressScenarioWeightAccess
 
@@ -33,10 +34,10 @@ Public Class StressScenarioWeightAccess
         Return listEntiry
     End Function
 
-    Public Function CreateNew(_timeId As String, _userId As Integer) As Boolean
+    Public Function CreateNew(_timeId As String, _lastestTimeId As String, _userId As Integer) As Boolean
         Try
             Dim _sql As String
-            _sql = String.Format("EXEC sp_REF_STRESS_SCENARIO_WEIGHT_NAME_new_date  '{0}',{1}", _timeId, _userId)
+            _sql = String.Format("EXEC sp_REF_STRESS_SCENARIO_WEIGHT_NAME_new_date  '{0}',{1},'{2}'", _timeId, _userId, _lastestTimeId)
             _dbaccess.ExecuteNonQuery(_sql)
             Return True
         Catch ex As Exception
