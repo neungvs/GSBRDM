@@ -28,8 +28,7 @@ Public Class ScenarioWeightBiz
 
     Public Function SaveAdd(_timeId As String, _scenarioId As Integer, _weight As Decimal) As Boolean
         Try
-            _scenarioWeightAcc.Add(_timeId, _scenarioId, _weight)
-            Return True
+            Return _scenarioWeightAcc.Add(_timeId, _scenarioId, _weight)
         Catch ex As Exception
             UtilLogfile.writeToLog("FactorNameBiz", "SaveAdd", ex.Message)
         End Try
@@ -38,8 +37,7 @@ Public Class ScenarioWeightBiz
 
     Public Function SaveUpdate(_timeId As String, _scenarioId As Integer, _weight As Decimal) As Boolean
         Try
-            _scenarioWeightAcc.Update(_timeId, _scenarioId, _weight)
-            Return True
+            Return _scenarioWeightAcc.Update(_timeId, _scenarioId, _weight)
         Catch ex As Exception
             UtilLogfile.writeToLog("FactorNameBiz", "SaveUpdate", ex.Message)
         End Try
