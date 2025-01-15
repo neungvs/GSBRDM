@@ -77,6 +77,33 @@ Partial Public Class Scenario_Weight
     Protected WithEvents gvScenarioWeight As Global.System.Web.UI.WebControls.GridView
 
     '''<summary>
+    '''LinkButtonEdit control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents LinkButtonEdit As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
+    '''LinkButtonSave control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents LinkButtonSave As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
+    '''LinkButtonCancel control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents LinkButtonCancel As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
     '''UpdModal control.
     '''</summary>
     '''<remarks>

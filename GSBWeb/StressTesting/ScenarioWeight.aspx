@@ -6,6 +6,49 @@
             text-align: center;
         }
     </style>
+
+    <script>
+        function allowDecimalOnly(event) {
+            // Get the character code of the pressed key
+            const charCode = event.which || event.keyCode;
+            const inputValue = event.target.value;
+
+            // Allow Backspace, Delete, Tab, Escape, Enter, and navigation keys
+            if (
+                charCode === 8 ||  // Backspace
+                charCode === 9 ||  // Tab
+                charCode === 27 || // Escape
+                charCode === 13 || // Enter
+                (charCode >= 37 && charCode <= 40) // Arrow keys
+            ) {
+                return true;
+            }
+
+            // Allow digits (0-9)
+            if (charCode >= 48 && charCode <= 57) {
+                return true;
+            }
+
+            // Allow only one decimal point (if it's not already present)
+            if (charCode === 46 && !inputValue.includes(".")) {
+                return true;
+            }
+
+            // Disallow other characters
+            return false;
+        }
+
+        function validateDecimalInput(element) {
+            // Remove invalid characters (anything other than digits and a single decimal point)
+            element.value = element.value.replace(/[^0-9.]/g, '');
+
+            // Ensure only one decimal point exists
+            const parts = element.value.split(".");
+            if (parts.length > 2) {
+                element.value = parts[0] + "." + parts[1];
+            }
+        }
+    </script>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="BodyContent" runat="server">
@@ -34,9 +77,7 @@
                                                 <asp:DropDownList ID="ddlTime" runat="server" Height="30px" Width="150px" CssClass="TextBoxRoundCorrner">
                                                 </asp:DropDownList></td>
                                             <td align="left">&nbsp;&nbsp;&nbsp;
-                                                <asp:LinkButton ID="btn_Search" runat="server" CssClass="btn btn-primary ButtonStyle">
-                                                    <span class="glyphicon glyphicon-search"></span>&nbsp;&nbsp;&nbsp;ค้นหา
-                                                </asp:LinkButton>
+                                                <asp:LinkButton ID="btn_Search" runat="server" CssClass="btn btn-primary ButtonStyle"> <span class="glyphicon glyphicon-search"></span>&nbsp;&nbsp;&nbsp;ค้นหา </asp:LinkButton>
                                             </td>
                                         </tr>
                                     </table>
@@ -52,9 +93,7 @@
                                     <font color="#FFFFFF">Scenario Weight</font>
                                 </td>
                                 <td align="right">&nbsp;&nbsp;&nbsp;
-                                                 <asp:LinkButton ID="btnAdd" runat="server" CssClass="btn btn-primary ButtonStyle" Width="100">
-                                                    <span class="glyphicon glyphicon-ok"></span>&nbsp;&nbsp;&nbsp;เพิ่ม (Add)
-                                                 </asp:LinkButton>&nbsp;
+                                                 <asp:LinkButton ID="btnAdd" runat="server" CssClass="btn btn-primary ButtonStyle" Width="100" Visible="false"> <span class="glyphicon glyphicon-ok"></span>&nbsp;&nbsp;&nbsp;เพิ่ม (Add) </asp:LinkButton>&nbsp;
                                 </td>
                             </tr>
                         </table>
@@ -80,23 +119,20 @@
                                         </asp:TemplateField>
                                         <asp:TemplateField HeaderText="น้ำหนัก (%)">
                                             <ItemTemplate>
-                                                <asp:Label ID="lbWeight" Text='<%# Bind("Weight") %>' runat="server"></asp:Label>
+                                                <asp:Label ID="lbWeight" Text='<%# Bind("Weight") %>' runat="server" Visible="true"></asp:Label>
+                                                <asp:TextBox ID="txtWeight" Text='<%# Bind("Weight") %>'  Width="100px" runat="server" Visible="false" onkeypress="return allowDecimalOnly(event)"  oninput="validateDecimalInput(this)"></asp:TextBox>
                                             </ItemTemplate>
                                         </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="ปรับปรุงข้อมูล">
+                                        <asp:TemplateField HeaderText="ปรับปรุงข้อมูล"  Visible="false">
                                             <ItemTemplate>
                                                 <asp:LinkButton ID="btnEdit" Width="40px" Height="35px" CommandName="Edit" class="btn btn-primary btn-search;" ToolTip="ปรับปรุงข้อมูล"
-                                                    CausesValidation="true" runat="server" Style="text-decoration: none;" CommandArgument='<%# Container.DisplayIndex %>'>
-                                                                    <span aria-hidden="true" class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;&nbsp;
-                                                </asp:LinkButton>
+                                                    CausesValidation="true" runat="server" Style="text-decoration: none;" CommandArgument='<%# Container.DisplayIndex %>'> <span aria-hidden="true" class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;&nbsp; </asp:LinkButton>
                                             </ItemTemplate>
                                         </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="ลบข้อมูล">
+                                        <asp:TemplateField HeaderText="ลบข้อมูล" Visible="false">
                                             <ItemTemplate>
                                                 <asp:LinkButton ID="btnDelete" Width="40px" Height="35px" CommandName="Delete" class="btn btn-danger" ToolTip="ลบข้อมูล"
-                                                    CausesValidation="false" runat="server" Style="text-decoration: none">
-                                                                    <span aria-hidden="true" class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp;&nbsp;
-                                                </asp:LinkButton>
+                                                    CausesValidation="false" runat="server" Style="text-decoration: none"> <span aria-hidden="true" class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp;&nbsp; </asp:LinkButton>
                                             </ItemTemplate>
                                         </asp:TemplateField>
                                     </Columns>
@@ -113,6 +149,15 @@
                                     <RowStyle Font-Size="Medium" BackColor="#FFCEDB" BorderColor="Gray" BorderWidth="1" />
                                     <SelectedRowStyle BackColor="#CCCCCC" />
                                 </asp:GridView>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center">&nbsp;&nbsp;&nbsp;  
+                                <div>
+                                    <asp:LinkButton ID="LinkButtonEdit" runat="server" CssClass="btn btn-primary ButtonStyle" Width="150px"> <span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;&nbsp;แก้ไข (Edit) &nbsp;</asp:LinkButton>&nbsp;
+                                    <asp:LinkButton ID="LinkButtonSave" runat="server" CssClass="btn btn-primary ButtonStyle" Width="150px"> <span class="glyphicon glyphicon-ok"></span>&nbsp;&nbsp;&nbsp;บันทึก (Save) &nbsp;</asp:LinkButton>&nbsp;
+                                    <asp:LinkButton ID="LinkButtonCancel" runat="server" CssClass="btn btn-primary ButtonStyle" Width="150px"> <span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;&nbsp;ยกเลิก (Cancel) &nbsp;</asp:LinkButton>&nbsp;
+                                </div>
                             </td>
                         </tr>
                     </table>

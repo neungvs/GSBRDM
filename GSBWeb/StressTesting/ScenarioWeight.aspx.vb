@@ -1,4 +1,5 @@
 ﻿Imports Arsoft.Utility
+Imports DocumentFormat.OpenXml.Spreadsheet
 Imports GSBWeb.BLL
 Imports GSBWeb.DAL
 
@@ -10,7 +11,7 @@ Public Class Scenario_Weight
     Private _timeBiz As New TimeBiz
     Private _valBiz As New ValidateBiz
     Private _dateBiz As New DateHelperUtil
-
+    Private totalWeigth As Decimal
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         If Not Page.IsPostBack Then
             ViewState("mode") = ""
@@ -20,6 +21,9 @@ Public Class Scenario_Weight
             LoadScenario()
             tbScenarioWeightHeader.Visible = False
             gvScenarioWeight.Visible = False
+            LinkButtonEdit.Visible = False
+            LinkButtonSave.Visible = False
+            LinkButtonCancel.Visible = False
         End If
     End Sub
 
@@ -63,6 +67,14 @@ Public Class Scenario_Weight
         Return _timeId
     End Function
 
+    Private Function GetTotalWeight(listData As List(Of ScenarioWeightEntity)) As Decimal
+        Dim TotalWeigth As Decimal
+        For Each s As ScenarioWeightEntity In listData
+            TotalWeigth = TotalWeigth + Convert.ToDecimal(s.Weight)
+        Next
+        Return TotalWeigth
+    End Function
+
     Private Sub BindGridData()
         Dim listData As List(Of ScenarioWeightEntity)
         Dim _timeId As String = GetLastDayOfMonth()
@@ -71,13 +83,17 @@ Public Class Scenario_Weight
         gvScenarioWeight.DataBind()
         tbScenarioWeightHeader.Visible = True
         gvScenarioWeight.Visible = True
+
+        LinkButtonEdit.Visible = True
+        LinkButtonSave.Visible = False
+        LinkButtonCancel.Visible = False
     End Sub
 
     Protected Sub btnAdd_Click(sender As Object, e As EventArgs) Handles btnAdd.Click
         ViewState("mode") = "add"
         lblMessage.Visible = False
         lblModalTitle.Text = "เพิ่ม (Add)"
-        txtAddEditWeight.Text = ""
+        txtAddEditWeight.Text = "0.00"
         ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", True)
         UpdModal.Update()
     End Sub
@@ -135,6 +151,26 @@ Public Class Scenario_Weight
         Return errMsgList
     End Function
 
+
+    Private Function VaidateWigth()
+        Dim errMsgList As New List(Of String)
+        Dim weight As Decimal = Convert.ToDecimal(txtAddEditWeight.Text)
+        Dim newTotalWight As Decimal
+        Dim listData As List(Of ScenarioWeightEntity)
+        Dim _timeId As String = GetLastDayOfMonth()
+        listData = _scenarioWeightBiz.GetByTime(_timeId)
+        totalWeigth = GetTotalWeight(listData)
+        newTotalWight = totalWeigth + weight
+
+        If (newTotalWight > 100) Then
+            errMsgList.Add("น้ำหนักห้ามเกิน 100%")
+        ElseIf (newTotalWight <> 100) Then
+            errMsgList.Add("น้ำหนักต้องรวมกันได้ 100%")
+        End If
+        Return errMsgList
+    End Function
+
+
     Function IsExistingFactorName(factorName As String, lstFactor As List(Of FactorEntity)) As Boolean
         For Each entity As FactorEntity In lstFactor
             If (factorName = entity.FactorName) Then
@@ -152,23 +188,29 @@ Public Class Scenario_Weight
             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal({backdrop: true});", True)
             UpdModal.Update()
         Else
-            If ViewState("mode") = "add" Then
-                lblMessage.Visible = False
-                If SaveAdd() Then
-                    BindGridData()
-                    MessageBoxAlert("Success", "บันทึกข้อมูลสำเร็จ", "", "ปิด", False, True)
-                Else
-                    MessageBoxAlert("Error", "เกิดข้อผิดพลาดไม่สามารถบันทึกข้อมูลได้", "", "ปิด", False, True)
-                End If
-            ElseIf ViewState("mode") = "edit" Then
-                Dim timeId As String = ViewState("TimeId")
-                Dim scenarioId As String = ViewState("ScenarioId")
-                Dim weight As String = txtAddEditWeight.Text
-                If _scenarioWeightBiz.SaveUpdate(timeId, scenarioId, weight) Then
-                    BindGridData()
-                    MessageBoxAlert("Success", "บันทึกข้อมูลสำเร็จ", "", "ปิด", False, True)
-                Else
-                    MessageBoxAlert("Error", "เกิดข้อผิดพลาดไม่สามารถบันทึกข้อมูลได้", "", "ปิด", False, True)
+            errMsgList = VaidateWigth()
+            If errMsgList.Count > 0 Then
+                Dim errorMsg As String = String.Join(",", errMsgList.ToArray())
+                MessageBoxAlert("Error", errorMsg, "", "ปิด", False, True)
+            Else
+                If ViewState("mode") = "add" Then
+                    lblMessage.Visible = False
+                    If SaveAdd() Then
+                        BindGridData()
+                        MessageBoxAlert("Success", "บันทึกข้อมูลสำเร็จ", "", "ปิด", False, True)
+                    Else
+                        MessageBoxAlert("Error", "เกิดข้อผิดพลาดไม่สามารถบันทึกข้อมูลได้", "", "ปิด", False, True)
+                    End If
+                ElseIf ViewState("mode") = "edit" Then
+                    Dim timeId As String = ViewState("TimeId")
+                    Dim scenarioId As String = ViewState("ScenarioId")
+                    Dim weight As String = txtAddEditWeight.Text
+                    If _scenarioWeightBiz.SaveUpdate(timeId, scenarioId, weight) Then
+                        BindGridData()
+                        MessageBoxAlert("Success", "บันทึกข้อมูลสำเร็จ", "", "ปิด", False, True)
+                    Else
+                        MessageBoxAlert("Error", "เกิดข้อผิดพลาดไม่สามารถบันทึกข้อมูลได้", "", "ปิด", False, True)
+                    End If
                 End If
             End If
         End If
@@ -235,13 +277,103 @@ Public Class Scenario_Weight
         End If
     End Sub
 
-    Protected Sub gvFactorName_RowEditing(sender As Object, e As GridViewEditEventArgs) Handles gvScenarioWeight.RowEditing
-
+    Protected Sub gvScenarioWeight_RowEditing(sender As Object, e As GridViewEditEventArgs) Handles gvScenarioWeight.RowEditing
+        gvScenarioWeight.EditIndex = e.NewEditIndex
+        BindGridData()
     End Sub
 
-    Protected Sub gvFactorName_PageIndexChanging(sender As Object, e As System.Web.UI.WebControls.GridViewPageEventArgs) Handles gvScenarioWeight.PageIndexChanging
+    Protected Sub gvScenarioWeight_PageIndexChanging(sender As Object, e As System.Web.UI.WebControls.GridViewPageEventArgs) Handles gvScenarioWeight.PageIndexChanging
         gvScenarioWeight.PageIndex = e.NewPageIndex
         BindGridData()
     End Sub
 
+    Protected Sub gvScenarioWeight_RowCancelingEdit(sender As Object, e As GridViewCancelEditEventArgs) Handles gvScenarioWeight.RowCancelingEdit
+        gvScenarioWeight.EditIndex = -1
+        BindGridData()
+    End Sub
+
+    Protected Sub gvScenarioWeight_RowUpdating(sender As Object, e As GridViewUpdateEventArgs) Handles gvScenarioWeight.RowUpdating
+        Dim row As GridViewRow = gvScenarioWeight.Rows(e.RowIndex)
+        Dim txtWeight As String = CType(row.FindControl("txtWeight"), TextBox).Text
+        gvScenarioWeight.EditIndex = -1
+        BindGridData()
+    End Sub
+
+    Protected Sub LinkButtonEdit_Click(sender As Object, e As EventArgs) Handles LinkButtonEdit.Click
+        For Each row As GridViewRow In gvScenarioWeight.Rows
+            Dim txtWeight As TextBox = CType(row.FindControl("txtWeight"), TextBox)
+
+            If txtWeight IsNot Nothing Then
+                ' Show TextBoxes and hide Labels for editable rows
+                CType(row.FindControl("lbWeight"), Label).Visible = False
+                CType(row.FindControl("txtWeight"), TextBox).Visible = True
+            End If
+        Next
+
+        LinkButtonEdit.Visible = False
+        LinkButtonSave.Visible = True
+        LinkButtonCancel.Visible = True
+
+        'BindGridData()
+    End Sub
+
+    Protected Sub LinkButtonSave_Click(sender As Object, e As EventArgs) Handles LinkButtonSave.Click
+        Try
+            Dim errMsgList As New List(Of String)
+            Dim totalWeight As Decimal = 0
+            For Each row As GridViewRow In gvScenarioWeight.Rows
+                Dim txtWeight As TextBox = CType(row.FindControl("txtWeight"), TextBox)
+                totalWeight = totalWeight + Convert.ToDecimal(txtWeight.Text)
+            Next
+
+            If (totalWeight > 100) Then
+                errMsgList.Add("น้ำหนักห้ามเกิน 100%")
+            ElseIf (totalWeight <> 100) Then
+                errMsgList.Add("น้ำหนักต้องรวมกันได้ 100%")
+            End If
+
+            If errMsgList.Count > 0 Then
+                Dim errorMsg As String = String.Join(",", errMsgList.ToArray())
+                MessageBoxAlert("Error", errorMsg, "", "ปิด", False, True)
+
+                LinkButtonEdit.Visible = False
+                LinkButtonSave.Visible = True
+                LinkButtonCancel.Visible = True
+
+            Else
+                For Each row As GridViewRow In gvScenarioWeight.Rows
+                    Dim txtWeight As TextBox = CType(row.FindControl("txtWeight"), TextBox)
+                    Dim lbScenarioId As Label = CType(row.FindControl("lbScenarioId"), Label)
+                    Dim timeId As String = GetLastDayOfMonth()
+                    Dim scenarioId As String = lbScenarioId.Text
+                    Dim weight As String = txtWeight.Text
+                    _scenarioWeightBiz.SaveUpdate(timeId, scenarioId, weight)
+                Next
+                BindGridData()
+                MessageBoxAlert("Success", "บันทึกข้อมูลสำเร็จ", "", "ปิด", False, True)
+                LinkButtonEdit.Visible = True
+                LinkButtonSave.Visible = False
+                LinkButtonCancel.Visible = False
+            End If
+        Catch ex As Exception
+            MessageBoxAlert("Error", "เกิดข้อผิดพลาดไม่สามารถบันทึกข้อมูลได้", "", "ปิด", False, True)
+        End Try
+    End Sub
+
+    Protected Sub LinkButtonCancel_Click(sender As Object, e As EventArgs) Handles LinkButtonCancel.Click
+        BindGridData()
+        For Each row As GridViewRow In gvScenarioWeight.Rows
+            Dim txtWeight As TextBox = CType(row.FindControl("txtWeight"), TextBox)
+
+            If txtWeight IsNot Nothing Then
+                ' Show TextBoxes and hide Labels for editable rows
+                CType(row.FindControl("lbWeight"), Label).Visible = True
+                CType(row.FindControl("txtWeight"), TextBox).Visible = False
+            End If
+        Next
+
+        LinkButtonEdit.Visible = True
+        LinkButtonSave.Visible = False
+        LinkButtonCancel.Visible = False
+    End Sub
 End Class
